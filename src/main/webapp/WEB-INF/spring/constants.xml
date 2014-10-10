@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!-- This file contains the spring RestTemplate configuration details. To 
+		implement marshalling for any class simply add the class name under the value 
+		tag in property classesToBeBound. Also make sure to annotate the corresponding 
+		classes with the @XMLRootElement tag -->
+	
+	<bean id="publickey" class="java.lang.String">
+		<constructor-arg>
+			<value>6Ld7xPsSAAAAAP5roP7kJMeOXc5pupY-CZU7nx5T</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="privatekey" class="java.lang.String">
+		<constructor-arg>
+			<value>6Ld7xPsSAAAAAFVfRuyphLW9n2shZrJuD-8RlwUm</value>
+		</constructor-arg>
+	</bean>
+
+
+</beans>
