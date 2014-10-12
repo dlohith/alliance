@@ -1,5 +1,6 @@
 package com.asu.alliancebank;
 
+import java.security.Principal;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -63,6 +64,19 @@ public class HomeController {
 		   System.out.println("Output : "+ reCaptchaManager.isValid(remoteIpAddr, challenge, response));;
 
 		return "test";
+	}
+	
+	/**
+	 * Simply selects the home view to render by returning its name.
+	 */
+	@RequestMapping(value = "/auth/welcome", method = RequestMethod.GET)
+	public String home(Locale locale, Model model,Principal principal) {
+		
+		String userName = principal.getName(); 
+		logger.info("username : {}.", userName);
+		model.addAttribute("username", userName );
+		
+		return "auth/welcome";
 	}
 	
 }

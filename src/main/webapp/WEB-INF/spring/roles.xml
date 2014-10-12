@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		">
+	
+	<!-- Available roles -->	
+	<bean class="com.asu.alliancebank.domain.impl.Role">
+		<property name="id" value="ROLE_BANK_EMPLOYEE" />
+		<property name="name" value="Bank Employee" />
+		<property name="description" value="Responsible for low priority banking operations." />
+	</bean>
+	
+	<bean class="com.asu.alliancebank.domain.impl.Role">
+		<property name="id" value="ROLE_SYSTEM_ADMIN" />
+		<property name="name" value="System Adminstrator" />
+		<property name="description" value="Maintain all the user accounts and responsible for the
+authorization of critical transactional operations." />
+	</bean>
+	
+	<bean class="com.asu.alliancebank.domain.impl.Role">
+		<property name="id" value="ROLE_INDIVIDUAL_CUSTOMER" />
+		<property name="name" value="Individual Customer" />
+		<property name="description" value="Individuals having banking activities, each of whom have an
+user account for performing personal banking transactions such as personal fund
+transfer, debit and credit from personal user account." />
+	</bean>
+	
+	<bean class="com.asu.alliancebank.domain.impl.Role">
+		<property name="id" value="ROLE_MERCHANT" />
+		<property name="name" value="Merchant/Organisation" />
+		<property name="description" value="Users having specialized banking transaction processing
+requirements, such as client payment processing." />
+	</bean>
+	
+	
+</beans>

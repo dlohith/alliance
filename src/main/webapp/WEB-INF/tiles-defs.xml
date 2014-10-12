@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- Base definitions -->
+	<definition name="base.definition.nonav"
+		template="/WEB-INF/views/tiles/layout/skeleton_nonav.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="navigation"
+			value="/WEB-INF/views/navs/logged_nav.jsp" />
+		<put-attribute name="currentPage" value="home" />
+	</definition>
+	
+	<!-- Login -->
+	<definition name="login" extends="base.definition.nonav">
+		<put-attribute name="title" value="Alliance Bank - Login" />
+		<put-attribute name="content" value="/WEB-INF/views/login/login.jsp" />
+	</definition>
+	
+	<!-- Home pages -->
+	<definition name="auth/welcome" extends="base.definition.nonav">
+		<put-attribute name="title" value="Alliance Bank - Home" />
+		<put-attribute name="content" value="/WEB-INF/views/entry.jsp" />
+	</definition>
+	
+	
+	
+</tiles-definitions>
