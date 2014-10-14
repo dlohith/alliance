@@ -44,7 +44,7 @@
 				<td><font color="red"><form:errors path="password" cssClass="errors" /></font></td>
 			</tr>
 			<tr>
-				<td><div id="label">Repeat Password:</div></td>
+				<td><label>Repeat Password:</label></td>
 				<td><form:input type='password' class="text" name='repeatPassword' path='repeatPassword' /></td>
 				<td><font color="red"><form:errors path="repeatPassword" cssClass="errors" /></font></td>
 			</tr>

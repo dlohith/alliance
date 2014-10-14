@@ -14,6 +14,7 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<import resource="constants.xml" />
 	<import resource="roles.xml" />
+	<import resource="spring-dbconnection.xml" />
 	
 		
 	<!--  Conversion classes necessary for backing beans -->

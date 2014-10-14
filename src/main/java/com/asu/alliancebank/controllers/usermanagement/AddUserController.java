@@ -1,6 +1,7 @@
 package com.asu.alliancebank.controllers.usermanagement;
 
 import java.security.Principal;
+import java.sql.SQLException;
 
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import com.asu.alliancebank.controllers.usermanagement.backingbean.UserBackingBe
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
 import com.asu.alliancebank.service.role.IRoleManager;
+import com.asu.alliancebank.service.user.IUserManager;
 
 /**
  * Add User controller functions
@@ -31,6 +33,9 @@ public class AddUserController {
 
 	@Autowired
 	private IRoleManager roleManager;
+	
+	@Autowired
+	private IUserManager userManager;
 	
 	@Autowired
 	private IUserFactory userFactory;
@@ -62,7 +67,7 @@ public class AddUserController {
 	 * @return send the String for apache tiles to decide on the view 
 	 */
 	@RequestMapping(value = "auth/user/adduser", method = RequestMethod.POST)
-	public String addNewUser(@Valid @ModelAttribute UserBackingBean userForm, BindingResult result, ModelMap map) {
+	public String addNewUser(@Valid @ModelAttribute UserBackingBean userForm, BindingResult result, ModelMap map, Principal principal) {
 
 		// If user data has validation issues
 		if (result.hasErrors()) {
@@ -73,9 +78,12 @@ public class AddUserController {
 		// Create the user object with the form data
 		if(userForm.isValid()){
 			User user = userFactory.createUserInstance(userForm);
+			try {
+				userManager.addUser(user,principal.getName() );
+			} catch (SQLException e) {
+				logger.error("Error while adding user",e);
+			}
 		}
-		// Saves into db4o
-//		userManager.saveUser(user);
 		
 		return "redirect:/auth/user/adduser";
 	}
