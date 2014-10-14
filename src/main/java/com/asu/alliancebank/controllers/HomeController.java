@@ -1,21 +1,14 @@
-package com.asu.alliancebank;
+package com.asu.alliancebank.controllers;
 
 import java.security.Principal;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.tanesha.recaptcha.ReCaptcha;
-import net.tanesha.recaptcha.ReCaptchaFactory;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +18,8 @@ import com.asu.alliancebank.recaptcha.IReCaptchaManager;
 
 /**
  * Handles requests for the application home page.
+ * 
+ * @author Lohith
  */
 @Controller
 public class HomeController {
@@ -35,22 +30,25 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Simply selects the home view to render by returning its name.
+	 * Default method for web application
+	 * This method would direct to appropriate page based on the user login status
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
-		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
-		return "home";
+	public String home(Locale locale, Model model, Principal principal) {
+		if(principal == null){
+			return "redirect:/login";
+		}else{
+			return "redirect:/auth/welcome";
+		}
 	}
 	
+	/**
+	 * Testing purpose don't delete
+	 * @param req
+	 * @param res
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/testing", method = RequestMethod.POST)
 	public String getCaptcha(HttpServletRequest req,HttpServletResponse res, Model model) {
 		
@@ -61,22 +59,10 @@ public class HomeController {
 			   remoteIpAddr = req.getRemoteAddr();  
 		   }
 		   
-		   System.out.println("Output : "+ reCaptchaManager.isValid(remoteIpAddr, challenge, response));;
+		   logger.info("Output : "+ reCaptchaManager.isValid(remoteIpAddr, challenge, response));;
 
 		return "test";
 	}
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
-	@RequestMapping(value = "/auth/welcome", method = RequestMethod.GET)
-	public String home(Locale locale, Model model,Principal principal) {
-		
-		String userName = principal.getName(); 
-		logger.info("username : {}.", userName);
-		model.addAttribute("username", userName );
-		
-		return "auth/welcome";
-	}
 	
 }

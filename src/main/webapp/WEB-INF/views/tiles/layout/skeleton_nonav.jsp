@@ -84,7 +84,7 @@
 			<!-- Copyright -->
 			<div class="copyright">
 				<ul class="menu">
-					<li>&copy; Alliance Bank. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					<li>&copy; Alliance Bank 2014.       All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 				</ul>
 			</div>
 			<!-- /Copyright -->

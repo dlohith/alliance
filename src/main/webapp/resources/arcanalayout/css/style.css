@@ -284,6 +284,11 @@
 	.clearLoggedIn {
 		clear: both;
 	}
+	
+	.user {
+		padding-left: 20px;
+		background: url('images/user.png') left no-repeat;
+	}
 
 /* Icon */
 
@@ -816,7 +821,7 @@
 /* Footer */
 
 	#footer {
-		padding: 4em 0 8em 0;
+		padding: 4em 0 4em 0;
 	}
 
 		#footer a {
@@ -848,7 +853,7 @@
 
 		#footer .copyright {
 			color: #999999;
-			margin-top: 1.5em;
+			margin-top: 0.5em;
 			text-align: center;
 			font-size: 0.9em;
 		}

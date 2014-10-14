@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Login related controller methods
+ * 
  * @author Lohith
  *
  */
@@ -18,13 +19,12 @@ public class LoginController {
 
 	/**
 	 * A valid authenticated user is redirected to the home page.
-	 * @return 		Returned to the home page of Quadriga.
+	 * @return 		Returned to the home page of Alliance Bank.
 	 */
 	@RequestMapping(value = "auth/welcome", method = RequestMethod.GET)
 	public String validUserHandle(ModelMap model, Principal principal,
 			Authentication authentication) {
-
-		// Get the LDAP-authenticated userid
+		
 		String sUserId = principal.getName();		
 		model.addAttribute("username", sUserId);
 		
