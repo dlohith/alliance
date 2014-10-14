@@ -18,8 +18,12 @@ import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
 public class UserFactory implements IUserFactory{
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(UserFactory
-					.class);
+			.getLogger(UserFactory.class);
+	
+	@Override
+	public User createEmptyUserObject(){
+		return new User();
+	}
 	
 	@Override
 	public User createUserInstance(UserBackingBean userBackingBean){
@@ -31,7 +35,7 @@ public class UserFactory implements IUserFactory{
 		
 		if(userBackingBean.getRoleList() != null){
 			for(Role role : userBackingBean.getRoleList()){
-				authorities.add(new AllianceBankGrantedAuthority(role.getName()));
+				authorities.add(new AllianceBankGrantedAuthority(role.getId()));
 			}
 		}
 		return new User(userBackingBean.getEmailId(),
@@ -43,7 +47,17 @@ public class UserFactory implements IUserFactory{
 				authorities);
 	}
 	
+	@Override
+	public User createUserInstance(String firstName, String lastName, 
+			String loginID,String password,String emailId, String phoneNo, List<AllianceBankGrantedAuthority> authorities){
+		
+		String encryptedPassword = encrypt(password);
+		return new User(firstName, lastName, loginID, encryptedPassword, emailId, phoneNo, authorities);
+	}
+	
+
 	public String encrypt(String pw) {
 		return BCrypt.hashpw(pw, BCrypt.gensalt());
 	}
+	
 }

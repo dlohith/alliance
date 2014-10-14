@@ -3,10 +3,15 @@ package com.asu.alliancebank.domain.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
 
-public class User {
+public class User implements UserDetails{
+
+	private static final long serialVersionUID = 1L;
 	
+	private String userId;
 	private String firstName;
 	private String lastName;
 	private String loginID;
@@ -15,6 +20,9 @@ public class User {
 	private String phoneNo;
 	private List<AllianceBankGrantedAuthority> authorities;
 	
+	public User(){
+		
+	}
 	public User(String firstName, String lastName, 
 			String loginID,String password,String emailId, String phoneNo, List<AllianceBankGrantedAuthority> authorities){
 		this.firstName = firstName;
@@ -26,6 +34,13 @@ public class User {
 		this.authorities = authorities;
 	}
 	
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getFirstName() {
 		return firstName;
 	}
@@ -79,6 +94,38 @@ public class User {
 		
 	}
 
+	public List<AllianceBankGrantedAuthority> getAuthorities(List<Role> roleList){
+		List<AllianceBankGrantedAuthority> authorities = new ArrayList<AllianceBankGrantedAuthority>();
+		
+		if(roleList != null){
+			for(Role role : roleList){
+				authorities.add(new AllianceBankGrantedAuthority(role.getId()));
+			}
+		}
+		
+		return authorities;
+	}
+	@Override
+	public String getUsername() {
+		
+		return this.loginID;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 	
 	
 }

@@ -2,6 +2,8 @@ package com.asu.alliancebank.service.userservice;
 
 import org.springframework.security.core.GrantedAuthority;
 
+import com.asu.alliancebank.domain.impl.Role;
+
 public class AllianceBankGrantedAuthority implements GrantedAuthority{
 
 	private String roleName;
@@ -34,4 +36,6 @@ public class AllianceBankGrantedAuthority implements GrantedAuthority{
 	public void setAuthority(String roleName) {
 		this.roleName = roleName;
 	}
+	
+	
 }

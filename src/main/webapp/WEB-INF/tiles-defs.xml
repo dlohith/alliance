@@ -30,6 +30,9 @@
 	    <put-attribute name="title" value="Alliance Bank - Add User" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/adduser.jsp"/>
 	</definition>
-	
+	<definition name="auth/user/listuser" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - List Users" />
+		<put-attribute name="content" value="/WEB-INF/views/usermanage/listuser.jsp"/>
+	</definition>
 	
 </tiles-definitions>

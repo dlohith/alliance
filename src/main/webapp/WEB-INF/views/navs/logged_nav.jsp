@@ -18,9 +18,9 @@
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
 						<li>
-				<a href="">User Management</a>
+				<a href="${pageContext.servletContext.contextPath}/auth/user/listuser">User Management</a>
 				<ul>
-					<li><a href="user/adduser">Create User</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/auth/user/adduser">Create User</a></li>
 					<li><a href="#">Modify User</a></li>
 					<li><a href="#">Delete User</a></li>
 				</ul>

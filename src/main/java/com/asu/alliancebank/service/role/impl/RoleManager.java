@@ -1,5 +1,6 @@
 package com.asu.alliancebank.service.role.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,17 @@ public class RoleManager implements IRoleManager {
 	@Override
 	public List<Role> getRolesList() {
 		return this.roles;
+	}
+	
+	@Override
+	public List<Role> getRoleList(String roleIds){
+		String roles[] = roleIds.split(",");
+		List<Role> roleList = new ArrayList<Role>();
+		
+		for(String roleid : roles){
+			Role role = getRole(roleid);
+			roleList.add(role);
+		}		
+		return roleList;
 	}
 }

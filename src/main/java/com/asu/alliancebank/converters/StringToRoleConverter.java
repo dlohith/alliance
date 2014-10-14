@@ -22,7 +22,6 @@ public class StringToRoleConverter implements Converter<String, Role>{
 	 */
 	@Override
 	public Role convert(String arg0) {
-		System.out.println("data");
 		return roleManager.getRole(arg0);
 	}
 }

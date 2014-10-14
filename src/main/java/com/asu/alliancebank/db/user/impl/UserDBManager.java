@@ -2,8 +2,10 @@ package com.asu.alliancebank.db.user.impl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.user.IUserDBManager;
 import com.asu.alliancebank.domain.impl.User;
+import com.asu.alliancebank.factory.IUserFactory;
+import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
 
 
@@ -26,8 +30,12 @@ public class UserDBManager implements IUserDBManager {
 	
 	private Connection connection;
 	
+	@Autowired
+	private IUserFactory userFactory;
 	
-
+	@Autowired
+	private IRoleManager roleManager;
+	
 	@Autowired
 	private DataSource dataSource;
 	
@@ -99,8 +107,9 @@ public class UserDBManager implements IUserDBManager {
 		for(AllianceBankGrantedAuthority authority : authorities){
 			if(roleId.isEmpty()){
 				roleId = authority.getAuthority();
+			}else{
+				roleId = roleId + ","+ authority.getAuthority();
 			}
-			roleId = roleId + ","+ authority.getAuthority();
 		}
 		String userId = generateUniqueID();
 		String dbCommand;
@@ -153,5 +162,119 @@ public class UserDBManager implements IUserDBManager {
 	public String generateUniqueID()
 	{
 		return UUID.randomUUID().toString();
+	}
+	
+	@Override
+	public List<User> listAllUsers( String loggedInUser )throws SQLException{
+		
+		List<User> users = new ArrayList<User>();
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.LIST_ALL_USER  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, loggedInUser);
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					User user = userFactory.createEmptyUserObject();
+					user.setUserId(resultSet.getString(1));
+					user.setFirstName(resultSet.getString(2));
+					user.setLastName(resultSet.getString(3));
+					user.setLoginID(resultSet.getString(4));
+					user.setEmailId(resultSet.getString(5));
+					user.setPhoneNo(resultSet.getString(6));
+					String roleIds = resultSet.getString(7);
+					
+					user.setAuthorities(user.getAuthorities(roleManager.getRoleList(roleIds)));
+					
+					users.add(user);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+			return users;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return users;
+	}
+	
+	
+	@Override
+	public User getUserDetails( String loggedInUser )throws SQLException{
+		
+		User user = null;
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_USER  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, loggedInUser);
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					user = userFactory.createEmptyUserObject();
+					user.setUserId(resultSet.getString(1));
+					user.setFirstName(resultSet.getString(2));
+					user.setLastName(resultSet.getString(3));
+					user.setLoginID(resultSet.getString(4));
+					user.setPassword(resultSet.getString(5));
+					user.setEmailId(resultSet.getString(6));
+					user.setPhoneNo(resultSet.getString(7));
+					String roleIds = resultSet.getString(8);
+					
+					user.setAuthorities(user.getAuthorities(roleManager.getRoleList(roleIds)));
+					
+					break;
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+			return user;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return user;
 	}
 }
