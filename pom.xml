@@ -87,6 +87,13 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>3.0.1</version>
 		</dependency>
+		
+		<!-- Validator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.1.0.Alpha1</version>
+		</dependency>
 				
 		<!-- AspectJ -->
 		<dependency>

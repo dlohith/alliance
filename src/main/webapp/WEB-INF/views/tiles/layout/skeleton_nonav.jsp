@@ -49,8 +49,8 @@
 				<sec:authorize access="isAuthenticated()">
 					<div>
 						<div class="loggedInMsg">
-							Welcome <span class="user" style="margin-left: 5px;"><sec:authentication property="principal.username" /></span>!
-							<span><a class="inText" href="${pageContext.servletContext.contextPath}/auth/profile">(Your Profile)</a></span>
+							<span class="user" style="margin-left: 5px;"><b><sec:authentication property="principal.username" /></span></b>!
+							<span><a class="inText" href="${pageContext.servletContext.contextPath}/auth/profile">(View Profile)</a></span>
 						</div>
 						<div class="loggedOutLink">
 							<a href="<c:url value='/j_spring_security_logout' />">Logout</a>

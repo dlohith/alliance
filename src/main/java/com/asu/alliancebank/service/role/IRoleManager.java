@@ -2,14 +2,14 @@ package com.asu.alliancebank.service.role;
 
 import java.util.List;
 
-import com.asu.alliancebank.domain.IRole;
+import com.asu.alliancebank.domain.impl.Role;
 
 public interface IRoleManager {
 
-	public abstract IRole[] getRoles();
+	public abstract Role[] getRoles();
 
-	public abstract IRole getRole(String id);
+	public abstract Role getRole(String id);
 
-	public abstract List<IRole> getRolesList();
+	public abstract List<Role> getRolesList();
 
 }

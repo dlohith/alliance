@@ -7,9 +7,22 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		">
-	<!-- Root Context: defines shared resources visible to all other web components -->
-		<import resource="constants.xml" />
-		<import resource="roles.xml" />
 		
-		<context:component-scan base-package="com.asu.alliancebank" />
+	<mvc:annotation-driven conversion-service="conversionService" />
+	<context:component-scan base-package="com.asu" />
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<import resource="constants.xml" />
+	<import resource="roles.xml" />
+	
+		
+	<!--  Conversion classes necessary for backing beans -->
+	<bean id="conversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="converters">
+			<list>
+				<bean class="com.asu.alliancebank.converters.StringToRoleConverter" />
+			</list>
+		</property> 
+	</bean>
 </beans>

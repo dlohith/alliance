@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.asu.alliancebank.domain.IRole;
 import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.service.role.IRoleManager;
 
@@ -13,18 +12,18 @@ import com.asu.alliancebank.service.role.IRoleManager;
 public class RoleManager implements IRoleManager {
 
 	@Autowired
-	private List<IRole> roles;
+	private List<Role> roles;
 	
 
 	@Override
-	public IRole[] getRoles() {
+	public Role[] getRoles() {
 		return roles.toArray(new Role[roles.size()]);
 	}
 	
 
 	@Override
-	public IRole getRole(String id) {
-		for (IRole role : roles) {
+	public Role getRole(String id) {
+		for (Role role : roles) {
 			if (role.getId().equals(id))
 				return role;
 		}
@@ -33,7 +32,7 @@ public class RoleManager implements IRoleManager {
 
 
 	@Override
-	public List<IRole> getRolesList() {
+	public List<Role> getRolesList() {
 		return this.roles;
 	}
 }

@@ -25,6 +25,11 @@
 		<put-attribute name="content" value="/WEB-INF/views/entry.jsp" />
 	</definition>
 	
+	<!-- User Management Page  -->
+	<definition name="auth/user/adduser" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Add User" />
+		<put-attribute name="content" value="/WEB-INF/views/usermanage/adduser.jsp"/>
+	</definition>
 	
 	
 </tiles-definitions>

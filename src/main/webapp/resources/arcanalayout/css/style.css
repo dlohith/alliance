@@ -156,6 +156,14 @@
 		footer.major {
 			padding-top: 3em;
 		}
+		
+	label {
+		margin: 3em 0 3em 0;
+	}
+
+		label {
+			padding-bottom: 3em;
+		}
 
 /* Form */
 
