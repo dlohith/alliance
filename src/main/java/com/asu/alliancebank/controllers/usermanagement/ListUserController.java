@@ -31,14 +31,16 @@ public class ListUserController {
 			try {
 				List<User> users = userManager.listAllUser(principal.getName());
 				logger.info("User size : "+ users.size());
+				model.addAttribute("userList", users);
+				return "auth/user/listuser";
 			} catch (SQLException e) {
 				logger.error("Issue fetching user list from DB",e);
+				
 			}
 		}
 		
+		return "auth/welcome";	
 		
-		
-		return "auth/user/listuser";
 	}
 	
 }

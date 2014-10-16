@@ -26,7 +26,7 @@
 			<tr>
 				<td width="20%"><label>First Name:</label></td>
 				<td><form:input type='text' class="text" path='firstName' name ='firstName' value=''/></td>
-				<td><font color="red"><form:errors path="firstName" cssClass="errors" /></font></td>
+				<td><font color="red"><form:errors path="firstName" cssClass="errors"  /></font></td>
 			</tr>
 			<tr>
 				<td width="20%"><label>Last Name:</label></td>
@@ -60,7 +60,7 @@
 			</tr>
 			<tr>
 				<td><label>Role:</label></td>
-				<td><form:checkboxes class ="checkbox" element="li" items="${availableRoles}" itemLabel="name" itemValue="id" path="roleList" /></td>
+				<td class="special"><form:checkboxes class ="checkbox" element="li" items="${availableRoles}" itemLabel="name" itemValue="id" path="roleList" /></td>
 				<td><font color="red"><form:errors path="roleList" cssClass="errors" /></font></td>
 			</tr>
 			<tr>

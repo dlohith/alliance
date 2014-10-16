@@ -85,7 +85,7 @@ public class AddUserController {
 			}
 		}
 		
-		return "redirect:/auth/user/adduser";
+		return "redirect:/auth/user/listuser";
 	}
 	
 	

@@ -46,7 +46,7 @@ public class UserManager implements IUserManager {
 			AllianceBankGrantedAuthority adminAuthority = new AllianceBankGrantedAuthority(IRoleManager.ROLE_SYSTEM_ADMIN);
 			authorities.add(adminAuthority);
 			
-			User user = userFactory.createUserInstance("Jack", "Wilshere", "jackwill", "1@m@rsen@l", "jackwill@gmail.com", "44444444444", authorities);
+			User user = userFactory.createUserInstance("Jack", "Wilshere", "jackwill", "testing", "jackwill@gmail.com", "44444444444", authorities);
 			
 			try {
 				addUser(user, "GOD");

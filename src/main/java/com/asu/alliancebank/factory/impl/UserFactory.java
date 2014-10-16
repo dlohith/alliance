@@ -38,7 +38,7 @@ public class UserFactory implements IUserFactory{
 				authorities.add(new AllianceBankGrantedAuthority(role.getId()));
 			}
 		}
-		return new User(userBackingBean.getEmailId(),
+		return new User(userBackingBean.getFirstName(),
 				userBackingBean.getLastName(),
 				userBackingBean.getLoginID(),
 				encryptedPasswd,

@@ -441,6 +441,11 @@
 				padding: 0.5em 1em 0.5em 1em;
 			}
 
+			table.default td.special {
+				width: 100%;
+				padding: 0.5em 1em 0.5em 1em;
+			}
+			
 			table.default th {
 				font-weight: 600;
 				padding: 0.5em 1em 0.5em 1em;
