@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.asu.alliancebank.annotation.NotEmpty;
 import com.asu.alliancebank.annotation.NotEmptyRoleList;
+import com.asu.alliancebank.annotation.UniqueLogin;
 import com.asu.alliancebank.domain.impl.Role;
 
 public class UserBackingBean {
@@ -15,6 +16,7 @@ public class UserBackingBean {
 	private String lastName;
 	
 	@NotEmpty(message = "Please provide a Login ID.")
+	@UniqueLogin(message = "Login ID is already present in the system, please choose a different id.")
 	private String loginID;
 	
 	@NotEmpty(message = "Please provide a Password.")

@@ -12,4 +12,5 @@ public interface IUserManager {
 
 	public List<User> listAllUser(String loggedInUser) throws SQLException;
 	public User getUserDetails(String loggedInUser) throws SQLException;
+	public boolean isLoginIdUnique(String loginId) throws SQLException;
 }

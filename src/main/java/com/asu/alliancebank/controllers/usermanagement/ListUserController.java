@@ -30,7 +30,6 @@ public class ListUserController {
 		if(principal != null){
 			try {
 				List<User> users = userManager.listAllUser(principal.getName());
-				logger.info("User size : "+ users.size());
 				model.addAttribute("userList", users);
 				return "auth/user/listuser";
 			} catch (SQLException e) {

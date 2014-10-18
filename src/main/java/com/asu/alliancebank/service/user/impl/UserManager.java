@@ -77,6 +77,11 @@ public class UserManager implements IUserManager {
 	}
 	
 	@Override
+	public boolean isLoginIdUnique(String loginId) throws SQLException{
+		return dbConnect.isLoginIdUnique(loginId);
+	}
+	
+	@Override
 	public User getUserDetails(String loggedInUser) throws SQLException{
 		User user = null;
 		if(loggedInUser != null){

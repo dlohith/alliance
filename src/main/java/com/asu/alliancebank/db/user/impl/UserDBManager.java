@@ -222,6 +222,50 @@ public class UserDBManager implements IUserDBManager {
 	
 	
 	@Override
+	public boolean isLoginIdUnique( String loginId)throws SQLException{
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.IS_LOGIN_UNIQUE  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, loginId);
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					
+					return false;
+				} 
+			}
+			return true;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return false;
+	}
+	
+	@Override
 	public User getUserDetails( String loggedInUser )throws SQLException{
 		
 		User user = null;

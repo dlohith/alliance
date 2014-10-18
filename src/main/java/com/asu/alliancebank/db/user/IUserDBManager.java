@@ -9,4 +9,5 @@ public interface IUserDBManager {
 	public String addUser(User user, String loggedInUser )throws SQLException;
 	public List<User> listAllUsers( String loggedInUser )throws SQLException;
 	public User getUserDetails( String loggedInUser )throws SQLException;
+	public boolean isLoginIdUnique( String loginId)throws SQLException;
 }
