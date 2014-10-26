@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
+
 	/**
 	 * A valid authenticated user is redirected to the home page.
 	 * @return 		Returned to the home page of Alliance Bank.

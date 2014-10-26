@@ -15,6 +15,7 @@
 	<import resource="constants.xml" />
 	<import resource="roles.xml" />
 	<import resource="spring-dbconnection.xml" />
+	<import resource="email-config.xml" />
 	
 		
 	<!--  Conversion classes necessary for backing beans -->
