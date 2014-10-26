@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.asu.alliancebank.annotation.NotEmpty;
 import com.asu.alliancebank.annotation.NotEmptyRoleList;
+import com.asu.alliancebank.annotation.NotInvalidString;
 import com.asu.alliancebank.annotation.UniqueLogin;
 import com.asu.alliancebank.domain.impl.Role;
 
 public class UserBackingBean {
 
+	
 	@NotEmpty(message = "Please provide a First Name.")
+	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
 	private String firstName;
 	
 	@NotEmpty(message = "Please provide a Last Name.")

@@ -224,6 +224,9 @@ public class UserDBManager implements IUserDBManager {
 	@Override
 	public boolean isLoginIdUnique( String loginId)throws SQLException{
 		
+		if(loginId.isEmpty())
+			return false;
+		
 		String dbCommand;
 		String errmsg;
 		CallableStatement sqlStatement;
