@@ -2,7 +2,9 @@ package com.asu.alliancebank.service.user.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -68,12 +70,54 @@ public class UserManager implements IUserManager {
 	}
 	
 	@Override
+	public void deleteUser(String userId) throws SQLException{
+		if(userId != null ){
+			dbConnect.deleteUser(userId);
+		}
+	}
+	
+	@Override
 	public List<User> listAllUser(String loggedInUser) throws SQLException{
 		List<User> users = null;
 		if(loggedInUser != null){
 			users = dbConnect.listAllUsers(loggedInUser);
 		}
 		return users;
+	}
+	
+	/**
+	 * Checks and return appropriate user ids to delete.
+	 * To avoid unwanted user delete
+	 */
+	@Override
+	public List<String> checkDeleteUserIds(String userIds[], String loggedInUser)throws SQLException{
+		List<User> users = dbConnect.listAllUsers(loggedInUser);
+		Map<String, User> userMap = convertListOfUserToMap(users);
+		List<String> userIdsMarkedForDelete = new ArrayList<String>();
+		for(int i=0 ;i<userIds.length;i++){
+			if(userMap.containsKey(userIds[i])){
+				userIdsMarkedForDelete.add(userIds[i]);
+			}
+		}
+		
+		return userIdsMarkedForDelete;
+	}
+	
+	private Map<String, User> convertListOfUserToMap(List<User> users){
+		Map<String, User> userMap = new HashMap<String, User>();
+		
+		for(User user : users){
+			userMap.put(user.getUserId(),user);
+		}
+		
+		return userMap;
+	}
+	
+	@Override
+	public void deleteUsers(List<String> userIds)throws SQLException{
+		for(String userId : userIds){
+			deleteUser(userId);
+		}
 	}
 	
 	@Override

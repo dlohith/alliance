@@ -156,6 +156,49 @@ public class UserDBManager implements IUserDBManager {
 		
 	}
 	
+	@Override
+	public String deleteUser(String userId)throws SQLException
+	{
+		if(userId == null){
+			return "User object is null" ;
+		}
+
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.DELETE_USER  + "(?,?)";
+		
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, userId);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(2);
+			
+			return errmsg;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+		
+	}
+	
 	/**
 	 * Generate an unique identifier for the database field
 	 */

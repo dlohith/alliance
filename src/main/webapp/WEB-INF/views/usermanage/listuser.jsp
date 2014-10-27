@@ -130,7 +130,7 @@
 					onClick="location.href='${pageContext.servletContext.contextPath}/auth/user/adduser'"
 					value='Add User'> <input class="submit" type="submit"
 					name="deleteuser" value="Delete User"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/user/deleteUser'" />
+					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/user/deleteuser'" />
 				<hr />
 				<table style="width: 100%" cellpadding="0" cellspacing="0"
 					border="0" class="display dataTable" id="listuser">
@@ -151,7 +151,7 @@
 						<c:forEach var="user" items="${userList}">
 							<tr>
 								<td width="10%"><input type="checkbox" class="selected" name="selected"
-									value='<c:out value="${user.loginID}"></c:out>' /></td>
+									value='<c:out value="${user.userId}"></c:out>' /></td>
 								<td width="15%" align="left"><c:out value="${user.firstName}"></c:out></td>
 								<td width="15%" align="left"><c:out value="${user.lastName}"></c:out></td>
 								<td width="15%" align="center"><input name="usernames"

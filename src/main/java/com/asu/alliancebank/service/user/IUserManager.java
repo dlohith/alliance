@@ -13,4 +13,7 @@ public interface IUserManager {
 	public List<User> listAllUser(String loggedInUser) throws SQLException;
 	public User getUserDetails(String loggedInUser) throws SQLException;
 	public boolean isLoginIdUnique(String loginId) throws SQLException;
+	public void deleteUser(String userId) throws SQLException;
+	public List<String> checkDeleteUserIds(String userIds[],String loggedInUser)throws SQLException;
+	public void deleteUsers(List<String> userIds)throws SQLException;
 }
