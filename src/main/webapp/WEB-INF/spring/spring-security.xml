@@ -16,6 +16,7 @@
 		<intercept-url pattern="/css/**" access="permitAll" />
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/fonts/**" access="permitAll" />
+		<intercept-url pattern="/auth/user/**" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/**" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		
 		<intercept-url pattern="/**" access="denyAll" />

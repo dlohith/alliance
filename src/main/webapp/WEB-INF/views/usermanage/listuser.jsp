@@ -137,9 +137,9 @@
 					<thead>
 						<tr>
 							<th align="left"><input type="checkbox" id="selectall">All</th>
-							<th align="left">Name</th>
-							<th>First Name</th>
+							<th align="left">First Name</th>
 							<th>Last Name</th>
+							<th>Login</th>
 							<th>Email ID</th>
 							<th>Phone Number</th>
 							<th>Role</th>
