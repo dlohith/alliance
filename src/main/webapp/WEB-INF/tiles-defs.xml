@@ -26,17 +26,26 @@
 	</definition>
 	
 	<!-- User Management Page  -->
+	<definition name="auth/myprofile" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - My Profile" />
+		<put-attribute name="content" value="/WEB-INF/views/profile.jsp"/>
+	</definition>
+	
+	<!-- User Management Page  -->
 	<definition name="auth/user/adduser" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Add User" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/adduser.jsp"/>
+		<put-attribute name="currentPage" value="User Management" />
 	</definition>
 	<definition name="auth/user/listuser" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - List Users" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/listuser.jsp"/>
+		<put-attribute name="currentPage" value="User Management" />
 	</definition>
 	<definition name="auth/user/modifyuser" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Modify Users" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/modifyuser.jsp"/>
+		<put-attribute name="currentPage" value="User Management" />
 	</definition>
 	
 </tiles-definitions>

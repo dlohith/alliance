@@ -8,7 +8,7 @@
 	<nav id="nav">
 		<ul>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
-			<li class="current"><a href="welcome">Home</a></li>
+			<li class="current"><a href="${pageContext.servletContext.contextPath}/auth/welcome">Home</a></li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
 			<li><a href="">Account Management</a></li>

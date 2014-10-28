@@ -6,7 +6,7 @@ import com.asu.alliancebank.domain.impl.Role;
 
 public class AllianceBankGrantedAuthority implements GrantedAuthority{
 
-	private String roleName;
+	private String authority;
 	private static final long serialVersionUID = 711167440813692597L;
 	
 	public AllianceBankGrantedAuthority(){
@@ -17,7 +17,7 @@ public class AllianceBankGrantedAuthority implements GrantedAuthority{
 	 * @param name
 	 */
 	public AllianceBankGrantedAuthority(String name){
-		this.roleName=name;
+		this.authority=name;
 	}
 	
 	/**
@@ -26,7 +26,7 @@ public class AllianceBankGrantedAuthority implements GrantedAuthority{
 	 */
 	@Override
 	public String getAuthority() {
-		return this.roleName;
+		return this.authority;
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class AllianceBankGrantedAuthority implements GrantedAuthority{
 	 * @param roleName
 	 */
 	public void setAuthority(String roleName) {
-		this.roleName = roleName;
+		this.authority = roleName;
 	}
 	
 	
