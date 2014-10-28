@@ -3,6 +3,7 @@ package com.asu.alliancebank.db.user;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.domain.impl.User;
 
 public interface IUserDBManager {
@@ -11,4 +12,6 @@ public interface IUserDBManager {
 	public User getUserDetails( String loggedInUser )throws SQLException;
 	public boolean isLoginIdUnique( String loginId)throws SQLException;
 	public String deleteUser(String userId )throws SQLException;
+	public String modifyUser(String firstName,String lastName ,String modifyLoginId,String emailId
+			,String phoneNo, List<Role> roles, String loggedInUser )throws SQLException;
 }

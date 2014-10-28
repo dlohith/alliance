@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.user.IUserDBManager;
+import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
 import com.asu.alliancebank.service.role.IRoleManager;
@@ -140,6 +141,67 @@ public class UserDBManager implements IUserDBManager {
 			sqlStatement.execute();
 
 			errmsg = sqlStatement.getString(10);
+			
+			return errmsg;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+		
+	}
+	
+	@Override
+	public String modifyUser(String firstName,String lastName ,String modifyLoginId,String emailId
+			,String phoneNo, List<Role> roles, String loggedInUser )throws SQLException
+	{
+		if(firstName==null ||lastName == null || modifyLoginId == null || emailId == null ||
+				phoneNo == null || loggedInUser == null){
+			return "User object is null" ;
+		}
+		
+		String roleId ="";;
+
+		for(Role role : roles){
+			if(roleId.isEmpty()){
+				roleId = role.getId();
+			}else{
+				roleId = roleId + ","+ role.getId();
+			}
+		}
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.MODIFY_USER  + "(?,?,?,?,?,?,?,?)";
+		
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, modifyLoginId);
+			sqlStatement.setString(2, firstName);        	
+			sqlStatement.setString(3, lastName);
+			sqlStatement.setString(4, emailId);
+			sqlStatement.setString(5, phoneNo);
+			sqlStatement.setString(6, roleId);
+			sqlStatement.setString(7, loggedInUser);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(8,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(8);
 			
 			return errmsg;
 		}catch(SQLException e){

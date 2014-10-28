@@ -10,4 +10,6 @@ public class DBConstants {
 	public final static String GET_USER = "sp_getUser";
 	public final static String IS_LOGIN_UNIQUE = "sp_isLoginUnique";
 	public final static String DELETE_USER = "sp_deleteuser";
+	public final static String MODIFY_USER = "sp_modifyuser";
+	
 }

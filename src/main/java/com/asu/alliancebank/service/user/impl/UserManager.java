@@ -14,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+
+import com.asu.alliancebank.controllers.usermanagement.backingbean.ModifyUserBackingBean;
 import com.asu.alliancebank.db.user.IUserDBManager;
+import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
 import com.asu.alliancebank.service.role.IRoleManager;
@@ -103,6 +106,16 @@ public class UserManager implements IUserManager {
 		return userIdsMarkedForDelete;
 	}
 	
+	@Override
+	public boolean doModifyUserDetails(String loggedInUser, String modifyUserId) throws SQLException{
+		List<User> users = dbConnect.listAllUsers(loggedInUser);
+		for(User user : users){
+			if(user.getLoginID().equals(modifyUserId))
+				return true;
+		}
+		return false;
+	}
+	
 	private Map<String, User> convertListOfUserToMap(List<User> users){
 		Map<String, User> userMap = new HashMap<String, User>();
 		
@@ -132,5 +145,18 @@ public class UserManager implements IUserManager {
 			user = dbConnect.getUserDetails(loggedInUser);
 		}
 		return user;
+	}
+	
+	@Override
+	public void modifyUser(ModifyUserBackingBean modifyUserBackingBean, String loggedInUser, String modifyUserid)throws SQLException{
+		String firstName = modifyUserBackingBean.getFirstName();
+		String lastName = modifyUserBackingBean.getLastName();
+		String loginId = modifyUserid;
+		String emailId = modifyUserBackingBean.getEmailId();
+		String phoneNo = modifyUserBackingBean.getPhoneNo();
+		List<Role> roles =  modifyUserBackingBean.getRoleList();
+		
+		dbConnect.modifyUser(firstName, lastName, loginId, emailId, phoneNo, roles, loggedInUser);
+		
 	}
 }

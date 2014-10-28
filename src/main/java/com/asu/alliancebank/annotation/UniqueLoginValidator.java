@@ -29,6 +29,9 @@ public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin, St
 	 */
 	@Override
 	public boolean isValid(String loginId, ConstraintValidatorContext arg1) {
+		
+		if(loginId == null)
+			return false;
 		try {
 			boolean test = userManager.isLoginIdUnique(loginId);
 			logger.info("is login unique :  "+test);

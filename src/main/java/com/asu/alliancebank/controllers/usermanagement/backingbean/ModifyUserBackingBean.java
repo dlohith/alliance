@@ -5,12 +5,11 @@ import java.util.List;
 import com.asu.alliancebank.annotation.NotEmpty;
 import com.asu.alliancebank.annotation.NotEmptyRoleList;
 import com.asu.alliancebank.annotation.NotInvalidString;
-import com.asu.alliancebank.annotation.UniqueLogin;
 import com.asu.alliancebank.domain.impl.Role;
 
-public class UserBackingBean {
+public class ModifyUserBackingBean {
 
-	
+
 	@NotEmpty(message = "Please provide a First Name.")
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
 	private String firstName;
@@ -19,18 +18,6 @@ public class UserBackingBean {
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
 	private String lastName;
 	
-	@NotEmpty(message = "Please provide a Login ID.")
-	@UniqueLogin(message = "Login ID is already present in the system, please choose a different id.")
-	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
-	private String loginID;
-	
-	@NotEmpty(message = "Please provide a Password.")
-	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
-	private String password;
-	
-	@NotEmpty(message = "Please provide a repeat Password.")
-	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
-	private String repeatPassword;
 	
 	@NotEmpty(message = "Please provide a Email ID.")
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
@@ -63,29 +50,6 @@ public class UserBackingBean {
 		this.lastName = lastName;
 	}
 
-	public String getLoginID() {
-		return loginID;
-	}
-
-	public void setLoginID(String loginID) {
-		this.loginID = loginID;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getRepeatPassword() {
-		return repeatPassword;
-	}
-
-	public void setRepeatPassword(String repeatPassword) {
-		this.repeatPassword = repeatPassword;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public String getEmailId() {
 		return emailId;
@@ -110,6 +74,4 @@ public class UserBackingBean {
 	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
-	
-	
 }

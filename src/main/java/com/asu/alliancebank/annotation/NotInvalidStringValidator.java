@@ -28,6 +28,8 @@ public class NotInvalidStringValidator implements ConstraintValidator<NotInvalid
 	 */
 	@Override
 	public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
+		if(arg0 == null)
+			return false;
 		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","+","-"};
 		for(String specialChar : invalidStrings){
 			if(arg0.contains(specialChar)){
