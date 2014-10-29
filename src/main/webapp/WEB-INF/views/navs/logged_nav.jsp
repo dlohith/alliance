@@ -11,7 +11,15 @@
 			<li class="current"><a href="${pageContext.servletContext.contextPath}/auth/welcome">Home</a></li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
-			<li><a href="">Account Management</a></li>
+			<li>
+			<a href="${pageContext.servletContext.contextPath}/auth/acc/listaccount">Account Management</a>
+					<ul>
+						<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
+							<li><a href="${pageContext.servletContext.contextPath}/auth/acc/addaccount">Add Account</a></li>
+							<li><a href="${pageContext.servletContext.contextPath}/auth/acc/listaccount">Delete Account</a></li>
+						</sec:authorize>
+					</ul>
+			</li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
 			<li><a href="">Transaction Management</a></li>

@@ -48,4 +48,20 @@
 		<put-attribute name="currentPage" value="User Management" />
 	</definition>
 	
+	<!--  Account Management Page -->
+	<definition name="auth/acc/addaccount" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Add Account" />
+		<put-attribute name="content" value="/WEB-INF/views/accmanage/addaccount.jsp"/>
+	</definition>
+	
+	<definition name="auth/acc/deleteaccount" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Delete Account" />
+		<put-attribute name="content" value="/WEB-INF/views/accmanage/listaccount.jsp"/>
+	</definition>
+	
+	
+	<definition name="auth/acc/listaccount" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - List Accounts" />
+		<put-attribute name="content" value="/WEB-INF/views/accmanage/listaccount.jsp"/>
+	</definition>
 </tiles-definitions>

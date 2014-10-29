@@ -12,4 +12,10 @@ public class DBConstants {
 	public final static String DELETE_USER = "sp_deleteuser";
 	public final static String MODIFY_USER = "sp_modifyuser";
 	
+	//Account operations
+	public final static String ADD_ACCOUNT = "sp_addAccount";
+	public final static String LIST_ALL_ACCOUNT = "sp_getAllAccounts";
+	public final static String GET_ACCOUNT = "sp_getAccount";
+	public final static String DELETE_ACCOUNT = "sp_deleteAccount";
+	
 }
