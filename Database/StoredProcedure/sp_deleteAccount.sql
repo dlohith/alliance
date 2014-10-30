@@ -1,6 +1,6 @@
 DROP PROCEDURE IF EXISTS sp_deleteAccount;
 DELIMITER $$
-CREATE PROCEDURE sp_deleteuser
+CREATE PROCEDURE sp_deleteAccount
 (
 	IN iaccountid  VARCHAR(100),
     OUT errmsg     VARCHAR(255)
