@@ -42,7 +42,7 @@
 				<td colspan='2' align="left"><input class="submituser" name="submit" type="submit"
 					value="submit" />
 					<input class="canceluser" type=button
-						onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/accpanel'"
+						onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/listaccount'"
 						value='Cancel'/></td>
 			</tr>
 		</table>

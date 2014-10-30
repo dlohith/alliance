@@ -34,7 +34,7 @@ public class DeleteAccountController {
 			.getLogger(DeleteUserController.class);
 	
 	@RequestMapping(value = "auth/acc/deleteaccount", method = RequestMethod.POST)
-	public String deleteUser( HttpServletRequest req, ModelMap model, Principal principal) {
+	public String deleteAccountFromDatabase( HttpServletRequest req, ModelMap model, Principal principal) {
 		
 		String[] values = req.getParameterValues("selected");
 		

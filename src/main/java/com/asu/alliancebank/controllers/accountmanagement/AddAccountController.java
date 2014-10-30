@@ -80,7 +80,7 @@ public class AddAccountController {
 				logger.error("Error while adding account",e);
 			}
 		}
-		return "redirect:/auth/acc/accpanel";
+		return "redirect:/auth/acc/listaccount";
 	}
 
 }
