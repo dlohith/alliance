@@ -19,6 +19,7 @@
 		<intercept-url pattern="/auth/user/**" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/acc/deleteaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/acc/listaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/acc/addaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/**" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		
 		<intercept-url pattern="/**" access="denyAll" />
