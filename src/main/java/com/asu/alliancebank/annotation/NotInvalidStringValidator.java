@@ -30,9 +30,13 @@ public class NotInvalidStringValidator implements ConstraintValidator<NotInvalid
 	public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
 		if(arg0 == null)
 			return false;
-		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","+","-"};
+		if(arg0.length() > 50)	// don't allow to enter more than 50 characters
+			return false;
+		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","+","-","select",
+									 "where", "from", "delete", "update"};
+		String temp = arg0.toLowerCase();
 		for(String specialChar : invalidStrings){
-			if(arg0.contains(specialChar)){
+			if(temp.contains(specialChar)){
 				logger.info("String rejected : "+ arg0);
 				return false;
 			}
