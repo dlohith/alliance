@@ -8,10 +8,10 @@
 	<nav id="nav">
 		<ul>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
-			<li class="current"><a href="${pageContext.servletContext.contextPath}/auth/welcome">Home</a></li>
+			<li ${currentPage == "home" ? "class=\"current\"" : ""}><a href="${pageContext.servletContext.contextPath}/auth/welcome">Home</a></li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
-			<li>
+			<li ${currentPage == "accountmanagement" ? "class=\"current\"" : ""}>
 			<a href="${pageContext.servletContext.contextPath}/auth/acc/listaccount">Account Management</a>
 					<ul>
 						<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
@@ -22,10 +22,10 @@
 			</li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
-			<li><a href="">Transaction Management</a></li>
+			<li ${currentPage == "transactionmanagement" ? "class=\"current\"" : ""}><a href="">Transaction Management</a></li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
-						<li>
+						<li ${currentPage == "usermanagement" ? "class=\"current\"" : ""}>
 				<a href="${pageContext.servletContext.contextPath}/auth/user/listuser">User Management</a>
 				<ul>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/user/adduser">Create User</a></li>

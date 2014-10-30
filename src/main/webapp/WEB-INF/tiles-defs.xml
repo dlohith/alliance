@@ -35,33 +35,36 @@
 	<definition name="auth/user/adduser" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Add User" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/adduser.jsp"/>
-		<put-attribute name="currentPage" value="User Management" />
+		<put-attribute name="currentPage" value="usermanagement" />
 	</definition>
 	<definition name="auth/user/listuser" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - List Users" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/listuser.jsp"/>
-		<put-attribute name="currentPage" value="User Management" />
+		<put-attribute name="currentPage" value="usermanagement" />
 	</definition>
 	<definition name="auth/user/modifyuser" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Modify Users" />
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/modifyuser.jsp"/>
-		<put-attribute name="currentPage" value="User Management" />
+		<put-attribute name="currentPage" value="usermanagement" />
 	</definition>
 	
 	<!--  Account Management Page -->
 	<definition name="auth/acc/addaccount" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Add Account" />
 		<put-attribute name="content" value="/WEB-INF/views/accmanage/addaccount.jsp"/>
+		<put-attribute name="currentPage" value="accountmanagement" />
 	</definition>
 	
 	<definition name="auth/acc/deleteaccount" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Delete Account" />
 		<put-attribute name="content" value="/WEB-INF/views/accmanage/listaccount.jsp"/>
+		<put-attribute name="currentPage" value="accountmanagement" />
 	</definition>
 	
 	
 	<definition name="auth/acc/listaccount" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - List Accounts" />
 		<put-attribute name="content" value="/WEB-INF/views/accmanage/listaccount.jsp"/>
+		<put-attribute name="currentPage" value="accountmanagement" />
 	</definition>
 </tiles-definitions>
