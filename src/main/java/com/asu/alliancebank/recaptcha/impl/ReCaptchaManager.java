@@ -25,6 +25,13 @@ public class ReCaptchaManager implements IReCaptchaManager{
 	@Override
 	public boolean isValid(String remoteIpAddr, String challenge,String response){
 		
+		if(remoteIpAddr == null || challenge == null || response == null){
+			return false;
+		}
+		if(remoteIpAddr.isEmpty() || challenge.isEmpty() || response.isEmpty()){
+			return false;
+		}
+		
 		ReCaptcha reCaptcha = ReCaptchaFactory.newReCaptcha(publickey, 
 				privatekey, false);
 		

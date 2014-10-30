@@ -43,6 +43,7 @@ public class UserBackingBean {
 	@NotEmptyRoleList(message = "Please select atleast one role.")
 	private List<Role> roleList;
 
+
 	public boolean isValid(){
 		return true;
 	}
@@ -110,6 +111,7 @@ public class UserBackingBean {
 	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
+
 	
 	
 }

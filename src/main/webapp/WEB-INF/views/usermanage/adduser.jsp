@@ -63,8 +63,30 @@
 				<td class="special"><form:checkboxes class ="checkbox" element="li" items="${availableRoles}" itemLabel="name" itemValue="id" path="roleList" /></td>
 				<td><font color="red"><form:errors path="roleList" cssClass="errors" /></font></td>
 			</tr>
+			<tr height="300" >
+				<td></td>
+				<td>
+					<script type="text/javascript"
+				     src="http://www.google.com/recaptcha/api/challenge?k=6Ld7xPsSAAAAAP5roP7kJMeOXc5pupY-CZU7nx5T">
+				  	</script>
+					<noscript>
+						<iframe src="http://www.google.com/recaptcha/api/noscript?k=6Ld7xPsSAAAAAP5roP7kJMeOXc5pupY-CZU7nx5T"
+					         height="300" width="500" frameborder="0"></iframe><br>
+						<textarea name='recaptchaChallengeField' rows="3" cols="40"></textarea>
+						<input type="hidden" name='recaptchaResponseField'
+					         value="manual_challenge">
+					</noscript>
+				</td>
+				<td><font color="red"><label> <c:out value="${captchaError}"></c:out> </label></font></td>
+	  		
+			</tr>
 			<tr>
-			<td></td>
+			</tr>
+			<tr>
+			</tr>
+			<tr>
+			<td>
+			</td>
 				<td colspan='2' align="left"><input class="submituser" name="submit" type="submit"
 					value="Add user" />
 					<input class="canceluser" type=button

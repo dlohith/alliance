@@ -3,7 +3,7 @@ package com.asu.alliancebank.controllers.usermanagement;
 import java.security.Principal;
 import java.sql.SQLException;
 
-
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.asu.alliancebank.controllers.usermanagement.backingbean.UserBackingBean;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
+import com.asu.alliancebank.recaptcha.IReCaptchaManager;
 import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.user.IUserManager;
 
@@ -39,6 +40,9 @@ public class AddUserController {
 	
 	@Autowired
 	private IUserFactory userFactory;
+	
+	@Autowired
+	private IReCaptchaManager reCaptchaManager;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddUserController.class);
@@ -67,7 +71,7 @@ public class AddUserController {
 	 * @return send the String for apache tiles to decide on the view 
 	 */
 	@RequestMapping(value = "auth/user/adduser", method = RequestMethod.POST)
-	public String addNewUser(@Valid @ModelAttribute UserBackingBean userForm, BindingResult result, ModelMap map, Principal principal) {
+	public String addNewUser(HttpServletRequest req, @Valid @ModelAttribute UserBackingBean userForm, BindingResult result, ModelMap map, Principal principal) {
 
 		// If user data has validation issues
 		if (result.hasErrors()) {
@@ -75,8 +79,34 @@ public class AddUserController {
 			return "auth/user/adduser";
 		}		
 		
+		String response = req.getParameter("recaptcha_response_field");
+		String challenge = req.getParameter("recaptcha_challenge_field");
+		
+		if(response == null || response.isEmpty()){
+			map.addAttribute("captchaError","Captcha empty");
+			map.addAttribute("availableRoles", roleManager.getRoles());
+			return "auth/user/adduser";
+		}
+		if(challenge == null || challenge.isEmpty()){
+			map.addAttribute("captchaError","Some one removed this challenge field");
+			map.addAttribute("availableRoles", roleManager.getRoles());
+			return "auth/user/adduser";
+		}
+		
+		String remoteIpAddr = req.getHeader("X-FORWARDED-FOR");  
+		if (remoteIpAddr == null) {  
+			remoteIpAddr = req.getRemoteAddr();  
+		}
+		
+		if(!reCaptchaManager.isValid(remoteIpAddr, challenge, response)){
+			map.addAttribute("captchaError","Wrong captcha input");
+			map.addAttribute("availableRoles", roleManager.getRoles());
+			return "auth/user/adduser";
+		}
+		
 		// Create the user object with the form data
 		if(userForm.isValid()){
+
 			User user = userFactory.createUserInstance(userForm);
 			try {
 				userManager.addUser(user,principal.getName() );
