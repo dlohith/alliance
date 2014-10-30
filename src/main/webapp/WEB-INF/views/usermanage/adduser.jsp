@@ -77,7 +77,7 @@
 					         value="manual_challenge">
 					</noscript>
 				</td>
-				<td><font color="red"><label> <c:out value="${captchaError}"></c:out> </label></font></td>
+				<td><label> <font color="red"><c:out value="${captchaError}"></c:out></font> </label></td>
 	  		
 			</tr>
 			<tr>
