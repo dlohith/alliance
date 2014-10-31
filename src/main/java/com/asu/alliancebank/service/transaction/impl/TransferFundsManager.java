@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.domain.impl.User;
+import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
 import com.asu.alliancebank.service.user.IUserManager;
@@ -27,6 +28,10 @@ public class TransferFundsManager implements ITransferFundsManager{
 	
 	@Autowired
 	private IUserManager userManager;
+	
+	@Autowired
+	private IAccountManager accountManager;
+	
 		
 	@Override
 	public void addTransferFunds(TransferFunds transferFunds, String loggedInUser)
@@ -53,5 +58,26 @@ public class TransferFundsManager implements ITransferFundsManager{
 		}
 
 		return userNames;
+	}
+	
+	@Override
+	public boolean isValid(String loggedInUser, String amount)
+			throws SQLException {
+		Long balance = null;
+		try {
+			balance = accountManager.getAccountBalance(loggedInUser);
+		} catch (SQLException e1) {
+			return false;
+		}
+
+		try {
+			Long amountLong = Long.parseLong(amount);
+			if (balance - amountLong > 0) {
+				return true;
+			}
+		} catch (Exception e) {	
+		}
+		return false;
+
 	}
 }

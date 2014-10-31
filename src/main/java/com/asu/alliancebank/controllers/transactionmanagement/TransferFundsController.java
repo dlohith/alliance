@@ -59,7 +59,15 @@ public class TransferFundsController {
 			model.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
 			transferfundsForm.setFromAccountId(principal.getName());
 			return "auth/trans/tranfunds";
-		}	
+		}
+		
+		if(!transferFundsManager.isValid(principal.getName(), transferfundsForm.getAmount() )){
+			model.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			transferfundsForm.setFromAccountId(principal.getName());
+			model.addAttribute("AmountError","You dont have sufficient amount");
+			return "auth/trans/tranfunds";
+		}
+		
 		// Create the user object with the form data
 		if(transferfundsForm.isValid()){
 			TransferFunds transferFunds = transferFundsFactory.createTransferFundsInstance(transferfundsForm);

@@ -11,4 +11,5 @@ import com.asu.alliancebank.domain.impl.TransferFunds;
 public interface ITransferFundsManager {
 	public abstract void addTransferFunds(TransferFunds transferFunds, String loggedInUser) throws SQLException;
 	public abstract List<String> listAllUserNames(String loggedInUser) throws SQLException;
+	public boolean isValid(String loggedInUser, String amount) throws SQLException;
 }

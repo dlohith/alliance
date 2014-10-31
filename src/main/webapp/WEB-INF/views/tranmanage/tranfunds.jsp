@@ -40,7 +40,7 @@
 			<tr>
 				<td width="20%"><label>Amount:</label></td>
 				<td><form:input type='text' class="text" path='amount' name ='amount' value=''/></td>
-				<td><font color="red"><form:errors path="amount" cssClass="errors" /></font></td>
+				<td><font color="red"><form:errors path="amount" cssClass="errors" /><c:out value="${AmountError}"></c:out></font></td>
 			</tr>
 			
 			<tr>
