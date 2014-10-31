@@ -53,9 +53,11 @@ public class TransferFundsController {
 	}
 	
 	@RequestMapping(value = "auth/trans/tranfunds", method = RequestMethod.POST)
-	public String transferfunds(@Valid @ModelAttribute TransferFundsBackingBean transferfundsForm, BindingResult result, ModelMap map, Principal principal) {
+	public String transferfunds( ModelMap model, @Valid @ModelAttribute TransferFundsBackingBean transferfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
 	
 		if (result.hasErrors()) {
+			model.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			transferfundsForm.setFromAccountId(principal.getName());
 			return "auth/trans/tranfunds";
 		}	
 		// Create the user object with the form data

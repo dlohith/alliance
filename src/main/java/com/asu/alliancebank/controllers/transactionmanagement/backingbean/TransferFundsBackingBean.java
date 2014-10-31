@@ -1,11 +1,16 @@
 package com.asu.alliancebank.controllers.transactionmanagement.backingbean;
 
 import com.asu.alliancebank.annotation.NotEmpty;
+import com.asu.alliancebank.annotation.NotValidDigit;
 
 public class TransferFundsBackingBean {
 	
 	public TransferFundsBackingBean(String fromAccountId ){
 		this.fromAccountId = fromAccountId;
+	}
+	
+	public TransferFundsBackingBean(){
+		
 	}
 	
 	private String fromAccountId;	
@@ -14,8 +19,8 @@ public class TransferFundsBackingBean {
 	private String toAccountId;
 	
 	@NotEmpty(message = "Please provide amount")	
-	//check if only numbers are present
-	private Long amount;
+	@NotValidDigit(message = "Please provide only integer values")
+	private String amount;
 	
 	public boolean isValid() {
 		return true;
@@ -37,11 +42,11 @@ public class TransferFundsBackingBean {
 		this.toAccountId = toAccountId;
 	}
 
-	public Long getAmount() {
+	public String getAmount() {
 		return this.amount;
 	}
 
-	public void setAmount(Long amount) {
+	public void setAmount(String amount) {
 		this.amount = amount;
 	}
 	
