@@ -22,4 +22,5 @@ public interface IAccountManager {
 	public abstract List<String> listAllUserLoginIdsFromAccounts(String loggedInUser) throws SQLException;
 	public abstract Map<String, String> getUserListForAddAccount(String loggedInUser); 
 	public abstract List<String> checkDeleteAccountUserIDs(String userLoginIDs[],String loggedInUser)throws SQLException;
+	public abstract Long getAccountBalance(String loggedInUser) throws SQLException;
 }
