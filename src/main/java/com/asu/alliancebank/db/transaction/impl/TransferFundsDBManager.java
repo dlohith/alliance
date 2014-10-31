@@ -146,7 +146,7 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 		CallableStatement sqlStatement;
 		String errmsg;
 		//command to call the SP
-		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.ADD_TRANSFERFUNDS  + "(?,?,?,?,?,?)";
+		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.ADD_TRANSFERFUNDS  + "(?,?,?,?,?,?,?)";
 		getConnection();
 		
 		//establish the connection with the database

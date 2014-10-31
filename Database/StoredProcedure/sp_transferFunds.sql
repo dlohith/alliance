@@ -20,7 +20,7 @@ CREATE PROCEDURE sp_transferFunds
   IN ifromaccountid		VARCHAR(100),
   IN itoaccountid     	VARCHAR(100),  
   IN iamount   			LONG,  
-	IN	 iotp 	VARCHAR(100),
+  IN iotp 	VARCHAR(100),
   IN iloggedinuser  VARCHAR(50),
   OUT errmsg        VARCHAR(255)    
 )

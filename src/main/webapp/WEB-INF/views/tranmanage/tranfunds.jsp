@@ -45,10 +45,10 @@
 			
 			<tr>
 			<td></td>
-				<td colspan='2' align="left"><input class="otpnext" name="Next" type="button"
-					value="Next" onClick="location.href='${pageContext.servletContext.contextPath}/auth/otp/otp'" />
+				<td colspan='2' align="left"><input class="otpnext" name="Next" type="submit"
+					value="Next"  />
 					<input class="canceluser" type=button
-						onClick="location.href='${pageContext.servletContext.contextPath}/auth/welcome'"
+						onClick="location.href='${pageContext.servletContext.contextPath}/auth/trans'"
 						value='Cancel'/></td>
 			</tr>		
 		</table>
