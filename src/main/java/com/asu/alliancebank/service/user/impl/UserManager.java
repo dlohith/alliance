@@ -20,6 +20,7 @@ import com.asu.alliancebank.db.user.IUserDBManager;
 import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
+import com.asu.alliancebank.security.pki.impl.PKIManager;
 import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.user.IUserManager;
 import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
@@ -37,6 +38,9 @@ public class UserManager implements IUserManager {
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserManager.class);
 	
+	@Autowired
+	private PKIManager pkiManager;
+	
 	@PostConstruct
 	public void addDefaultUser(){
 		List<User> users = null;
@@ -52,6 +56,7 @@ public class UserManager implements IUserManager {
 			authorities.add(adminAuthority);
 			
 			User user = userFactory.createUserInstance("Jack", "Wilshere", "jackwill", "testing", "jackwill@gmail.com", "44444444444", authorities);
+			pkiManager.createKeyPairs("jackwill");
 			
 			try {
 				addUser(user, "GOD");
@@ -68,6 +73,7 @@ public class UserManager implements IUserManager {
 	public void addUser(User user, String loggedInUser) throws SQLException{
 		if(user != null){
 			dbConnect.addUser(user, loggedInUser);
+			pkiManager.createKeyPairs(user.getLoginID());
 		}
 		
 	}
