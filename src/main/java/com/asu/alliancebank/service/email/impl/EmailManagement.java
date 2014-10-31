@@ -24,4 +24,12 @@ public class EmailManagement implements IEmailManagement {
 		 
 		 emailSender.sendNotificationEmail(emailAddress, subject, msgText, attachments);
 	}
+	
+	@Override
+	public void sendOTP(String emailAddress, String otp, String transactionId){
+		String subject = "OTP for your transaction ID : "+ transactionId;
+		 String msgText = "OTP for your transaction : "+otp;
+		 
+		 emailSender.sendNotificationEmail(emailAddress, subject, msgText);
+	}
 }
