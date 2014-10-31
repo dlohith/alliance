@@ -20,7 +20,7 @@ CREATE PROCEDURE sp_transferFunds
   IN ifromaccountid		VARCHAR(100),
   IN itoaccountid     	VARCHAR(100),  
   IN iamount   			LONG,  
-  IN istatus		INT,
+	IN	 iotp 	VARCHAR(100),
   IN iloggedinuser  VARCHAR(50),
   OUT errmsg        VARCHAR(255)    
 )
@@ -79,61 +79,27 @@ BEGIN
 	
 	
     -- Inserting the record into the tbl_account table
-	START TRANSACTION;	
-		INSERT 
-             INTO tbl_transferfund(transactionid,fromaccountid, toaccountid, amount, updatedby, updateddate, createdby, createddate)
-			 VALUES (itransactionid,ifromaccountid , itoaccountid ,  
-			 iamount, iloggedinuser,NOW(),iloggedinuser,NOW());
-		 IF (errmsg IS NULL)
-           THEN COMMIT;
-         ELSE ROLLBACK;
-         END IF;
-         
-         -- Inserting the record in tbl_transaction table
+	START TRANSACTION;
+	
+	 -- Inserting the record in tbl_transaction table
          INSERT 
-             INTO tbl_transaction(transactionid,accountid,transactiontype, priority ,amount, updatedby, updateddate, createdby, createddate)
+             INTO tbl_transaction(transactionid,accountid,transactiontype, priority ,amount, status , updatedby, updateddate, createdby, createddate)
 			 VALUES (itransactionid ,ifromaccountid,  'TF' ,  priority,  
-			 iamount, iloggedinuser,NOW(),iloggedinuser,NOW());
-		 IF (errmsg IS NULL)
-           THEN COMMIT;
-         ELSE ROLLBACK;
-         END IF;
+			 iamount, "pending" , iloggedinuser,NOW(),iloggedinuser,NOW());		
          
-         -- Updating fromaccountid by debiting the amount from the balance
-         UPDATE 
-             tbl_account SET balance = (balance - iamount) WHERE accountid = ifromaccountid ;
-			 
-		 IF (errmsg IS NULL)
-           THEN COMMIT;
-         ELSE ROLLBACK;
-         END IF;
+		INSERT 
+             INTO tbl_transferfund(transactionid,fromaccountid, toaccountid, amount , updatedby, updateddate, createdby, createddate)
+			 VALUES (itransactionid,ifromaccountid , itoaccountid ,  
+			 iamount, iloggedinuser,NOW(),iloggedinuser,NOW());		
          
-          -- Updating toaccountid by crediting the amount to the balance
-         UPDATE 
-             tbl_account SET balance = (balance + iamount) WHERE accountid = itoaccountid ;
-			 
-		 IF (errmsg IS NULL)
+        INSERT INTO tbl_transferfundotpcheck(transactionid , otp , updatedBy , updateddate, createdby, createddate )
+        VALUES (itransactionid , iotp , iloggedinuser,NOW(),iloggedinuser,NOW());
+        
+         IF (errmsg IS NULL)
            THEN COMMIT;
          ELSE ROLLBACK;
          END IF;
-         
-         -- inserting transaction into credit table with the same transactionid as in transferfunds and transaction
-         INSERT 
-             INTO tbl_credit(transactionid,accountid, amount, updatedby, updateddate, createdby, createddate)
-			 VALUES (itransactionid,itoaccountid ,iamount, iloggedinuser,NOW(),iloggedinuser,NOW());
-		 IF (errmsg IS NULL)
-           THEN COMMIT;
-         ELSE ROLLBACK;
-         END IF;
-         
-         -- inserting transaction into debit table with the same transactionid as in transferfunds and transaction
-          INSERT 
-             INTO tbl_debit(transactionid,accountid, amount, updatedby, updateddate, createdby, createddate)
-			 VALUES (itransactionid,ifromaccountid ,iamount, iloggedinuser,NOW(),iloggedinuser,NOW());
-		 IF (errmsg IS NULL)
-           THEN COMMIT;
-         ELSE ROLLBACK;
-         END IF;
+        
          
 END$$
 DELIMITER ;

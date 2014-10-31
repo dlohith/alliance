@@ -29,11 +29,13 @@
 			</tr>
 			<tr>
 				<td width="20%"><label>To Account ID:</label></td>
-				<td width="25%" align="center"><form:select class="select" path='toAccountId' name ='toAccountId' value=''/>
-				<c:forEach var="username" items="${userNamesList}">
-										<c:out value="${username}"></c:out> :
-										</c:forEach></td>
-				<td><font color="red"><form:errors path="toAccountId" cssClass="errors" /></font></td>
+				
+				<td width="25%" align="center"><ul>
+					<form:select path="toAccountId" items="${userNamesList}">
+					</form:select>
+					</ul>
+				</td> <form:errors path="toAccountId" cssClass="errors" />
+
 			</tr>				
 			<tr>
 				<td width="20%"><label>Amount:</label></td>

@@ -98,7 +98,7 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 		String dbCommand;
 		String errmsg;
 		java.sql.Statement statement;
-		dbCommand = "SELECT firstname , lastname , loginid FROM tbl_user";
+		dbCommand = "SELECT firstname , lastname , loginid , roleid FROM tbl_user";
 		//get the connection
 		getConnection();
 		
@@ -107,8 +107,12 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 			ResultSet resultSet = statement.executeQuery(dbCommand);
 			if(resultSet !=null){ 
 				while (resultSet.next()) {
-					if(resultSet.getString(2) != loggedInUser)
-					userNames.add(resultSet.getString(0) +"," + resultSet.getString(1));
+					if(resultSet.getString(2) != loggedInUser){
+						
+						String roleID = resultSet.getString(4);
+						if(roleID.equals("ROLE_INDIVIDUAL_CUSTOMER"))
+						userNames.add(resultSet.getString(1) +"," + resultSet.getString(2));
+					}
 				} 
 			}
 		}catch(SQLException e){
@@ -135,13 +139,14 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 		String fromAccountId = transferFunds.getFromAccountId();
 		String toAccountId = transferFunds.getToAccountId();	
 		Long amount = transferFunds.getAmount();	
+		String otp = "T65NV0";
 		
 		//check if the user id has his account id in the fromaccountid section.					
 		
 		CallableStatement sqlStatement;
 		String errmsg;
 		//command to call the SP
-		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.ADD_TRANSFERFUNDS  + "(?,?,?,?,?)";
+		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.ADD_TRANSFERFUNDS  + "(?,?,?,?,?,?)";
 		getConnection();
 		
 		//establish the connection with the database
@@ -152,13 +157,13 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 					sqlStatement.setString(2, fromAccountId);					  
 					sqlStatement.setString(3, toAccountId);
 					sqlStatement.setLong(4, amount);
-					//sqlStatement.setInt(5, priority);
-					sqlStatement.setString(5, loggedInUser);
+					sqlStatement.setString(5, otp);
+					sqlStatement.setString(6, loggedInUser);
 					
 					//adding output variables to the SP
-					sqlStatement.registerOutParameter(6,Types.VARCHAR);
+					sqlStatement.registerOutParameter(7,Types.VARCHAR);
 					sqlStatement.execute();
-					errmsg = sqlStatement.getString(6);
+					errmsg = sqlStatement.getString(7);
 					return errmsg;
 				} catch(SQLException e){
 					errmsg="DB Issue";

@@ -4,6 +4,7 @@ package com.asu.alliancebank.service.transaction.impl;
  *
  */
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
 import com.asu.alliancebank.domain.impl.TransferFunds;
+import com.asu.alliancebank.domain.impl.User;
+import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
+import com.asu.alliancebank.service.user.IUserManager;
+import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
 
 @Service
 public class TransferFundsManager implements ITransferFundsManager{
 	@Autowired
 	@Qualifier("TransferFundsDBManagerBean")
 	private ITransferFundsDBManager dbConnect;
+	
+	@Autowired
+	private IUserManager userManager;
 		
 	@Override
 	public void addTransferFunds(TransferFunds transferFunds, String loggedInUser)
@@ -31,10 +39,19 @@ public class TransferFundsManager implements ITransferFundsManager{
 	
 	@Override
 	public List<String> listAllUserNames(String loggedInUser) throws SQLException{
-		List<String> userNames = null;
-		if(loggedInUser != null){
-			userNames = dbConnect.getAllUserNames(loggedInUser);
+		List<User> users = userManager.listAllUser(loggedInUser);
+		List<String> userNames = new ArrayList<String>();
+		
+		for(User user : users){
+			for(AllianceBankGrantedAuthority authority : user.getAuthorities()){
+				if(authority.getAuthority().equals(IRoleManager.ROLE_INDIVIDUAL_CUSTOMER)){
+					if(user.getLoginID() != loggedInUser){
+						userNames.add(user.getLoginID());
+					}
+				}
+			}
 		}
+
 		return userNames;
 	}
 }

@@ -3,6 +3,11 @@ package com.asu.alliancebank.controllers.transactionmanagement.backingbean;
 import com.asu.alliancebank.annotation.NotEmpty;
 
 public class TransferFundsBackingBean {
+	
+	public TransferFundsBackingBean(String fromAccountId ){
+		this.fromAccountId = fromAccountId;
+	}
+	
 	private String fromAccountId;	
 
 	@NotEmpty(message = "Please provide to accountid")

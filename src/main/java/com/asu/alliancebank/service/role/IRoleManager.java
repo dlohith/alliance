@@ -7,6 +7,8 @@ import com.asu.alliancebank.domain.impl.Role;
 public interface IRoleManager {
 
 	public static final String ROLE_SYSTEM_ADMIN = "ROLE_SYSTEM_ADMIN";
+	public static final String ROLE_INDIVIDUAL_CUSTOMER = "ROLE_INDIVIDUAL_CUSTOMER";
+	
 	
 	public abstract Role[] getRoles();
 

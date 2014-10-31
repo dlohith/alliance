@@ -42,11 +42,13 @@ public class TransferFundsController {
 	public String getToAddTransactionPage( ModelMap model, Principal principal) {
 		// If user is authorized
 		try {
+			
+			
 			model.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
 		} catch (SQLException e) {			
 			e.printStackTrace();
 		}
-		model.addAttribute("transferFundsBackingBean", new TransferFundsBackingBean());
+		model.addAttribute("transferFundsBackingBean", new TransferFundsBackingBean(principal.getName()));
 		return "auth/trans/tranfunds";
 	}
 	

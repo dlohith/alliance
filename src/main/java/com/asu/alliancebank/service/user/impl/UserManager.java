@@ -128,6 +128,7 @@ public class UserManager implements IUserManager {
 		return false;
 	}
 	
+	
 	private Map<String, User> convertListOfUserToMap(List<User> users){
 		Map<String, User> userMap = new HashMap<String, User>();
 		
