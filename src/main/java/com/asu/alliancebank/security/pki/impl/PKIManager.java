@@ -219,7 +219,7 @@ public class PKIManager implements IPKIManager{
 			cipher.init(Cipher.ENCRYPT_MODE, key);
 			cipherText = cipher.doFinal(text.getBytes());
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 		return cipherText;
 	}
@@ -233,11 +233,11 @@ public class PKIManager implements IPKIManager{
 			// decrypt the text using the private key
 			cipher.init(Cipher.DECRYPT_MODE, key);
 			dectyptedText = cipher.doFinal(text);
-
+			return new String(dectyptedText);
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex.getMessage());
 		}
 
-		return new String(dectyptedText);
+		return "INVALID";
 	}
 }
