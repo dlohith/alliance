@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.asu.alliancebank.recaptcha.IReCaptchaManager;
+import com.asu.alliancebank.security.pki.impl.PKIManager;
 
 /**
  * Handles requests for the application home page.
@@ -26,6 +27,9 @@ public class HomeController {
 	
 	@Autowired
 	private IReCaptchaManager reCaptchaManager;
+	
+	@Autowired
+	private PKIManager pkiManager;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
@@ -64,5 +68,19 @@ public class HomeController {
 		return "test";
 	}
 	
+	
+	@RequestMapping(value = "/auth/testpki", method = RequestMethod.POST)
+	public String getPkiVerification(HttpServletRequest req,HttpServletResponse res, Principal principal, Model model) {
+		
+		String response = req.getParameter("test");
+		
+		if(pkiManager.isResponseValid(response,principal.getName() )){
+			logger.info("Success");
+		}else{
+			logger.info("Fail");
+		}
+
+		return "redirect:/auth/welcome";
+	}
 	
 }

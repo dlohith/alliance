@@ -21,6 +21,7 @@ import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
 import com.asu.alliancebank.security.pki.impl.PKIManager;
+import com.asu.alliancebank.service.email.IEmailManagement;
 import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.user.IUserManager;
 import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
@@ -37,6 +38,9 @@ public class UserManager implements IUserManager {
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserManager.class);
+	
+	@Autowired
+	private IEmailManagement emailManagement;
 	
 	@Autowired
 	private PKIManager pkiManager;
@@ -74,14 +78,16 @@ public class UserManager implements IUserManager {
 		if(user != null){
 			dbConnect.addUser(user, loggedInUser);
 			pkiManager.createKeyPairs(user.getLoginID());
+			emailManagement.sendPKIKeys(user.getLoginID(), user.getEmailId());
 		}
 		
 	}
 	
 	@Override
-	public void deleteUser(String userId) throws SQLException{
-		if(userId != null ){
-			dbConnect.deleteUser(userId);
+	public void deleteUser(String loginId) throws SQLException{
+		if(loginId != null ){
+			pkiManager.deleteKeys(loginId);
+			dbConnect.deleteUser(loginId);
 		}
 	}
 	
@@ -126,7 +132,7 @@ public class UserManager implements IUserManager {
 		Map<String, User> userMap = new HashMap<String, User>();
 		
 		for(User user : users){
-			userMap.put(user.getUserId(),user);
+			userMap.put(user.getLoginID(),user);
 		}
 		
 		return userMap;
@@ -135,6 +141,7 @@ public class UserManager implements IUserManager {
 	@Override
 	public void deleteUsers(List<String> userIds)throws SQLException{
 		for(String userId : userIds){
+			System.out.println(userId);
 			deleteUser(userId);
 		}
 	}

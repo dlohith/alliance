@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS sp_deleteuser;
 DELIMITER $$
 CREATE PROCEDURE sp_deleteuser
 (
-	IN inuserid  VARCHAR(100),
+	IN inloginid  VARCHAR(100),
     OUT errmsg     VARCHAR(255)
     )
 BEGIN
@@ -18,7 +18,7 @@ BEGIN
       -- retrieve the item details
       DELETE
         FROM tbl_user
-	    WHERE userid = inuserid;
+	    WHERE loginid = inloginid;
      END IF;
 END$$
 DELIMITER ;

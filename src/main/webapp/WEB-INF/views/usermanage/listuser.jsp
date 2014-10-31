@@ -151,7 +151,7 @@
 						<c:forEach var="user" items="${userList}">
 							<tr>
 								<td width="10%"><input type="checkbox" class="selected" name="selected"
-									value='<c:out value="${user.userId}"></c:out>' /></td>
+									value='<c:out value="${user.loginID}"></c:out>' /></td>
 								<td width="15%" align="left"><c:out value="${user.firstName}"></c:out></td>
 								<td width="15%" align="left"><c:out value="${user.lastName}"></c:out></td>
 								<td width="15%" align="center"><input name="usernames"

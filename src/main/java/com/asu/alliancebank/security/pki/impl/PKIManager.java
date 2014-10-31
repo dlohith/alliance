@@ -50,6 +50,27 @@ public class PKIManager implements IPKIManager{
 		}
 	}
 	
+	public String[] getKeyLocs(String loginId){
+		
+		String publicKeyLoc = getKeyFolder(loginId) + File.separator + PUBLIC_KEY;
+		String privateKeyLoc = getKeyFolder(loginId) + File.separator + PRIVATE_KEY;
+		
+		String keyLocs[] = {publicKeyLoc,privateKeyLoc};
+		return keyLocs;
+	}
+	
+	public void deleteKeys(String loginId){
+		String publicKeyLoc = getKeyFolder(loginId) + File.separator + PUBLIC_KEY;
+		String privateKeyLoc = getKeyFolder(loginId) + File.separator + PRIVATE_KEY;
+		
+		File deleteFile = new File(publicKeyLoc);
+		deleteFile.delete();
+		deleteFile = new File(privateKeyLoc);
+		deleteFile.delete();
+		deleteFile = new File(getKeyFolder(loginId));
+		deleteFile.delete();
+		
+	}
 	
 	public void createKeyPairs(String loginId){
 		KeyPairGenerator keyGen = null;
@@ -79,10 +100,15 @@ public class PKIManager implements IPKIManager{
 		BigInteger bigEncrypted = new BigInteger(encrypted);
 		byte encryptedBytes [] = bigEncrypted.toByteArray();
 		
-		String decrypt = decrypt(encryptedBytes, publicKey);
-		if(decrypt.equals(IPKIManager.DATA_TO_BE_DECRYPTED)){
-			return true;
+		if(publicKey != null && (encrypted !=null && !encrypted.isEmpty())){
+			String decrypt = decrypt(encryptedBytes, publicKey);
+			if(decrypt.equals(IPKIManager.DATA_TO_BE_DECRYPTED)){
+				return true;
+			}
+		}else{
+			return false;
 		}
+		
 		return false;
 	}
 	
