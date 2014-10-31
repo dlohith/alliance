@@ -67,4 +67,23 @@
 		<put-attribute name="content" value="/WEB-INF/views/accmanage/listaccount.jsp"/>
 		<put-attribute name="currentPage" value="accountmanagement" />
 	</definition>
+	
+		
+	<!-- Transaction Management Page  -->
+	<definition name="auth/trans" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transaction Operations" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/transaction.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
+	<definition name="auth/trans/tranfunds" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transfer Funds" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/tranfunds.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>	
+	<definition name="auth/trans/transactionLogsList" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transfer Funds" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/listTransactionLogs.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
+	
 </tiles-definitions>

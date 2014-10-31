@@ -22,10 +22,19 @@
 			</li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
-			<li ${currentPage == "transactionmanagement" ? "class=\"current\"" : ""}><a href="">Transaction Management</a></li>
+			<li ${currentPage == "transactionmanagement" ? "class=\"current\"" : ""}><a href="${pageContext.servletContext.contextPath}/auth/trans">Transaction Management</a>
+			<sec:authorize access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
+				<ul>
+				
+					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/tranfunds">Transfer Funds</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/transactionLogsList">View Transaction Logs</a></li>
+				
+				</ul>
+			</sec:authorize>	
+			</li>
 		</sec:authorize>
 		<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
-						<li ${currentPage == "usermanagement" ? "class=\"current\"" : ""}>
+			<li ${currentPage == "usermanagement" ? "class=\"current\"" : ""}>
 				<a href="${pageContext.servletContext.contextPath}/auth/user/listuser">User Management</a>
 				<ul>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/user/adduser">Create User</a></li>

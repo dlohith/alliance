@@ -17,6 +17,8 @@
 		<intercept-url pattern="/js/**" access="permitAll" />
 		<intercept-url pattern="/fonts/**" access="permitAll" />
 		<intercept-url pattern="/auth/user/**" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/trans/tranfunds" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/transactionLogsList" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/auth/acc/deleteaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/acc/listaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/acc/addaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>

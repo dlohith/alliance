@@ -18,4 +18,7 @@ public class DBConstants {
 	public final static String GET_ACCOUNT = "sp_getAccount";
 	public final static String DELETE_ACCOUNT = "sp_deleteAccount";
 	
+	// Transaction operations
+	public final static String ADD_TRANSFERFUNDS ="sp_transferFunds";
+	
 }
