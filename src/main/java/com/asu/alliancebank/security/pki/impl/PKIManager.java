@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -74,8 +75,9 @@ public class PKIManager implements IPKIManager{
 		String publicKeyFile = keyFolder + File.separator + IPKIManager.PUBLIC_KEY;
 		
 		PublicKey publicKey = getPublicKey(publicKeyFile);
-		
-		byte encryptedBytes [] = encrypted.getBytes();
+
+		BigInteger bigEncrypted = new BigInteger(encrypted);
+		byte encryptedBytes [] = bigEncrypted.toByteArray();
 		
 		String decrypt = decrypt(encryptedBytes, publicKey);
 		if(decrypt.equals(IPKIManager.DATA_TO_BE_DECRYPTED)){
