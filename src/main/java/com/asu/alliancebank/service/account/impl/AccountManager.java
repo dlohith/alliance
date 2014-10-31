@@ -154,4 +154,14 @@ public class AccountManager implements IAccountManager {
 			dbConnect.deleteAccount(accountID);
 		}
 	}
+
+	@Override
+	public Long getAccountBalance(String loggedInUser) throws SQLException {
+		Long balance = null;
+		if(loggedInUser != null) {
+			String balanceString = dbConnect.getAccountBalance(loggedInUser);
+			balance = Long.parseLong(balanceString);
+		}
+		return balance;
+	}
 }

@@ -17,6 +17,7 @@ public class DBConstants {
 	public final static String LIST_ALL_ACCOUNT = "sp_getAllAccounts";
 	public final static String GET_ACCOUNT = "sp_getAccount";
 	public final static String DELETE_ACCOUNT = "sp_deleteAccount";
+	public final static String GET_ACC_BALANCE = "sp_getAccountBalance";
 	
 	// Transaction operations
 	public final static String ADD_TRANSFERFUNDS ="sp_transferFunds";

@@ -295,4 +295,49 @@ public class AccountDBManager implements IAccountDBManager {
 		return loginIDList;
 	}
 
+	@Override
+	public String getAccountBalance(String loggedInUser) throws SQLException {
+		String balance = null;
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_ACC_BALANCE  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			sqlStatement.setString(1, loggedInUser);
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					balance = resultSet.getString(1);
+				} 
+			}
+			else {
+				// if result set is null then set balance as 0;
+				balance = "0";
+			}
+			errmsg = sqlStatement.getString(2);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			balance = "0";
+			logger.error("Issue while getting account balance : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			balance = "0";
+			logger.error("Issue while getting account balance : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return balance;
+	}
+
 }
