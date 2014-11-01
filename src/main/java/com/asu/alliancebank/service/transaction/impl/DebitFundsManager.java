@@ -18,7 +18,7 @@ public class DebitFundsManager implements IDebitFundsManager{
 	private IDebitFundsDBManager dbConnect;
 		
 	@Override
-	public void addDebitFunds(DebitFunds debitFunds, String loggedInUser)
+	public synchronized void addDebitFunds(DebitFunds debitFunds, String loggedInUser)
 			throws SQLException {
 		if(debitFunds != null) {
 			dbConnect.addDebitFunds(debitFunds, loggedInUser);

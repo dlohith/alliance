@@ -21,7 +21,7 @@ public class CreditFundsManager implements ICreditFundsManager{
 	private IAccountManager accountManager;
 	
 	@Override
-	public void addCreditFunds(CreditFunds creditFunds, String loggedInUser)
+	public synchronized void addCreditFunds(CreditFunds creditFunds, String loggedInUser)
 			throws SQLException {
 		if(creditFunds != null) {
 			dbConnect.addCreditFunds(creditFunds, loggedInUser);
