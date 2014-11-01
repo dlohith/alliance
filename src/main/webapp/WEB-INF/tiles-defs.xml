@@ -85,9 +85,25 @@
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/listTransactionLogs.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
-		<definition name="auth/trans/creditfunds" extends="base.definition.nonav">
+	<definition name="auth/trans/creditfunds" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Credit Funds" />
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/creditfunds.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
+	
+	<definition name="auth/trans/otp" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transfer OTP Check" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/otpcheck.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
+	<definition name="auth/trans/otpsuccess" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transfer OTP Success" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/otpsuccess.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
+	<definition name="auth/trans/otpfail" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transfer OTP Failed" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/otpfail.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
 	

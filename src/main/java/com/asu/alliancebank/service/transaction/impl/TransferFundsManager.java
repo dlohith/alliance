@@ -6,6 +6,7 @@ package com.asu.alliancebank.service.transaction.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.domain.impl.User;
+import com.asu.alliancebank.security.otp.impl.OTPManager;
 import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
@@ -32,14 +34,24 @@ public class TransferFundsManager implements ITransferFundsManager{
 	@Autowired
 	private IAccountManager accountManager;
 	
-		
+	@Autowired
+	private OTPManager otpManager;
+	
+	private String generateUniqueID()
+	{
+		return UUID.randomUUID().toString();
+	}
+	
 	@Override
-	public void addTransferFunds(TransferFunds transferFunds, String loggedInUser)
+	public String  addTransferFunds(TransferFunds transferFunds, String loggedInUser)
 			throws SQLException {
+		String transactionId = generateUniqueID();
 		if(transferFunds != null) {
-			dbConnect.addTransferFunds(transferFunds, loggedInUser);
-			//dbConnect.updateAccounts(account, transferFunds, loggedInUser);
+			int otp = otpManager.getOTP();
+			dbConnect.addTransferFunds(transactionId,transferFunds, loggedInUser, otp+"");
 		}
+		
+		return transactionId;
 	}
 	
 	@Override

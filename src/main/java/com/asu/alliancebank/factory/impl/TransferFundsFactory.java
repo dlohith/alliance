@@ -27,7 +27,7 @@ public class TransferFundsFactory implements ITransferFundsFactory{
 	public TransferFunds createTransferFundsInstance(TransferFundsBackingBean transferFundsBackingBean) {					
 				
 		return new TransferFunds(transferFundsBackingBean.getFromAccountId(),			
-				transferFundsBackingBean.getFromAccountId(),
+				transferFundsBackingBean.getToAccountId(),
 				Long.parseLong(transferFundsBackingBean.getAmount()));				
 	}
 

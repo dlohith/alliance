@@ -11,13 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.asu.alliancebank.controllers.transactionmanagement.backingbean.OTPBackingBean;
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.TransferFundsBackingBean;
+import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.factory.ITransferFundsFactory;
+import com.asu.alliancebank.security.otp.impl.OTPManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
 
 @Controller
@@ -28,6 +33,9 @@ public class TransferFundsController {
 	
 	@Autowired
 	private ITransferFundsManager transferFundsManager;
+	
+	@Autowired
+	private OTPManager otpManager;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(TransferFundsController.class);
@@ -53,32 +61,84 @@ public class TransferFundsController {
 	}
 	
 	@RequestMapping(value = "auth/trans/tranfunds", method = RequestMethod.POST)
-	public String transferfunds( ModelMap model, @Valid @ModelAttribute TransferFundsBackingBean transferfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
+	public String transferfunds( @Valid @ModelAttribute TransferFundsBackingBean transferfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
 	
 		if (result.hasErrors()) {
-			model.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			map.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
 			transferfundsForm.setFromAccountId(principal.getName());
 			return "auth/trans/tranfunds";
 		}
 		
 		if(!transferFundsManager.isValid(principal.getName(), transferfundsForm.getAmount() )){
-			model.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			map.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
 			transferfundsForm.setFromAccountId(principal.getName());
-			model.addAttribute("AmountError","You dont have sufficient amount");
+			map.addAttribute("AmountError","You dont have sufficient amount");
 			return "auth/trans/tranfunds";
 		}
 		
 		// Create the user object with the form data
 		if(transferfundsForm.isValid()){
 			TransferFunds transferFunds = transferFundsFactory.createTransferFundsInstance(transferfundsForm);
+			transferFunds.setFromAccountId(principal.getName());
+			logger.info(transferFunds.getFromAccountId());
+			logger.info(transferFunds.getToAccountId());
+			logger.info(""+transferFunds.getAmount());
 			try {
-				transferFundsManager.addTransferFunds(transferFunds, principal.getName());
+				String transactionId = transferFundsManager.addTransferFunds(transferFunds, principal.getName());
+
+				return "redirect:/auth/trans/otp/"+ transactionId;
 			} catch (SQLException e) {
 				logger.error("Error while adding Transaction",e);
 			}
 		}
 		return "redirect:/auth/welcome";
-		//return "/auth/trans/otp";
+	}
+
+	
+	@RequestMapping(value = "auth/trans/otp/{transactionId}", method = RequestMethod.GET)
+	public String getToTransferFundOtpPage(  @PathVariable("transactionId") String transactionId,ModelMap model, Principal principal) {
+		// If user is authorized
+		model.addAttribute("oTPBackingBean", new OTPBackingBean());
+		model.addAttribute("transactionId", transactionId);
+		return "auth/trans/otp";
 	}
 	
+	
+	
+	@RequestMapping(value = "auth/trans/otp/{transactionId}", method = RequestMethod.POST)
+	public String postToTransferFundOtpPage(@PathVariable("transactionId") String transactionId, @Valid @ModelAttribute OTPBackingBean otpForm, BindingResult result, ModelMap map, Principal principal) {
+
+		if(result.hasErrors()){
+		
+			ObjectError oe= result.getAllErrors().get(0);
+	
+			
+			map.addAttribute("otperror", oe.getDefaultMessage());
+			OTPBackingBean otpBackingBean = new OTPBackingBean();
+			otpBackingBean.setOtp(otpForm.getOtp());
+			map.addAttribute("oTPBackingBean",otpBackingBean );
+			
+			return "auth/trans/otp";
+		}
+		
+		try {
+			if(!otpManager.isTransactionOtpCorrect(otpForm, transactionId)){
+				map.addAttribute("otperror", "OTP and transaction doesn't match");
+				OTPBackingBean otpBackingBean = new OTPBackingBean();
+				otpBackingBean.setOtp(otpForm.getOtp());
+				map.addAttribute("oTPBackingBean",otpBackingBean );
+				
+				return "auth/trans/otp";
+			}
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+			return "auth/trans/otpsuccess";	
+		}
+		
+		
+		return "auth/trans/otpsuccess";	
+		
+		
+	}
 }
+

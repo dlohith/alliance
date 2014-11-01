@@ -5,11 +5,8 @@ package com.asu.alliancebank.db.transaction.impl;
  */
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -23,6 +20,7 @@ import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.factory.ITransferFundsFactory;
+import com.asu.alliancebank.security.otp.impl.OTPManager;
 
 public class TransferFundsDBManager implements ITransferFundsDBManager{
 	private static final Logger logger = LoggerFactory
@@ -35,6 +33,9 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private OTPManager otpManager;
 	
 	/**
 	 * Assigns the data source
@@ -90,56 +91,17 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 		return UUID.randomUUID().toString();
 	}
 	
-	@Override
-	public List<String> getAllUserNames(String loggedInUser)
-			throws SQLException {
-		
-		List<String> userNames = new ArrayList<String>();
-		String dbCommand;
-		String errmsg;
-		java.sql.Statement statement;
-		dbCommand = "SELECT firstname , lastname , loginid , roleid FROM tbl_user";
-		//get the connection
-		getConnection();
-		
-		try{
-			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(dbCommand);
-			if(resultSet !=null){ 
-				while (resultSet.next()) {
-					if(resultSet.getString(2) != loggedInUser){
-						
-						String roleID = resultSet.getString(4);
-						if(roleID.equals("ROLE_INDIVIDUAL_CUSTOMER"))
-						userNames.add(resultSet.getString(1) +"," + resultSet.getString(2));
-					}
-				} 
-			}
-		}catch(SQLException e){
-			errmsg="DB Issue";
-			logger.error("Issue while getting login ID list : "+ errmsg,e);			
-		}catch(Exception e){
-			errmsg="DB Issue";
-			logger.error("Issue while getting login ID list : "+ errmsg,e);
-		}
-		finally{
-			closeConnection();
-		}
-		return userNames;
-	}
-
 	
 	@Override
-	public String addTransferFunds(TransferFunds transferFunds, String loggedInUser)
+	public String addTransferFunds(String transactionId, TransferFunds transferFunds, String loggedInUser, String otp)
 			throws SQLException {
 		if(transferFunds == null)
 			return "TransferFunds object is null";
 
-		String transactionId = generateUniqueID();
 		String fromAccountId = transferFunds.getFromAccountId();
 		String toAccountId = transferFunds.getToAccountId();	
 		Long amount = transferFunds.getAmount();	
-		String otp = "T65NV0";
+
 		
 		//check if the user id has his account id in the fromaccountid section.					
 		
@@ -164,6 +126,11 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 					sqlStatement.registerOutParameter(7,Types.VARCHAR);
 					sqlStatement.execute();
 					errmsg = sqlStatement.getString(7);
+					logger.info("errmsg : " + errmsg);
+					
+					if(errmsg == null){
+						otpManager.sendOtpasEmail(otp, transactionId, loggedInUser);
+					}
 					return errmsg;
 				} catch(SQLException e){
 					errmsg="DB Issue";
