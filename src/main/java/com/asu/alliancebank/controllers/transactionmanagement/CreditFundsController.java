@@ -3,6 +3,7 @@ package com.asu.alliancebank.controllers.transactionmanagement;
 import java.security.Principal;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -15,12 +16,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.CreditFundsBackingBean;
 import com.asu.alliancebank.controllers.usermanagement.AddUserController;
-import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.domain.impl.CreditFunds;
+import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.ICreditFundsFactory;
+import com.asu.alliancebank.recaptcha.IReCaptchaManager;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 
@@ -34,6 +35,9 @@ public class CreditFundsController {
 	
 	@Autowired
 	private ITransactionManager transactionManager;
+	
+	@Autowired
+	private IReCaptchaManager reCaptchaManager;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddUserController.class);
@@ -52,7 +56,7 @@ public class CreditFundsController {
 	}
 	
 	@RequestMapping(value = "auth/trans/creditfunds", method = RequestMethod.POST)
-	public String creditfunds(ModelMap model, @Valid @ModelAttribute CreditFundsBackingBean creditfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
+	public String creditfunds(HttpServletRequest req, ModelMap model, @Valid @ModelAttribute CreditFundsBackingBean creditfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
 	
 		if (result.hasErrors()) {
 			model.addAttribute("creditFundsBackingBean", new CreditFundsBackingBean());
@@ -66,6 +70,28 @@ public class CreditFundsController {
 		
 		if(!transactionManager.isValidEncryptedString(creditfundsForm.getEncrypt(), principal.getName())){
 			model.addAttribute("EncryptionError","Invalid encrypt string");
+			return "auth/trans/creditfunds";
+		}
+		
+		String response = req.getParameter("recaptcha_response_field");
+		String challenge = req.getParameter("recaptcha_challenge_field");
+		
+		if(response == null || response.isEmpty()){
+			map.addAttribute("captchaError","Captcha empty");
+			return "auth/trans/creditfunds";
+		}
+		if(challenge == null || challenge.isEmpty()){
+			map.addAttribute("captchaError","Some one removed this challenge field");
+			return "auth/trans/creditfunds";
+		}
+		
+		String remoteIpAddr = req.getHeader("X-FORWARDED-FOR");  
+		if (remoteIpAddr == null) {  
+			remoteIpAddr = req.getRemoteAddr();  
+		}
+		
+		if(!reCaptchaManager.isValid(remoteIpAddr, challenge, response)){
+			map.addAttribute("captchaError","Wrong captcha input");
 			return "auth/trans/creditfunds";
 		}
 		

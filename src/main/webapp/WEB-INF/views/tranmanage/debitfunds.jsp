@@ -34,6 +34,23 @@
 				<td><font color="red"><form:errors path="encrypt" cssClass="errors" /><c:out value="${EncryptionError}"></c:out></font></td>
 				
 			</tr>	
+			<tr height="300" >
+				<td></td>
+				<td>
+					<script type="text/javascript"
+				     src="http://www.google.com/recaptcha/api/challenge?k=6Ld7xPsSAAAAAP5roP7kJMeOXc5pupY-CZU7nx5T">
+				  	</script>
+					<noscript>
+						<iframe src="http://www.google.com/recaptcha/api/noscript?k=6Ld7xPsSAAAAAP5roP7kJMeOXc5pupY-CZU7nx5T"
+					         height="300" width="500" frameborder="0"></iframe><br>
+						<textarea name='recaptchaChallengeField' rows="3" cols="40"></textarea>
+						<input type="hidden" name='recaptchaResponseField'
+					         value="manual_challenge">
+					</noscript>
+				</td>
+				<td><label> <font color="red"><c:out value="${captchaError}"></c:out></font> </label></td>
+	  		
+			</tr>
 			<tr>
 			<td></td>
 				<td colspan='2' align="left"><input class="debit" name="submit" type="submit"

@@ -3,6 +3,7 @@ package com.asu.alliancebank.controllers.transactionmanagement;
 import java.security.Principal;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import com.asu.alliancebank.controllers.transactionmanagement.backingbean.DebitF
 import com.asu.alliancebank.domain.impl.DebitFunds;
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.IDebitFundsFactory;
+import com.asu.alliancebank.recaptcha.IReCaptchaManager;
 import com.asu.alliancebank.service.transaction.IDebitFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
@@ -37,6 +39,10 @@ public class DebitFundsController {
 	@Autowired
 	private ITransactionManager transactionManager;
 	
+	@Autowired
+	private IReCaptchaManager reCaptchaManager;
+	
+	
 	private static final Logger logger = LoggerFactory
 			.getLogger(DebitFundsController.class);
 	
@@ -54,7 +60,7 @@ public class DebitFundsController {
 	}
 	
 	@RequestMapping(value = "auth/trans/debitfunds", method = RequestMethod.POST)
-	public String creditfunds(ModelMap model, @Valid @ModelAttribute DebitFundsBackingBean debitfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
+	public String creditfunds(HttpServletRequest req, ModelMap model, @Valid @ModelAttribute DebitFundsBackingBean debitfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
 	
 		if (result.hasErrors()) {							
 			return "auth/trans/debitfunds";
@@ -67,6 +73,28 @@ public class DebitFundsController {
 		
 		if(!transactionManager.isValidEncryptedString(debitfundsForm.getEncrypt(), principal.getName())){
 			model.addAttribute("EncryptionError","Invalid encrypt string");
+			return "auth/trans/debitfunds";
+		}
+		
+		String response = req.getParameter("recaptcha_response_field");
+		String challenge = req.getParameter("recaptcha_challenge_field");
+		
+		if(response == null || response.isEmpty()){
+			map.addAttribute("captchaError","Captcha empty");
+			return "auth/trans/debitfunds";
+		}
+		if(challenge == null || challenge.isEmpty()){
+			map.addAttribute("captchaError","Some one removed this challenge field");
+			return "auth/trans/debitfunds";
+		}
+		
+		String remoteIpAddr = req.getHeader("X-FORWARDED-FOR");  
+		if (remoteIpAddr == null) {  
+			remoteIpAddr = req.getRemoteAddr();  
+		}
+		
+		if(!reCaptchaManager.isValid(remoteIpAddr, challenge, response)){
+			map.addAttribute("captchaError","Wrong captcha input");
 			return "auth/trans/debitfunds";
 		}
 		
