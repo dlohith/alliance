@@ -16,7 +16,7 @@
 		<td>		
 				<input class="submit" type=button
 					name="Credit" value="Credit Transfer"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/welcome'" />
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/creditfunds'" />
 		</td> 
 	</tr>			
 	<tr>

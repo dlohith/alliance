@@ -19,7 +19,7 @@ public class TransferFundsBackingBean {
 	private String toAccountId;
 	
 	@NotEmpty(message = "Please provide amount")	
-	@NotValidDigit(message = "Please provide only integer values")
+	@NotValidDigit(message = "Please provide only integer values > 0 and < 100000")
 	private String amount;
 	
 	public boolean isValid() {

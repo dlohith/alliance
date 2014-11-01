@@ -85,5 +85,10 @@
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/listTransactionLogs.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
+		<definition name="auth/trans/creditfunds" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Credit Funds" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/creditfunds.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
 	
 </tiles-definitions>

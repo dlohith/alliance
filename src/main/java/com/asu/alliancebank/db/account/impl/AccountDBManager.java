@@ -297,7 +297,7 @@ public class AccountDBManager implements IAccountDBManager {
 
 	@Override
 	public String getAccountBalance(String loggedInUser) throws SQLException {
-		String balance = null;
+		String balance = new String("0");
 		String dbCommand;
 		String errmsg;
 		CallableStatement sqlStatement;

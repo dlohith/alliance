@@ -27,6 +27,7 @@
 				<ul>
 				
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/tranfunds">Transfer Funds</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/creditfunds">Credit Funds</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/transactionLogsList">View Transaction Logs</a></li>
 				
 				</ul>
