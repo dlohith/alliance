@@ -29,6 +29,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+	<bean id="DebitFundsDBManagerBean" class="com.asu.alliancebank.db.transaction.impl.DebitFundsDBManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
