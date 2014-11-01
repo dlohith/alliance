@@ -11,7 +11,6 @@ Create By     : Kedar
 Modified Date : 11/1/2014
 
 ********************************************/
-
 DROP PROCEDURE IF EXISTS sp_addmerchantrequest;
 DELIMITER $$
 CREATE PROCEDURE sp_addmerchantrequest
@@ -20,6 +19,7 @@ CREATE PROCEDURE sp_addmerchantrequest
   IN imerchantloginid	VARCHAR(100),
   IN iuserloginid     	VARCHAR(50),
   IN iamount		    LONG,
+  IN istatus			INT,
   OUT errmsg        VARCHAR(255)    
 )
 BEGIN
@@ -44,10 +44,10 @@ BEGIN
     -- Inserting the record into the tbl_account table
 	START TRANSACTION;
 		INSERT 
-             INTO tbl_merchantrequests(requestid, merchantloginid, userloginid, amount, updatedby,
+             INTO tbl_merchantrequests(requestid, merchantloginid, userloginid, amount, status, updatedby,
              updateddate, createdby, createddate)
 			 VALUES (irequestid, imerchantloginid,iuserloginid,  
-			 iamount, merchantloginid,NOW(),merchantloginid,NOW());
+			 iamount, istatus, merchantloginid,NOW(),merchantloginid,NOW());
 		 IF (errmsg IS NULL)
            THEN COMMIT;
          ELSE ROLLBACK;

@@ -35,6 +35,13 @@
 	</tr>			
 	<tr>
 		<td>
+				<input class="submit" type="button"
+					name="AuthorizePayments" value="Authorize My Payments"
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/authorizepayments'" />
+		</td> 
+	</tr>
+	<tr>
+		<td>
 				<input class="submit" type="submit"
 					name="TransactionLogs" value="Transaction Logs"
 					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/trans/transactionLogsList'" />	
