@@ -22,4 +22,8 @@ public class DBConstants {
 	// Transaction operations
 	public final static String ADD_TRANSFERFUNDS ="sp_transferFunds";
 	
+	// OTP operations
+	public final static String ADD_TRANSACTION_OTP = "sp_addtransactionotp";
+	public final static String  OTP_EXPIRE = "sp_otpexpire";
+	
 }

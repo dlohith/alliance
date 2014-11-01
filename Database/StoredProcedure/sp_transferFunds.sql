@@ -20,7 +20,7 @@ CREATE PROCEDURE sp_transferFunds
   IN ifromaccountid		VARCHAR(100),
   IN itoaccountid     	VARCHAR(100),  
   IN iamount   			LONG,  
-  IN iotp 	VARCHAR(100),
+  IN iotp 			VARCHAR(100),
   IN iloggedinuser  VARCHAR(50),
   OUT errmsg        VARCHAR(255)    
 )
@@ -42,7 +42,7 @@ BEGIN
 	  THEN SET errmsg = "From Account id cannot be empty.";
     END IF;
     
-    IF(ifromaccountid != (SELECT accountid FROM tbl_account
+    IF(ifromaccountid != (SELECT userid FROM tbl_account
     						WHERE userid = iloggedinuser))
     	THEN SET errmsg = "The account id does not belong to the user id";
     END IF;
@@ -51,7 +51,7 @@ BEGIN
 	  THEN SET errmsg = "To Account id cannot be empty.";
     END IF;    
     
-    IF(itoaccountid != (SELECT accountid FROM tbl_account
+    IF(itoaccountid != (SELECT userid FROM tbl_account
     						WHERE accountid = itoaccountid))
     	THEN SET errmsg = "The account id does not belong to this bank";
     END IF;
@@ -83,12 +83,14 @@ BEGIN
 	
 	 -- Inserting the record in tbl_transaction table
          INSERT 
-             INTO tbl_transaction(transactionid,accountid,transactiontype, priority ,amount, status , updatedby, updateddate, createdby, createddate)
-			 VALUES (itransactionid ,ifromaccountid,  'TF' ,  priority,  
-			 iamount, "pending" , iloggedinuser,NOW(),iloggedinuser,NOW());		
+             INTO tbl_transaction(transactionid,accountid,transactiontype, priority ,amount, status ,
+             updatedby, updateddate, createdby, createddate)
+			 VALUES (itransactionid ,ifromaccountid, 'TF' , priority ,  
+			 iamount, 1 ,iloggedinuser,NOW(),iloggedinuser,NOW());	
          
 		INSERT 
-             INTO tbl_transferfund(transactionid,fromaccountid, toaccountid, amount , updatedby, updateddate, createdby, createddate)
+             INTO tbl_transferfund(transactionid,fromaccountid, toaccountid, amount , 
+             updatedby, updateddate, createdby, createddate)
 			 VALUES (itransactionid,ifromaccountid , itoaccountid ,  
 			 iamount, iloggedinuser,NOW(),iloggedinuser,NOW());		
          
