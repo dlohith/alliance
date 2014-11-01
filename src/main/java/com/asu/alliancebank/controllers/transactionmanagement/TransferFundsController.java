@@ -132,11 +132,11 @@ public class TransferFundsController {
 			}
 		} catch (SQLException e) {
 			logger.info(e.getMessage());
-			return "auth/trans/otpsuccess";	
+			return "auth/trans/success";	
 		}
 		
 		
-		return "auth/trans/otpsuccess";	
+		return "auth/trans/success";	
 		
 		
 	}

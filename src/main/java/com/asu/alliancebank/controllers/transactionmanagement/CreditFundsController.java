@@ -22,6 +22,7 @@ import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.domain.impl.CreditFunds;
 import com.asu.alliancebank.factory.ICreditFundsFactory;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
+import com.asu.alliancebank.service.transaction.ITransactionManager;
 
 @Controller
 public class CreditFundsController {
@@ -30,6 +31,9 @@ public class CreditFundsController {
 	
 	@Autowired
 	private ICreditFundsManager creditFundsManager;
+	
+	@Autowired
+	private ITransactionManager transactionManager;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddUserController.class);
@@ -60,6 +64,12 @@ public class CreditFundsController {
 			return "auth/trans/creditfunds";
 		}
 		
+		if(!transactionManager.isValidEncryptedString(creditfundsForm.getEncrypt(), principal.getName())){
+			model.addAttribute("EncryptionError","Invalid encrypt string");
+			return "auth/trans/creditfunds";
+		}
+		
+		
 		// Create the user object with the form data
 		if(creditfundsForm.isValid()){
 			CreditFunds creditFunds = creditFundsFactory.createCreditFundsInstance(creditfundsForm);
@@ -67,9 +77,10 @@ public class CreditFundsController {
 				creditFundsManager.addCreditFunds(creditFunds, principal.getName());
 			} catch (SQLException e) {
 				logger.error("Error while adding Credit Transaction",e);
+				return "auth/trans/fail";
 			}
 		}
-		return "redirect:/auth/trans";
+		return "auth/trans/success";
 	}
 	
 

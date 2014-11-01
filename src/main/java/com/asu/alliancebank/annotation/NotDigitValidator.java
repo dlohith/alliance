@@ -30,18 +30,15 @@ public class NotDigitValidator implements
 		String temp = arg0.toLowerCase();
 		for (String specialChar : invalidStrings) {
 			if (temp.contains(specialChar)) {
-				logger.info("String rejected : " + arg0);
 				return false;
 			}
 		}
 		try {
 			Long amount = Long.parseLong(arg0);
 			if (amount > 0 && amount <= 100000) {
-				logger.info("String accepted : " + arg0);
 				return true;
 			}
 		} catch (NumberFormatException e) {
-			logger.error("Error while parsing the amount" + e);
 			return false;
 		}
 

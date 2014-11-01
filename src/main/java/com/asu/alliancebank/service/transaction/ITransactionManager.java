@@ -12,4 +12,5 @@ public interface ITransactionManager {
 	public static final int FAILURE = 3;
 	
 	public List<Transaction> listAllTransactionLogs(String loggedInUser) throws SQLException;
+	public boolean isValidEncryptedString(String encrypted, String loginId);
 }

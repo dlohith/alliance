@@ -12,13 +12,13 @@ import org.slf4j.LoggerFactory;
  * @author : Lohith Dwaraka
  *
  */
-public class NotInvalidStringValidator implements ConstraintValidator<NotInvalidString, String>{
+public class NotInvalidStringEncryptValidator implements ConstraintValidator<NotInvalidEncryptString, String>{
 
 	private static final Logger logger = LoggerFactory
-			.getLogger(NotInvalidStringValidator.class);
+			.getLogger(NotInvalidStringEncryptValidator.class);
 	
 	@Override
-	public void initialize(NotInvalidString arg0) {
+	public void initialize(NotInvalidEncryptString arg0) {
 		
 	}
 
@@ -30,7 +30,7 @@ public class NotInvalidStringValidator implements ConstraintValidator<NotInvalid
 	public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
 		if(arg0 == null)
 			return false;
-		if(arg0.length() > 50)	// don't allow to enter more than 50 characters
+		if(arg0.length() > 500)	// don't allow to enter more than 50 characters
 			return false;
 		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","+","-","select",
 									 "where", "from", "delete", "update"};

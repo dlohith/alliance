@@ -20,6 +20,7 @@ import com.asu.alliancebank.domain.impl.DebitFunds;
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.IDebitFundsFactory;
 import com.asu.alliancebank.service.transaction.IDebitFundsManager;
+import com.asu.alliancebank.service.transaction.ITransactionManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
 
 @Controller
@@ -32,6 +33,9 @@ public class DebitFundsController {
 	
 	@Autowired
 	private ITransferFundsManager transferFundsManager;
+	
+	@Autowired
+	private ITransactionManager transactionManager;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(DebitFundsController.class);
@@ -61,6 +65,12 @@ public class DebitFundsController {
 			return "auth/trans/debitfunds";
 		}
 		
+		if(!transactionManager.isValidEncryptedString(debitfundsForm.getEncrypt(), principal.getName())){
+			model.addAttribute("EncryptionError","Invalid encrypt string");
+			return "auth/trans/debitfunds";
+		}
+		
+		
 		// Create the user object with the form data
 		if(debitfundsForm.isValid()){
 			DebitFunds debitFunds = debitFundsFactory.createDebitFundsInstance(debitfundsForm);
@@ -68,9 +78,10 @@ public class DebitFundsController {
 				debitFundsManager.addDebitFunds(debitFunds, principal.getName());
 			} catch (SQLException e) {
 				logger.error("Error while adding Debit Transaction",e);
+				return "auth/trans/fail";
 			}
 		}
-		return "redirect:/auth/trans";
+		return "auth/trans/success";
 	}
 	
 

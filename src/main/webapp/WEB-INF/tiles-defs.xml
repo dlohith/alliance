@@ -106,14 +106,14 @@
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/otpcheck.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
-	<definition name="auth/trans/otpsuccess" extends="base.definition.nonav">
-	    <put-attribute name="title" value="Alliance Bank - Transfer OTP Success" />
-		<put-attribute name="content" value="/WEB-INF/views/tranmanage/otpsuccess.jsp"/>
+	<definition name="auth/trans/success" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transaction Success" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/success.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
-	<definition name="auth/trans/otpfail" extends="base.definition.nonav">
-	    <put-attribute name="title" value="Alliance Bank - Transfer OTP Failed" />
-		<put-attribute name="content" value="/WEB-INF/views/tranmanage/otpfail.jsp"/>
+	<definition name="auth/trans/fail" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transaction Failed" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/fail.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
 	

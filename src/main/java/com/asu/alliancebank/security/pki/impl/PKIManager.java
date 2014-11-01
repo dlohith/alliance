@@ -91,6 +91,7 @@ public class PKIManager implements IPKIManager{
 	}
 	
 	public boolean isResponseValid(String encrypted, String loginId){
+		try{
 		String keyFolder = getKeyFolder(loginId);
 		
 		String publicKeyFile = keyFolder + File.separator + IPKIManager.PUBLIC_KEY;
@@ -108,7 +109,9 @@ public class PKIManager implements IPKIManager{
 		}else{
 			return false;
 		}
-		
+		}catch(Exception e){
+			
+		}
 		return false;
 	}
 	

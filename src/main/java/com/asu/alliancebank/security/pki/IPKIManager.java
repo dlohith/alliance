@@ -6,5 +6,5 @@ public interface IPKIManager {
 	public static final String PRIVATE_KEY = "PRIVATEKEY.der";
 	public static final String PUBLIC_KEY = "PUBLICKEY.der";
 	
-	public static final String DATA_TO_BE_DECRYPTED ="ALLIANCEBANK";
+	public static final String DATA_TO_BE_DECRYPTED ="3hdk27ao28h93h5jd6hj5kr9";
 }

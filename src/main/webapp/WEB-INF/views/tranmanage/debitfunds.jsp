@@ -29,11 +29,17 @@
 				<td><font color="red"><form:errors path="amount" cssClass="errors" /><c:out value="${AmountError}"></c:out></font></td>
 			</tr>
 			<tr>
+				<td width="20%"><label>Encrypted:</label></td>
+				<td><form:textarea path="encrypt" rows="3" cols="40"></form:textarea></td>
+				<td><font color="red"><form:errors path="encrypt" cssClass="errors" /><c:out value="${EncryptionError}"></c:out></font></td>
+				
+			</tr>	
+			<tr>
 			<td></td>
 				<td colspan='2' align="left"><input class="debit" name="submit" type="submit"
 					value="submit" />
 					<input class="canceluser" type=button
-						onClick="location.href='${pageContext.servletContext.contextPath}/auth/welcome'"
+						onClick="location.href='${pageContext.servletContext.contextPath}/auth/trans'"
 						value='Cancel'/></td>
 			</tr>			
 		</table>

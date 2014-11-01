@@ -3,6 +3,7 @@ package com.asu.alliancebank.controllers.transactionmanagement.backingbean;
 
 
 import com.asu.alliancebank.annotation.NotEmpty;
+import com.asu.alliancebank.annotation.NotInvalidEncryptString;
 import com.asu.alliancebank.annotation.NotValidDigit;
 
 public class CreditFundsBackingBean {
@@ -14,6 +15,18 @@ public class CreditFundsBackingBean {
 	//check if only numbers are present
 	private String amount;
 	
+	@NotEmpty(message = "Please provide encrypted string from client pki helper using use private key")
+	@NotInvalidEncryptString
+	private String encrypt;
+	
+	public String getEncrypt() {
+		return encrypt;
+	}
+
+	public void setEncrypt(String encrypt) {
+		this.encrypt = encrypt;
+	}
+
 	public String getAccountID() {
 		return accountID;
 	}
