@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS tbl_merchantrequests
   merchantloginid	VARCHAR(100)	NOT NULL,
   userloginid       VARCHAR(100)	NOT NULL,
   amount			LONG			NOT NULL,
+  status			INT,
   updatedby     VARCHAR(50)		NOT NULL,
   updateddate   TIMESTAMP		NOT NULL,
   createdby     VARCHAR(50)		NOT NULL,

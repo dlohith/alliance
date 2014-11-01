@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.MerchantDebitFundsBackingBean;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.IMerchantFundsDBManager;
+import com.asu.alliancebank.service.transaction.ITransactionManager;
 
 /**
  * @author Kedar
@@ -25,7 +26,7 @@ import com.asu.alliancebank.db.transaction.IMerchantFundsDBManager;
  */
 public class MerchantFundsDBManager implements IMerchantFundsDBManager {
 
-private Connection connection;	
+	private Connection connection;	
 	
 	@Autowired
 	private DataSource dataSource;
@@ -99,7 +100,7 @@ private Connection connection;
 		String errmsg;
 		// command to call the SP
 		String dbCommand = DBConstants.SP_CALL + " "
-				+ DBConstants.ADD_MERCHANTREQUEST + "(?,?,?,?,?)";
+				+ DBConstants.ADD_MERCHANTREQUEST + "(?,?,?,?,?,?)";
 		getConnection();
 
 		// establish the connection with the database
@@ -111,10 +112,11 @@ private Connection connection;
 			sqlStatement.setString(2, loggedInUser);
 			sqlStatement.setString(3, merchantBackingBean.getUserLoginID());
 			sqlStatement.setLong(4, amount);
+			sqlStatement.setInt(5, ITransactionManager.PENDING);
 			// adding output variables to the SP
-			sqlStatement.registerOutParameter(5, Types.VARCHAR);
+			sqlStatement.registerOutParameter(6, Types.VARCHAR);
 			sqlStatement.execute();
-			errmsg = sqlStatement.getString(5);
+			errmsg = sqlStatement.getString(6);
 			return errmsg;
 		} catch (SQLException e) {
 			errmsg = "DB Issue";
