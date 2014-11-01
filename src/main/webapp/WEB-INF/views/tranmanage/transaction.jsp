@@ -21,9 +21,9 @@
 	</tr>			
 	<tr>
 		<td>
-				<input class="submit" type="submit"
+				<input class="submit" type="button"
 					name="Debit" value="Debit Transfer"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/welcome'" >
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/debitfunds'" >
 		</td> 
 	</tr>			
 	<tr>
