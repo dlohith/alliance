@@ -20,7 +20,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
-
+	<bean id="MerchantFundsDBManagerBean" class="com.asu.alliancebank.db.transaction.impl.MerchantFundsDBManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
 	<bean id="CreditFundsDBManagerBean" class="com.asu.alliancebank.db.transaction.impl.CreditFundsDBManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>

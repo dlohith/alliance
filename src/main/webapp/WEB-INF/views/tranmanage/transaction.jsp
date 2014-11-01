@@ -28,15 +28,15 @@
 	</tr>			
 	<tr>
 		<td>
-				<input class="submit" type="submit"
-					name="Merchantfund" value="Merchant fund"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/welcome'" />
+				<input class="submit" type="button"
+					name="Merchantfund" value="Merchant Fund"
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/merchantpayments'" />
 		</td> 
 	</tr>			
 	<tr>
 		<td>
 				<input class="submit" type="submit"
-					name="TransactionLogs" value="Transaction logs"
+					name="TransactionLogs" value="Transaction Logs"
 					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/trans/transactionLogsList'" />	
 		</td> 
 	</tr>		

@@ -95,6 +95,11 @@
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/debitfunds.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
+	<definition name="auth/trans/merchantpayments" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Merchant Payments" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/merchantpayments.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
 	
 	<definition name="auth/trans/otp" extends="base.definition.nonav">
 	    <put-attribute name="title" value="Alliance Bank - Transfer OTP Check" />

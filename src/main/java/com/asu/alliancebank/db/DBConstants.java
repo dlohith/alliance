@@ -23,6 +23,7 @@ public class DBConstants {
 	public final static String ADD_TRANSFERFUNDS ="sp_transferFunds";
 	public final static String ADD_CREDITFUNDS = "sp_creditFunds";
 	public final static String ADD_DEBITFUNDS = "sp_debitFunds";
+	public final static String ADD_MERCHANTREQUEST = "sp_addmerchantrequest";
 	
 	// OTP operations
 	public final static String ADD_TRANSACTION_OTP = "sp_addtransactionotp";
