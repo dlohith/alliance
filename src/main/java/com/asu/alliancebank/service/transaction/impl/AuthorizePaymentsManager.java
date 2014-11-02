@@ -54,4 +54,14 @@ public class AuthorizePaymentsManager implements IAuthorizePaymentsManager  {
 		return dbConnect.rejectPayment(merchantRequest, loggedInUser);
 	}
 
+	@Override
+	public boolean areContentsValid(String merchantID, String userLoginID, String loggedInUser) throws SQLException {
+		List<MerchantRequest> pendingRequests = dbConnect.getPendingMerchantRequests(loggedInUser);
+		for(MerchantRequest merchantRequest : pendingRequests) {
+			if(merchantRequest.getMerchantID().equals(merchantID) && merchantRequest.getUserLoginID().equals(userLoginID))
+				return true;
+		}
+		return false;
+	}
+
 }

@@ -17,4 +17,5 @@ public interface IAuthorizePaymentsManager {
 	public MerchantRequest getMerchantRequest(String requestID) throws SQLException;
 	public String approvePayment(MerchantRequest merchantRequest, String loggedInUser) throws SQLException;
 	public String rejectPayment(MerchantRequest merchantRequest, String loggedInUser) throws SQLException;
+	public boolean areContentsValid(String merchantID, String userLoginID, String loggedInUser) throws SQLException;
 }
