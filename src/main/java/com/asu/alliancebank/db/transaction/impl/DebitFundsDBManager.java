@@ -3,18 +3,26 @@ package com.asu.alliancebank.db.transaction.impl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
 import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.IDebitFundsDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
+import com.asu.alliancebank.domain.ITransactionDebit;
 import com.asu.alliancebank.domain.impl.DebitFunds;
 import com.asu.alliancebank.factory.IDebitFundsFactory;
+import com.asu.alliancebank.factory.ITransactionDebitFactory;
 import com.asu.alliancebank.service.transaction.IDebitFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 
@@ -26,6 +34,9 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 	
 	@Autowired
 	private IDebitFundsFactory debitFundsFactory;
+	
+	@Autowired
+	private ITransactionDebitFactory transactionDebitFactory;
 	
 	@Autowired
 	private DataSource dataSource;
@@ -127,5 +138,93 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 				}
 				return errmsg;
 	}
-	
+
+	@Override
+	public List<ITransactionDebit> getDebitDetails(String loggedInUser) throws SQLException {
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		List<ITransactionDebit> debitDetails = new ArrayList<ITransactionDebit>();
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_DEBIT_DETAILS  + "(?)";
+		//get the connection
+		getConnection();
+		
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(1,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					ITransactionDebit debitObject = transactionDebitFactory.createTransactionDebit();
+					debitObject.setTransactionId(resultSet.getString(1));
+					debitObject.setLoginId(resultSet.getString(2));
+					debitObject.setAmount(resultSet.getString(3));
+					debitObject.setStatus(resultSet.getString(4));
+					debitDetails.add(debitObject);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting debit details : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting debit details : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return debitDetails;
 	}
+
+	@Override
+	public List<ITransactionDebit> getDebitDetailsCust(String loggedInUser)
+			throws SQLException {
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		List<ITransactionDebit> debitDetails = new ArrayList<ITransactionDebit>();
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_DEBIT_DETAILS_CUST  + "(?,?)";
+		//get the connection
+		getConnection();
+		
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding output variables to the SP
+			sqlStatement.setString(1, loggedInUser);
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					ITransactionDebit debitObject = transactionDebitFactory.createTransactionDebit();
+					debitObject.setTransactionId(resultSet.getString(1));
+					debitObject.setLoginId(resultSet.getString(2));
+					debitObject.setAmount(resultSet.getString(3));
+					debitObject.setStatus(resultSet.getString(4));
+					debitDetails.add(debitObject);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting debit details : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting debit details : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return debitDetails;
+	}
+	
+}

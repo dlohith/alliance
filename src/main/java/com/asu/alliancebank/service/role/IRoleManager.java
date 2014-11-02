@@ -8,7 +8,8 @@ public interface IRoleManager {
 
 	public static final String ROLE_SYSTEM_ADMIN = "ROLE_SYSTEM_ADMIN";
 	public static final String ROLE_INDIVIDUAL_CUSTOMER = "ROLE_INDIVIDUAL_CUSTOMER";
-	
+	public static final String ROLE_BANK_EMPLOYEE = "ROLE_BANK_EMPLOYEE";
+	public static final String ROLE_MERCHANT = "ROLE_MERCHANT";
 	
 	public abstract Role[] getRoles();
 
