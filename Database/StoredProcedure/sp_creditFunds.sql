@@ -70,7 +70,7 @@ BEGIN
              amount, status, updatedby, updateddate,
              createdby, createddate)
 			 VALUES (itransactionid , iaccountid, iTransactiontype,priority,  
-			 amount, istatus, iloggedinuser,NOW(),iloggedinuser,NOW());
+			 iamount, istatus, iloggedinuser,NOW(),iloggedinuser,NOW());
          	 
           -- Updating accountid by crediting the amount to the balance
          UPDATE 
