@@ -132,3 +132,43 @@
 		</c:otherwise>
 	</c:choose>
 	</div>
+	
+<h1>Transfer Funds</h1>
+
+<div class="container">
+	<c:choose>
+		<c:when test="${not empty transactionTransferList}">
+
+				<hr />
+				<table style="width: 100%" cellpadding="0" cellspacing="0"
+					border="0" class="display dataTable" id="listTransactionDebit">
+					<thead>
+						<tr>
+							<th>Transaction ID</th>
+							<th>From</th>
+							<th>To</th>
+							<th>Amount</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<c:forEach var="transactionTransfer" items="${transactionTransferList}">
+							<tr>
+								<td width="25%" align="left"><c:out value="${transactionTransfer.transactionID}"></c:out></td>
+								<td width="25%" align="center"><c:out value="${transactionTransfer.fromUserID}"></c:out></td>
+								<td width="15%" align="center"><c:out value="${transactionTransfer.toUserID}"></c:out></td>
+								<td width="15%" align="center"><c:out value="${transactionTransfer.amount}"></c:out></td>
+								<td width="15%" align="center"><c:out value="${transactionTransfer.status}"></c:out></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+		</c:when>
+		<c:otherwise>
+			<hr />
+			<br />
+			No Transaction
+		</c:otherwise>
+	</c:choose>
+	</div>

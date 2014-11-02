@@ -37,6 +37,8 @@ public class DBConstants {
 	public final static String GET_DEBIT_DETAILS_CUST = "sp_getdebitdetailscust";
 	public final static String UPDATE_TRANSFERFUNDS = "sp_otpTransferFunds";
 	public final static String GET_TRANSFERFUNDS = "sp_getTransferFunds";
+	public final static String GET_TRANSFERFUNDS_DETAILS = "sp_getrransferdunddetails";
+	public final static String GET_TRANSFERFUNDS_DETAILS_CUST = "sp_getrransferdunddetailscust";
 
 	
 	// OTP operations
