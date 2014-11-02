@@ -19,4 +19,5 @@ public interface IAccountDBManager {
 	public List<Account> getAllAccounts() throws SQLException;
 	public List<String> getUserLoginIDsForListAccount(String loggedInUser) throws SQLException;
 	public String getAccountBalance(String loggedInUser) throws SQLException;
+	public boolean hasAccount(String loggedinId) throws SQLException;
 }

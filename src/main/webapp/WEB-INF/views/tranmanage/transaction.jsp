@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
+<font color="red"><h2> <c:out value="${error}"></c:out></h2></font>
 
 <form method="POST" id="userform">
 

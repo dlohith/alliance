@@ -174,4 +174,10 @@ public class AccountManager implements IAccountManager {
 		}
 		return false;
 	}
+
+	@Override
+	public boolean hasAccount(String loggedinId) throws SQLException {
+		
+		return dbConnect.hasAccount(loggedinId);
+	}
 }

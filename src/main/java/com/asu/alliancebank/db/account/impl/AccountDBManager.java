@@ -262,6 +262,52 @@ public class AccountDBManager implements IAccountDBManager {
 		}
 		return accounts;
 	}
+	
+	
+	@Override
+	public boolean hasAccount(String loggedinId) throws SQLException {
+		boolean result = false;
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.HAS_ACCOUNT  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			sqlStatement.setString(1, loggedinId);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					String out = resultSet.getString(1);
+					if(out.equals("1")){
+						return true;
+					}
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+			return result;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting accounts : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting accounts : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return result;
+	}
 
 	@Override
 	public List<String> getUserLoginIDsForListAccount(String loggedInUser)

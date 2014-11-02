@@ -24,4 +24,5 @@ public interface IAccountManager {
 	public abstract List<String> checkDeleteAccountUserIDs(String userLoginIDs[],String loggedInUser)throws SQLException;
 	public abstract Long getAccountBalance(String loggedInUser) throws SQLException;
 	public abstract boolean isValidUserLoginID(List<Account> accountList, String userLoginID);
+	public abstract boolean hasAccount(String loggedinId) throws SQLException;
 }
