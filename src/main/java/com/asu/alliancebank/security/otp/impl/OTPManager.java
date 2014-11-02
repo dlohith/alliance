@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.OTPBackingBean;
 import com.asu.alliancebank.db.transaction.ITransactionOTPDBManager;
+import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.service.email.IEmailManagement;
 import com.asu.alliancebank.service.user.IUserManager;
@@ -46,6 +47,14 @@ public class OTPManager {
 	
 	public boolean isTransactionOtpCorrect(OTPBackingBean otpBackingBean, String transactionId) throws SQLException{
 		return dbConnect.isTransactionOtpCorrect(transactionId, otpBackingBean.getOtp());
+	}
+	
+	public TransferFunds getTransferFunds(String transactionId,String loggedInUser) throws SQLException{
+		return dbConnect.getTransferFunds(transactionId, loggedInUser);
+	}
+	
+	public String updateTransaction(String transactionId,TransferFunds transferFunds, String loggedInUser, String otp) throws SQLException{
+		return dbConnect.updateTransferFunds(transactionId,transferFunds, loggedInUser, otp);
 	}
 	
 	

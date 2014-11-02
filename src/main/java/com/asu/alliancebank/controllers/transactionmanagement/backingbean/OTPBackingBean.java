@@ -6,6 +6,10 @@ public class OTPBackingBean {
 
 	@NotEmpty(message = "Please provide to otp")
 	private String otp;
+	
+	public boolean isValid(){
+		return true;
+	}
 
 	public String getOtp() {
 		return otp;

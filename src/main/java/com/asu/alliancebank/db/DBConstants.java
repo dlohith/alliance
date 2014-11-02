@@ -28,6 +28,8 @@ public class DBConstants {
 	public final static String GET_MERCHANT_REQUEST = "sp_getmerchantrequest";
 	public final static String REJECT_MERCHANT_REQUEST = "sp_rejectmerchantrequest";
 	public final static String GET_PENDING_MERCHANT_REQUESTS = "sp_getpendingmerchantrequests";
+	public final static String UPDATE_TRANSFERFUNDS = "sp_otpTransferFunds";
+	public final static String GET_TRANSFERFUNDS = "sp_getTransferFunds";
 	
 	// OTP operations
 	public final static String ADD_TRANSACTION_OTP = "sp_addtransactionotp";
