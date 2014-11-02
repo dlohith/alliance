@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.ITransactionOTPDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
+import com.asu.alliancebank.domain.impl.TransferFunds;
+import com.asu.alliancebank.service.transaction.ITransactionManager;
 
 public class TransactionOTPDBManager implements ITransactionOTPDBManager{
 
@@ -131,4 +133,98 @@ public class TransactionOTPDBManager implements ITransactionOTPDBManager{
 		}
 		return false;
 	}
+	
+	@Override
+	public TransferFunds getTransferFunds(String transactionId,String loggedInUser) throws SQLException{
+		TransferFunds transferfunds = new TransferFunds();
+		if(transactionId == null || loggedInUser == null){
+			logger.error("transactionId or loggedinuser can not be null");
+			return null;
+		}
+			
+			CallableStatement sqlStatement;
+			String errmsg;
+			//command to call the SP
+			String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_TRANSFERFUNDS  + "(?,?,?)";
+			getConnection();
+			
+			//establish the connection with the database
+					try{
+						sqlStatement = connection.prepareCall("{" + dbCommand + "}");
+						// adding the input variables to the SP
+						sqlStatement.setString(1, transactionId);
+						sqlStatement.setString(2, loggedInUser);
+						// adding output variables to the SP
+						sqlStatement.registerOutParameter(3, Types.VARCHAR);
+						sqlStatement.execute();
+						ResultSet resultSet = sqlStatement.getResultSet();
+						if(resultSet !=null){ 
+							while (resultSet.next()) {
+								transferfunds.setFromAccountId(resultSet.getString(1));
+								transferfunds.setToAccountId(resultSet.getString(2));
+								transferfunds.setAmount(resultSet.getLong(3));								
+								break;
+							} 
+						}
+						return transferfunds;
+					} catch (SQLException e) {
+						errmsg = "DB Issue";
+						logger.error("Issue while getting transfer funds object  : "
+								+ errmsg, e);
+					} catch (Exception e) {
+						errmsg = "DB Issue";
+						logger.error("Issue while getting transfer funds object : "
+								+ errmsg, e);
+					} finally {
+						closeConnection();
+					}
+					return null;
+		}					
+	
+	@Override
+	public String updateTransferFunds(String transactionId,TransferFunds transferFunds, String loggedInUser, String otp)
+			throws SQLException {
+		if(transactionId == null || transferFunds == null || loggedInUser == null || otp == null)
+			return "TransactionId is null";
+	
+		String fromAccountId = transferFunds.getFromAccountId();
+		String toAccountId = transferFunds.getToAccountId();
+		Long amount = transferFunds.getAmount();
+		
+		CallableStatement sqlStatement;
+		String errmsg;
+		//command to call the SP
+		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.UPDATE_TRANSFERFUNDS  + "(?,?,?,?,?,?,?,?)";
+		getConnection();
+		
+		//establish the connection with the database
+				try{
+					sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+					//adding the input variables to the SP
+					sqlStatement.setString(1, transactionId);
+					sqlStatement.setString(2, fromAccountId);
+					sqlStatement.setString(3, toAccountId);
+					sqlStatement.setLong(4, amount);
+					sqlStatement.setString(5, otp);
+					sqlStatement.setInt(6, ITransactionManager.SUCCESS);
+					sqlStatement.setString(7, loggedInUser);
+					
+					//adding output variables to the SP
+					sqlStatement.registerOutParameter(8,Types.VARCHAR);
+					sqlStatement.execute();
+					errmsg = sqlStatement.getString(8);
+					logger.info("errmsg : " + errmsg);				
+					return errmsg;
+				} catch(SQLException e){
+					errmsg="DB Issue";
+					logger.error("Issue while updating transaction : "+ errmsg,e);			
+				} catch(Exception e){
+					errmsg="DB Issue";
+					logger.error("Issue while updating transaction : "+ errmsg,e);
+				} finally{
+					closeConnection();
+				}
+				return errmsg;
+	}		
+	
 }

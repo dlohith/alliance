@@ -33,6 +33,9 @@ public class DBConstants {
 	public final static String GET_DEBIT_DETAILS = "sp_getdebitdetails";
 	public final static String GET_CREDIT_DETAILS_CUST = "sp_getcreditdetailscust";
 	public final static String GET_DEBIT_DETAILS_CUST = "sp_getdebitdetailscust";
+	public final static String UPDATE_TRANSFERFUNDS = "sp_otpTransferFunds";
+	public final static String GET_TRANSFERFUNDS = "sp_getTransferFunds";
+
 	
 	// OTP operations
 	public final static String ADD_TRANSACTION_OTP = "sp_addtransactionotp";

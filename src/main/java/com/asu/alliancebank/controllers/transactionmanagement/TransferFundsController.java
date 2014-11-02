@@ -130,10 +130,23 @@ public class TransferFundsController {
 				
 				return "auth/trans/otp";
 			}
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			logger.info(e.getMessage());
-			return "auth/trans/success";	
+			return "auth/trans/fail";	
+		} 
+		
+		if(otpForm.isValid()){
+			try {
+				TransferFunds transferFunds = otpManager.getTransferFunds(transactionId, principal.getName());				
+				otpManager.updateTransaction(transactionId,transferFunds, principal.getName(), otpForm.getOtp());
+			} catch (SQLException e) {
+				logger.info(e.getMessage());
+				return "auth/trans/fail";
+			}
+			return "auth/trans/success";
 		}
+		
+		
 		
 		
 		return "auth/trans/success";	
