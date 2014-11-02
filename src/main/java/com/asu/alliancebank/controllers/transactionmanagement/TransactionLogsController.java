@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.asu.alliancebank.controllers.usermanagement.AddUserController;
 import com.asu.alliancebank.domain.ITransactionCredit;
 import com.asu.alliancebank.domain.ITransactionDebit;
+import com.asu.alliancebank.domain.impl.MerchantRequest;
 import com.asu.alliancebank.security.checkcapability.ICheckUserRoleCapability;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
 import com.asu.alliancebank.service.transaction.IDebitFundsManager;
+import com.asu.alliancebank.service.transaction.IMerchantFundsManager;
 
 /**
  * @author Kedar
@@ -36,6 +38,9 @@ public class TransactionLogsController {
 	
 	@Autowired
 	private IDebitFundsManager debitFundsManager;
+	
+	@Autowired
+	private IMerchantFundsManager merchantFundsManager;
 	
 	@Autowired
 	private ICheckUserRoleCapability checkCompatibility;
@@ -54,6 +59,7 @@ public class TransactionLogsController {
 	public String populateListsForJSP( ModelMap model, Principal principal) throws SQLException {
 		List<ITransactionCredit> creditDetails = null;
 		List<ITransactionDebit> debitDetails = null;
+		List<MerchantRequest> merchantDetails = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		
 		// populate the lists as per role of logged in user. Customers should see only their logs,
@@ -61,13 +67,16 @@ public class TransactionLogsController {
 		if(checkCompatibility.isIndividualRole(auth) || checkCompatibility.isMerchantRole(auth)) {
 			creditDetails = creditFundsManager.getCreditDetailsCust(principal.getName());
 			debitDetails = debitFundsManager.getDebitDetailsCust(principal.getName());
+			merchantDetails = merchantFundsManager.getMerchantRequestsMerchant(principal.getName());
 		}
 		if(checkCompatibility.isAdminRole(auth) || checkCompatibility.isBankEmployeeRole(auth) ) {
 			creditDetails = creditFundsManager.getCreditDetails(principal.getName());
 			debitDetails = debitFundsManager.getDebitDetails(principal.getName());
+			merchantDetails = merchantFundsManager.getMerchantRequests(principal.getName());
 		}
 		model.addAttribute("transactionCreditList", creditDetails);
 		model.addAttribute("transactionDebitList", debitDetails);
+		model.addAttribute("transactionMerchantList", merchantDetails);
 		return "auth/trans/transactionlogs";
 	}
 }

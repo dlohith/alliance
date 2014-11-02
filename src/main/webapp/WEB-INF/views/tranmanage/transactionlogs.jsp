@@ -48,7 +48,7 @@
 	
 	
 	
-<h1>Debit</h1>
+<h1>Debits</h1>
 
 <div class="container">
 	<c:choose>
@@ -73,6 +73,53 @@
 								<td width="25%" align="center"><c:out value="${transactionDebit.loginId}"></c:out></td>
 								<td width="15%" align="center"><c:out value="${transactionDebit.amount}"></c:out></td>
 								<td width="15%" align="center"><c:out value="${transactionDebit.status}"></c:out></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+		</c:when>
+		<c:otherwise>
+			<hr />
+			<br />
+			No Transaction
+		</c:otherwise>
+	</c:choose>
+	</div>
+	
+<h1>Merchant Transactions</h1>
+
+<div class="container">
+	<c:choose>
+		<c:when test="${not empty transactionMerchantList}">
+
+				<hr />
+				<table style="width: 100%" cellpadding="0" cellspacing="0"
+					border="0" class="display dataTable" id="listTransactionDebit">
+					<thead>
+						<tr>
+							<th>Request ID</th>
+							<th>Merchant ID</th>
+							<th>User ID</th>
+							<th>Amount</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<c:forEach var="transactionMerchant" items="${transactionMerchantList}">
+							<tr>
+								<td width="35%" align="left"><c:out value="${transactionMerchant.requestID}"></c:out></td>
+								<td width="15%" align="center"><c:out value="${transactionMerchant.merchantID}"></c:out></td>
+								<td width="15%" align="center"><c:out value="${transactionMerchant.userLoginID}"></c:out></td>
+								<td width="15%" align="center"><c:out value="${transactionMerchant.amount}"></c:out></td>
+								<td width="15%" align="center">
+								<c:choose>
+      								<c:when test="${transactionMerchant.status == 1}">SUCCESS</c:when>
+      								<c:when test="${transactionMerchant.status == 2}">PENDING</c:when>
+      								<c:when test="${transactionMerchant.status == 3}">FAILURE</c:when>
+      								<c:otherwise>UNKNOWN</c:otherwise>
+								</c:choose>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>

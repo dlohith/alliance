@@ -5,8 +5,11 @@ package com.asu.alliancebank.db.transaction.impl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.MerchantDebitFundsBackingBean;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.IMerchantFundsDBManager;
+import com.asu.alliancebank.domain.impl.MerchantRequest;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 
 /**
@@ -130,6 +134,89 @@ public class MerchantFundsDBManager implements IMerchantFundsDBManager {
 			closeConnection();
 		}
 		return errmsg;
+	}
+
+	@Override
+	public List<MerchantRequest> getAllMerchantRequests(String loggedInUser)
+			throws SQLException {
+		
+		List<MerchantRequest> merchantDetails = new ArrayList<MerchantRequest>();
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.GET_ALL_MERCHANT_REQUESTS + "(?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			sqlStatement.registerOutParameter(1, Types.VARCHAR);
+			sqlStatement.execute();
+			ResultSet resultSet = sqlStatement.getResultSet();
+			
+			while(resultSet.next()) {
+				MerchantRequest merchantRequest = new MerchantRequest();
+				merchantRequest.setRequestID(resultSet.getString(1));
+				merchantRequest.setMerchantID(resultSet.getString(2));
+				merchantRequest.setUserLoginID(resultSet.getString(3));
+				merchantRequest.setAmount(resultSet.getString(4));
+				merchantRequest.setStatus(resultSet.getInt(5));
+				merchantDetails.add(merchantRequest);
+			}
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return merchantDetails;
+	}
+
+	@Override
+	public List<MerchantRequest> getAllMerchantRequestsMerchant(String loggedInUser) throws SQLException {
+		List<MerchantRequest> merchantDetails = new ArrayList<MerchantRequest>();
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.GET_ALL_MERCHANT_REQUESTS_MER + "(?,?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			sqlStatement.setString(1, loggedInUser);
+			sqlStatement.registerOutParameter(2, Types.VARCHAR);
+			sqlStatement.execute();
+			ResultSet resultSet = sqlStatement.getResultSet();
+			
+			while(resultSet.next()) {
+				MerchantRequest merchantRequest = new MerchantRequest();
+				merchantRequest.setRequestID(resultSet.getString(1));
+				merchantRequest.setMerchantID(resultSet.getString(2));
+				merchantRequest.setUserLoginID(resultSet.getString(3));
+				merchantRequest.setAmount(resultSet.getString(4));
+				merchantRequest.setStatus(resultSet.getInt(5));
+				merchantDetails.add(merchantRequest);
+			}
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return merchantDetails;
 	}
 
 }

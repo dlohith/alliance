@@ -160,12 +160,12 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 					creditObject.setTransactionId(resultSet.getString(1));
 					creditObject.setLoginId(resultSet.getString(2));
 					creditObject.setAmount(resultSet.getString(3));
-					creditObject.setStatus(resultSet.getString(4));
+					creditObject.setStatus(getStatusString(resultSet.getInt(4)));
 					creditDetails.add(creditObject);
 				} 
 			}
 			
-			errmsg = sqlStatement.getString(2);
+			errmsg = sqlStatement.getString(1);
 		}catch(SQLException e){
 			errmsg="DB Issue";
 			logger.error("Issue while getting credit details : "+ errmsg,e);			
@@ -177,6 +177,15 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 			closeConnection();
 		}
 		return creditDetails;
+	}
+	
+	private String getStatusString(int number) {
+		switch(number) {
+		case 1: return "PENDING";		
+		case 2: return "SUCCESS";
+		case 3: return "FAILURE";
+		}
+		return null;
 	}
 
 	@Override
@@ -205,7 +214,7 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 					creditObject.setTransactionId(resultSet.getString(1));
 					creditObject.setLoginId(resultSet.getString(2));
 					creditObject.setAmount(resultSet.getString(3));
-					creditObject.setStatus(resultSet.getString(4));
+					creditObject.setStatus(getStatusString(resultSet.getInt(4)));
 					creditDetails.add(creditObject);
 				} 
 			}
