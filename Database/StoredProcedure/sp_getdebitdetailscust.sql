@@ -12,7 +12,7 @@ BEGIN
       SET errmsg = "SQL exception has occurred";
      
       -- retrieve the item details
-      SELECT T.transactionid, A.userid, D.amount, "SUCCESS" as Status
+      SELECT T.transactionid, A.userid, D.amount, T.status
         FROM tbl_transaction T INNER JOIN tbl_debit D ON T.transactionid = D.transactionid
         INNER JOIN tbl_account A ON D.accountid = A.accountid
       WHERE A.userid = iloginid;

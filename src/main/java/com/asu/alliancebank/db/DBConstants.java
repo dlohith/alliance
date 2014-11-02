@@ -26,6 +26,8 @@ public class DBConstants {
 	public final static String ADD_MERCHANTREQUEST = "sp_addmerchantrequest";
 	public final static String AUTHORIZE_PAYMENTS = "sp_authorizepayments";
 	public final static String GET_MERCHANT_REQUEST = "sp_getmerchantrequest";
+	public final static String GET_ALL_MERCHANT_REQUESTS = "sp_getallmerchantrequests";
+	public final static String GET_ALL_MERCHANT_REQUESTS_MER = "sp_getallmerchantrequestsmer";
 	public final static String REJECT_MERCHANT_REQUEST = "sp_rejectmerchantrequest";
 	public final static String GET_PENDING_MERCHANT_REQUESTS = "sp_getpendingmerchantrequests";
 	public final static String GET_CREDIT_DETAILS = "sp_getcreditdetails";

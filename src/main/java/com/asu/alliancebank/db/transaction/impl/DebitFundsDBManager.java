@@ -138,6 +138,15 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 				}
 				return errmsg;
 	}
+	
+	private String getStatusString(int number) {
+		switch(number) {
+		case 1: return "PENDING";		
+		case 2: return "SUCCESS";
+		case 3: return "FAILURE";
+		}
+		return null;
+	}
 
 	@Override
 	public List<ITransactionDebit> getDebitDetails(String loggedInUser) throws SQLException {
@@ -163,12 +172,12 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 					debitObject.setTransactionId(resultSet.getString(1));
 					debitObject.setLoginId(resultSet.getString(2));
 					debitObject.setAmount(resultSet.getString(3));
-					debitObject.setStatus(resultSet.getString(4));
+					debitObject.setStatus(getStatusString(resultSet.getInt(4)));
 					debitDetails.add(debitObject);
 				} 
 			}
 			
-			errmsg = sqlStatement.getString(2);
+			errmsg = sqlStatement.getString(1);
 		}catch(SQLException e){
 			errmsg="DB Issue";
 			logger.error("Issue while getting debit details : "+ errmsg,e);			
@@ -208,7 +217,7 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 					debitObject.setTransactionId(resultSet.getString(1));
 					debitObject.setLoginId(resultSet.getString(2));
 					debitObject.setAmount(resultSet.getString(3));
-					debitObject.setStatus(resultSet.getString(4));
+					debitObject.setStatus(getStatusString(resultSet.getInt(4)));
 					debitDetails.add(debitObject);
 				} 
 			}
