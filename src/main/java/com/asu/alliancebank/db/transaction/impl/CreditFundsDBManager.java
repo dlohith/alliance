@@ -3,18 +3,26 @@ package com.asu.alliancebank.db.transaction.impl;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
 import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.ICreditFundsDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
+import com.asu.alliancebank.domain.ITransactionCredit;
 import com.asu.alliancebank.domain.impl.CreditFunds;
 import com.asu.alliancebank.factory.ICreditFundsFactory;
+import com.asu.alliancebank.factory.ITransactionCreditFactory;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 
@@ -26,6 +34,9 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 	
 	@Autowired
 	private ICreditFundsFactory creditFundsFactory;
+	
+	@Autowired
+	private ITransactionCreditFactory transactionCreditFactory;
 	
 	@Autowired
 	private DataSource dataSource;
@@ -123,4 +134,93 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 				}
 				return errmsg;
 	}
+
+	@Override
+	public List<ITransactionCredit> getCreditDetails(String loggedInUser) throws SQLException {
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		List<ITransactionCredit> creditDetails = new ArrayList<ITransactionCredit>();
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_CREDIT_DETAILS  + "(?)";
+		//get the connection
+		getConnection();
+		
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(1,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					ITransactionCredit creditObject = transactionCreditFactory.createTransactionCredit();
+					creditObject.setTransactionId(resultSet.getString(1));
+					creditObject.setLoginId(resultSet.getString(2));
+					creditObject.setAmount(resultSet.getString(3));
+					creditObject.setStatus(resultSet.getString(4));
+					creditDetails.add(creditObject);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting credit details : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting credit details : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return creditDetails;
 	}
+
+	@Override
+	public List<ITransactionCredit> getCreditDetailsCust(String loggedInUser)
+			throws SQLException {
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		List<ITransactionCredit> creditDetails = new ArrayList<ITransactionCredit>();
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_CREDIT_DETAILS_CUST  + "(?,?)";
+		//get the connection
+		getConnection();
+		
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding output variables to the SP
+			sqlStatement.setString(1, loggedInUser);
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					ITransactionCredit creditObject = transactionCreditFactory.createTransactionCredit();
+					creditObject.setTransactionId(resultSet.getString(1));
+					creditObject.setLoginId(resultSet.getString(2));
+					creditObject.setAmount(resultSet.getString(3));
+					creditObject.setStatus(resultSet.getString(4));
+					creditDetails.add(creditObject);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting credit details : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting credit details : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return creditDetails;
+	}
+}

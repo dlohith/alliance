@@ -1,13 +1,14 @@
 package com.asu.alliancebank.service.transaction.impl;
 
 import java.sql.SQLException;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.db.transaction.ICreditFundsDBManager;
+import com.asu.alliancebank.domain.ITransactionCredit;
 import com.asu.alliancebank.domain.impl.CreditFunds;
 import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
@@ -46,6 +47,26 @@ public class CreditFundsManager implements ICreditFundsManager{
 		} catch (Exception e) {	
 		}
 		return false;
+	}
+
+	@Override
+	public List<ITransactionCredit> getCreditDetails(String loggedInUser)
+			throws SQLException {
+		List<ITransactionCredit> creditDetails = null;
+		if(loggedInUser != null){
+			creditDetails = dbConnect.getCreditDetails(loggedInUser);
+		}
+		return creditDetails;
+	}
+
+	@Override
+	public List<ITransactionCredit> getCreditDetailsCust(String loggedInUser)
+			throws SQLException {
+		List<ITransactionCredit> creditDetails = null;
+		if(loggedInUser != null){
+			creditDetails = dbConnect.getCreditDetailsCust(loggedInUser);
+		}
+		return creditDetails;
 	}
 	
 	

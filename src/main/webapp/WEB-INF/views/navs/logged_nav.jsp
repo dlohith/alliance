@@ -25,13 +25,12 @@
 			<li ${currentPage == "transactionmanagement" ? "class=\"current\"" : ""}><a href="${pageContext.servletContext.contextPath}/auth/trans">Transaction Management</a>
 			<sec:authorize access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
 				<ul>
-				
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/tranfunds">Transfer Funds</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/creditfunds">Credit Funds</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/debitfunds">Debit Funds</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/merchantpayments">Merchant Funds</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/authorizepayments">Authorize My Payments</a></li>
-					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/transactionLogsList">View Transaction Logs</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/transactionlogs">View Transaction Logs</a></li>
 				
 				</ul>
 			</sec:authorize>	

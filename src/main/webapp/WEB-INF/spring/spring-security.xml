@@ -28,6 +28,7 @@
 		<intercept-url pattern="/auth/trans/authorizepayments" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
 		<intercept-url pattern="/auth/trans/approve" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
 		<intercept-url pattern="/auth/trans/reject" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
+		<intercept-url pattern="/auth/trans/transactionlogs" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/auth/**" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		
 		<intercept-url pattern="/**" access="denyAll" />

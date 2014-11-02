@@ -42,9 +42,9 @@
 	</tr>
 	<tr>
 		<td>
-				<input class="submit" type="submit"
+				<input class="submit" type="button"
 					name="TransactionLogs" value="Transaction Logs"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/trans/transactionLogsList'" />	
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/transactionlogs'" />	
 		</td> 
 	</tr>		
 	</table>				
