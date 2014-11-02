@@ -6,6 +6,7 @@ package com.asu.alliancebank.service.transaction;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.asu.alliancebank.domain.ITransactionTransferFund;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 
 public interface ITransferFundsManager {
@@ -13,4 +14,7 @@ public interface ITransferFundsManager {
 			throws SQLException;
 	public abstract List<String> listAllUserNames(String loggedInUser) throws SQLException;
 	public boolean isValid(String loggedInUser, String amount) throws SQLException;
+	public List<ITransactionTransferFund> getTransferDetails(String loggedInUser) throws SQLException;
+	public List<ITransactionTransferFund> getTransferDetailsCust(String loggedInUser) throws SQLException;
+	
 }

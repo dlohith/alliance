@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
+import com.asu.alliancebank.domain.ITransactionTransferFund;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.security.otp.impl.OTPManager;
@@ -91,5 +92,25 @@ public class TransferFundsManager implements ITransferFundsManager{
 		}
 		return false;
 
+	}
+
+	@Override
+	public List<ITransactionTransferFund> getTransferDetails(String loggedInUser)
+			throws SQLException {
+		List<ITransactionTransferFund> transferDetails = null;
+		if(loggedInUser != null) {
+			transferDetails = dbConnect.getTransferFundDetails(loggedInUser);
+		}
+		return transferDetails;
+	}
+
+	@Override
+	public List<ITransactionTransferFund> getTransferDetailsCust(
+			String loggedInUser) throws SQLException {
+		List<ITransactionTransferFund> transferDetails = null;
+		if(loggedInUser != null) {
+			transferDetails = dbConnect.getTransferFundDetailsCust(loggedInUser);
+		}
+		return transferDetails;
 	}
 }

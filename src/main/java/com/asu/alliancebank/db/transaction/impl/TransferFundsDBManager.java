@@ -5,8 +5,11 @@ package com.asu.alliancebank.db.transaction.impl;
  */
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -18,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
+import com.asu.alliancebank.domain.ITransactionTransferFund;
 import com.asu.alliancebank.domain.impl.TransferFunds;
+import com.asu.alliancebank.factory.ITransactionTransferFundsFactory;
 import com.asu.alliancebank.factory.ITransferFundsFactory;
 import com.asu.alliancebank.security.otp.impl.OTPManager;
 
@@ -36,6 +41,9 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 	
 	@Autowired
 	private OTPManager otpManager;
+	
+	@Autowired
+	private ITransactionTransferFundsFactory transactionTransferFundsFactory;
 	
 	/**
 	 * Assigns the data source
@@ -142,6 +150,106 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 					closeConnection();
 				}
 				return errmsg;
+	}
+	
+	private String getStatusString(int number) {
+		switch(number) {
+		case 1: return "PENDING";		
+		case 2: return "SUCCESS";
+		case 3: return "FAILURE";
+		}
+		return null;
+	}
+
+	@Override
+	public List<ITransactionTransferFund> getTransferFundDetails(
+			String loggedInUser) throws SQLException {
+		List<ITransactionTransferFund> transferFundDetails = new ArrayList<ITransactionTransferFund>();
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_TRANSFERFUNDS_DETAILS  + "(?)";
+		//get the connection
+		getConnection();
+		
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(1,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					ITransactionTransferFund transferObject = transactionTransferFundsFactory.createTransactionTransferFund();
+					transferObject.setTransactionID(resultSet.getString(1));
+					transferObject.setFromUserID(resultSet.getString(2));
+					transferObject.setToUserID(resultSet.getString(3));
+					transferObject.setAmount(resultSet.getString(4));
+					transferObject.setStatus(getStatusString(resultSet.getInt(5)));
+					transferFundDetails.add(transferObject);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(1);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting transfer details : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting transfer details : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return transferFundDetails;
+	}
+
+	@Override
+	public List<ITransactionTransferFund> getTransferFundDetailsCust(
+			String loggedInUser) throws SQLException {
+		List<ITransactionTransferFund> transferFundDetails = new ArrayList<ITransactionTransferFund>();
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_TRANSFERFUNDS_DETAILS_CUST  + "(?,?)";
+		//get the connection
+		getConnection();
+		
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding output variables to the SP
+			sqlStatement.setString(1, loggedInUser);
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					ITransactionTransferFund transferObject = transactionTransferFundsFactory.createTransactionTransferFund();
+					transferObject.setTransactionID(resultSet.getString(1));
+					transferObject.setFromUserID(resultSet.getString(2));
+					transferObject.setToUserID(resultSet.getString(3));
+					transferObject.setAmount(resultSet.getString(4));
+					transferObject.setStatus(getStatusString(resultSet.getInt(5)));
+					transferFundDetails.add(transferObject);
+				} 
+			}
+			
+			errmsg = sqlStatement.getString(2);
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting transfer details : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while getting transfer details : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return transferFundDetails;
 	}		
 	
 }

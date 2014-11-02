@@ -176,10 +176,7 @@
 		<c:otherwise>
 			<input type=button class="submit"
 				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/addaccount"
-				value='Add Account'><!-- check addaccount url -->
-			<input type=button class="submit"
-				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/deleteaccount'"
-				value='Delete Account'><!-- check deleteaccount url -->
+				value='Add Account'><!-- check addaccount url -->W
 			<hr />
 			<br />
 			No Accounts
