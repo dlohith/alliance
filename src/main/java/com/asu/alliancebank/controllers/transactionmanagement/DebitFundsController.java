@@ -21,6 +21,7 @@ import com.asu.alliancebank.domain.impl.DebitFunds;
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.IDebitFundsFactory;
 import com.asu.alliancebank.recaptcha.IReCaptchaManager;
+import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.transaction.IDebitFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
@@ -42,6 +43,9 @@ public class DebitFundsController {
 	@Autowired
 	private IReCaptchaManager reCaptchaManager;
 	
+	@Autowired
+	private IAccountManager accountManager;
+	
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(DebitFundsController.class);
@@ -54,6 +58,17 @@ public class DebitFundsController {
 	 */
 	@RequestMapping(value = "auth/trans/debitfunds", method = RequestMethod.GET)
 	public String getToAddTransactionPage( ModelMap model, Principal principal) {
+		
+		try {
+			if(!accountManager.hasAccount(principal.getName())){
+				model.addAttribute("error", "Account not created, ask your admin to create account for you");
+				return "redirect:/auth/trans";
+			}
+		} catch (SQLException e) {
+			model.addAttribute("error", "Some error in page");
+			return "redirect:/auth/trans";
+		}
+		
 		// If user is authorized
 		model.addAttribute("debitFundsBackingBean", new DebitFundsBackingBean());
 		return "auth/trans/debitfunds";

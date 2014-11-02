@@ -22,6 +22,7 @@ import com.asu.alliancebank.domain.impl.CreditFunds;
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.ICreditFundsFactory;
 import com.asu.alliancebank.recaptcha.IReCaptchaManager;
+import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
 
@@ -37,6 +38,9 @@ public class CreditFundsController {
 	private ITransactionManager transactionManager;
 	
 	@Autowired
+	private IAccountManager accountManager;
+	
+	@Autowired
 	private IReCaptchaManager reCaptchaManager;
 	
 	private static final Logger logger = LoggerFactory
@@ -47,9 +51,21 @@ public class CreditFundsController {
 	 * @param model ModelMap object for this request
 	 * @param principal Transaction related details are access using this
 	 * @return Prepares the Page for AddTransaction form
+	 * @throws SQLException 
 	 */
 	@RequestMapping(value = "auth/trans/creditfunds", method = RequestMethod.GET)
 	public String getToAddTransactionPage( ModelMap model, Principal principal) {
+		
+		try {
+			if(!accountManager.hasAccount(principal.getName())){
+				model.addAttribute("error", "Account not created, ask your admin to create account for you");
+				return "redirect:/auth/trans";
+			}
+		} catch (SQLException e) {
+			model.addAttribute("error", "Some error in page");
+			return "redirect:/auth/trans";
+		}
+		
 		// If user is authorized
 		model.addAttribute("creditFundsBackingBean", new CreditFundsBackingBean());
 		return "auth/trans/creditfunds";
