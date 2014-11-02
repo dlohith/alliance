@@ -164,4 +164,14 @@ public class AccountManager implements IAccountManager {
 		}
 		return balance;
 	}
+	
+	@Override
+	public boolean isValidUserLoginID(List<Account> accountList, String userLoginID) {
+		// go through the account list and see if this login id is present in database
+		for(Account account : accountList) {
+			if(account.getUserID().equals(userLoginID))
+				return true;
+		}
+		return false;
+	}
 }

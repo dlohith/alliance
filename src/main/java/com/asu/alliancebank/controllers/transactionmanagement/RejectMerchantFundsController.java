@@ -33,6 +33,8 @@ public class RejectMerchantFundsController {
 	@RequestMapping(value = "auth/trans/reject/{requestID}", method = RequestMethod.GET)
 	public String callApprovePayment(@PathVariable("requestID") String requestID, ModelMap model, Principal principal) throws SQLException {
 		MerchantRequest merchantRequest = authorizePaymentsManager.getMerchantRequest(requestID);
+		if(!authorizePaymentsManager.areContentsValid(merchantRequest.getMerchantID(), merchantRequest.getUserLoginID(), principal.getName()))
+			return "auth/trans/authorizepayments";
 		authorizePaymentsManager.rejectPayment(merchantRequest, principal.getName());
 		return "auth/trans/authorizepayments";
 	}

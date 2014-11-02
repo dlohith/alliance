@@ -80,6 +80,11 @@ public class MerchantDebitFundsController {
 		}	
 		// Create the user object with the form data
 		try {
+				// verify if the value of user login id is not modified yet
+				String userLoginID = merchantBackingBean.getUserLoginID();
+				// now check if this user login id is existing in database
+				if(!accountManager.isValidUserLoginID(accountManager.listAllAccounts(principal.getName()), userLoginID))
+					return "auth/trans/merchantpayments";
 				merchantFundsManager.addMerchantRequest(merchantBackingBean, principal.getName());
 			} catch (SQLException e) {
 				logger.error("Error while adding merchant request",e);
