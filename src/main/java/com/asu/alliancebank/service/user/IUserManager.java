@@ -19,4 +19,7 @@ public interface IUserManager {
 	public void deleteUsers(List<String> userIds)throws SQLException;
 	public boolean doModifyUserDetails( String loggedInUser, String modifyUserId) throws SQLException;
 	public void modifyUser(ModifyUserBackingBean modifyUserBackingBean, String loggedInUser, String modifyUserid)throws SQLException;
+	public void updateFailedLoginAttempts(String userId)throws SQLException;
+	public void resetFailAttempts(String userId) throws SQLException;
+	public void unlockUser(String userId)throws SQLException;
 }

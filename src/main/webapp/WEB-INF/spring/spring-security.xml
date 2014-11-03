@@ -41,7 +41,7 @@
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 
 	<beans:bean id="authProvider"
-		class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		class="com.asu.alliancebank.security.limitfaileduserattempts.LimitLoginAuthenticationProvider">
 		<beans:property name="userDetailsService" ref="allianceBankUserService" />
 		<beans:property name="passwordEncoder" ref="encoder" />
 	</beans:bean>

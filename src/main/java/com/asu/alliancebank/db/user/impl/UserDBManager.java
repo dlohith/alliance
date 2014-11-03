@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -410,7 +411,30 @@ public class UserDBManager implements IUserDBManager {
 					String roleIds = resultSet.getString(8);
 					
 					user.setAuthorities(user.getAuthorities(roleManager.getRoleList(roleIds)));
+					user.setInvalidLoginAttempts(resultSet.getInt(9));
+					int data = resultSet.getInt(10);
+					if(data == 0)
+						user.setAccountNonLocked(true);
+					else
+						user.setAccountNonLocked(false);
 					
+					String lockOutTime = resultSet.getString(11);
+					
+					if(lockOutTime.equals("0")){
+						user.setNeedUnLock(false);
+					}else{
+						Date date = new Date();
+						java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+						if(resultSet.getTime(11).after(sqlDate)){
+							user.setNeedUnLock(false);
+						}else{
+							user.setNeedUnLock(true);
+						}
+								
+					}
+					
+
+
 					break;
 				} 
 			}
@@ -429,4 +453,134 @@ public class UserDBManager implements IUserDBManager {
 		}
 		return user;
 	}
+	
+	
+	@Override
+	public String updateFailedLoginAttempts(String userId)throws SQLException
+	{
+		if(userId == null){
+			return "User object is null" ;
+		}
+
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.UPDATE_FAILED_LOGIN_ATTEMPTS  + "(?,?)";
+		
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, userId);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(2);
+			
+			return errmsg;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+		
+	} 
+	
+	@Override
+	public String reseteFailedLoginAttempts(String userId)throws SQLException
+	{
+		if(userId == null){
+			return "User object is null" ;
+		}
+
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.RESET_FAILED_LOGIN_ATTEMPTS  + "(?,?)";
+		
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, userId);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(2);
+			
+			return errmsg;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+		
+	} 
+	
+	@Override
+	public String unlockUser(String userId)throws SQLException
+	{
+		if(userId == null){
+			return "User object is null" ;
+		}
+
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.UNLOCK_USER  + "(?,?)";
+		
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, userId);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(2);
+			
+			return errmsg;
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+		
+	} 
 }

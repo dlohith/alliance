@@ -173,4 +173,21 @@ public class UserManager implements IUserManager {
 		dbConnect.modifyUser(firstName, lastName, loginId, emailId, phoneNo, roles, loggedInUser);
 		
 	}
+	
+	@Override
+	public void updateFailedLoginAttempts(String userId)throws SQLException{
+		dbConnect.updateFailedLoginAttempts(userId);
+		
+		
+	}
+	
+	@Override
+	public void resetFailAttempts(String userId) throws SQLException{
+		dbConnect.reseteFailedLoginAttempts(userId);
+	}
+	
+	@Override
+	public void unlockUser(String userId)throws SQLException{
+		dbConnect.unlockUser(userId);
+	}
 }

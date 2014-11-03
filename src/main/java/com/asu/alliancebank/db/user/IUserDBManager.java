@@ -14,4 +14,7 @@ public interface IUserDBManager {
 	public String deleteUser(String userId )throws SQLException;
 	public String modifyUser(String firstName,String lastName ,String modifyLoginId,String emailId
 			,String phoneNo, List<Role> roles, String loggedInUser )throws SQLException;
+	public String updateFailedLoginAttempts(String userId)throws SQLException;
+	public String reseteFailedLoginAttempts(String userId)throws SQLException;
+	public String unlockUser(String userId)throws SQLException;
 }

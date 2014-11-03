@@ -18,7 +18,7 @@ BEGIN
      THEN SET errmsg = "";
             
       -- retrieve the item details
-      SELECT userid , firstName ,lastname, loginid,password,email, phoneno, roleid
+      SELECT userid , firstName ,lastname, loginid,password,email, phoneno, roleid,invalidloginattempts,locked,lockouttime
         FROM tbl_user
 	    WHERE loginid = inloginid;
      END IF;

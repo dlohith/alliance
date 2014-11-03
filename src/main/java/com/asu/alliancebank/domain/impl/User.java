@@ -18,6 +18,9 @@ public class User implements UserDetails{
 	private String password;
 	private String emailId;
 	private String phoneNo;
+	private int invalidLoginAttempts;
+	private boolean accountNonLocked;
+	private boolean needUnLock;
 	private List<AllianceBankGrantedAuthority> authorities;
 	
 	public User(){
@@ -116,7 +119,22 @@ public class User implements UserDetails{
 	}
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return accountNonLocked;
+	}
+	public int getInvalidLoginAttempts() {
+		return invalidLoginAttempts;
+	}
+	public void setInvalidLoginAttempts(int invalidLoginAttempts) {
+		this.invalidLoginAttempts = invalidLoginAttempts;
+	}
+	public boolean getNeedUnLock() {
+		return needUnLock;
+	}
+	public void setNeedUnLock(boolean lockouttime) {
+		this.needUnLock = lockouttime;
+	}
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
 	}
 	@Override
 	public boolean isCredentialsNonExpired() {

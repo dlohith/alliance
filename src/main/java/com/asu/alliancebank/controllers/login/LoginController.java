@@ -25,10 +25,10 @@ public class LoginController {
 	@RequestMapping(value = "auth/welcome", method = RequestMethod.GET)
 	public String validUserHandle(ModelMap model, Principal principal,
 			Authentication authentication) {
-		
+
 		String sUserId = principal.getName();		
 		model.addAttribute("username", sUserId);
-		
+
 		return "auth/welcome";
 
 	}
@@ -38,7 +38,13 @@ public class LoginController {
 	 * @return		Redirected to the login page
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(ModelMap model) {
+	public String login(ModelMap model, Principal principal) {
+		if(principal != null){
+			String sUserId = principal.getName();		
+			if(sUserId != null){
+				return "redirect:/auth/welcome";
+			}
+		}
 
 		return "login";
 
@@ -61,8 +67,15 @@ public class LoginController {
 	 * @return		Redirect to login page
 	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
+	public String logout(ModelMap model, Principal principal) {
 
+		if(principal != null){
+			String sUserId = principal.getName();		
+			if(sUserId != null){
+				return "redirect:/auth/welcome";
+			}
+		}
+		
 		return "login";
 
 	}
