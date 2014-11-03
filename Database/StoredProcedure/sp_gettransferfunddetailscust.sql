@@ -15,7 +15,7 @@ BEGIN
       -- retrieve the item details
        SELECT T.transactionid, TF.fromaccountid, TF.toaccountid, TF.amount, T.status
         FROM tbl_transaction T INNER JOIN tbl_transferfund TF ON T.transactionid = TF.transactionid
-       WHERE T.fromaccountid = ilogind;
+       WHERE TF.fromaccountid = ilogind;
 
 END$$
 DELIMITER ;
