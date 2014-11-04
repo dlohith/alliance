@@ -23,6 +23,7 @@ import javax.crypto.Cipher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.security.pki.IPKIManager;
@@ -104,6 +105,32 @@ public class PKIManager implements IPKIManager{
 		if(publicKey != null && (encrypted !=null && !encrypted.isEmpty())){
 			String decrypt = decrypt(encryptedBytes, publicKey);
 			if(decrypt.equals(IPKIManager.DATA_TO_BE_DECRYPTED)){
+				return true;
+			}
+		}else{
+			return false;
+		}
+		}catch(Exception e){
+			
+		}
+		return false;
+	}
+	
+	public boolean isResponseValidWithHashedString(String encrypted, String loginId){
+		try{
+		String keyFolder = getKeyFolder(loginId);
+		
+		String publicKeyFile = keyFolder + File.separator + IPKIManager.PUBLIC_KEY;
+		
+		PublicKey publicKey = getPublicKey(publicKeyFile);
+
+		BigInteger bigEncrypted = new BigInteger(encrypted);
+		byte encryptedBytes [] = bigEncrypted.toByteArray();
+		
+		if(publicKey != null && (encrypted !=null && !encrypted.isEmpty())){
+			String decrypt = decrypt(encryptedBytes, publicKey);
+			
+			if(BCrypt.checkpw(IPKIConstants.PKI_CONTENT, decrypt)){
 				return true;
 			}
 		}else{

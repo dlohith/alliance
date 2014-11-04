@@ -16,5 +16,135 @@
             </props>
         </property>
     </bean>
+    
+    <bean id="mailSender1" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    <bean id="mailSender2" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    <bean id="mailSender3" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    <bean id="mailSender4" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    <bean id="mailSender5" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    <bean id="mailSender6" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    <bean id="mailSender7" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="mailSender8" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    
+        <bean id="mailSender9" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com"/>
+        <property name="port" value="587"/>
+        <property name="username" value="alliancebankgroup1@gmail.com"/>
+        <property name="password" value="SSgroup1"/>
+        <property name="javaMailProperties">
+            <props>
+            	<prop key="mail.transport.protocol">smtp</prop>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+               <!--  <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop> -->
+            </props>
+        </property>
+    </bean>
+    
    
 </beans>

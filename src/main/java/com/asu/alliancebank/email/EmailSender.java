@@ -1,6 +1,8 @@
 package com.asu.alliancebank.email;
 
 import java.io.File;
+import java.util.List;
+import java.util.Random;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -26,17 +28,19 @@ public class EmailSender {
 			.getLogger(EmailSender.class);
 
 	@Autowired
-	private JavaMailSender mailSender;
+	private List<JavaMailSender> mailSenderList;
 
 
 	public void sendNotificationEmail(String emailaddress, String subject, String msgText) {    	
 		try {
-			MimeMessage message = mailSender.createMimeMessage();
+			JavaMailSender javaMailSender = getJavaMailSender();
+			
+			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setTo(new InternetAddress(emailaddress));
 			helper.setSubject(subject);			
 			helper.setText(msgText);
-			mailSender.send(message);
+			javaMailSender.send(message);
 		} catch (MessagingException ex) {
 			logger.error("Notification email could not be sent.", ex);
 		}
@@ -44,7 +48,10 @@ public class EmailSender {
 
 	public void sendNotificationEmail(String emailaddress, String subject, String msgText, String attachments[]){
 		try {
-			MimeMessage message = mailSender.createMimeMessage();
+			
+			JavaMailSender javaMailSender = getJavaMailSender();
+			
+			MimeMessage message = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setTo(new InternetAddress(emailaddress));
 			helper.setSubject(subject);			
@@ -69,9 +76,18 @@ public class EmailSender {
 			multipart.addBodyPart(messageBodyPart,1);
 
 			message.setContent(multipart);
-			mailSender.send(message);
+			javaMailSender.send(message);
 		} catch (MessagingException ex) {
 			logger.error("Notification email could not be sent.", ex);
 		}
+	}
+	
+	private JavaMailSender getJavaMailSender(){
+		return mailSenderList.get(getRandom(mailSenderList.size()));
+	}
+	
+	private int getRandom(int limit){
+		Random r = new Random();
+		return r.nextInt(limit);
 	}
 }
