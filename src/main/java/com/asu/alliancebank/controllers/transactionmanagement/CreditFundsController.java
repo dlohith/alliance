@@ -122,7 +122,7 @@ public class CreditFundsController {
 				return "auth/trans/fail";
 			}
 		}
-		return "auth/trans/success";
+		return "redirect:/auth/trans/success";
 	}
 	
 

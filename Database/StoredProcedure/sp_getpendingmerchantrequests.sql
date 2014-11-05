@@ -2,6 +2,7 @@ DROP PROCEDURE IF EXISTS sp_getpendingmerchantrequests;
 DELIMITER $$
 CREATE PROCEDURE sp_getpendingmerchantrequests
 (
+  IN  iloginid		VARCHAR(255),
   OUT errmsg        VARCHAR(255)    
 )
 BEGIN
@@ -12,6 +13,7 @@ BEGIN
  
 	SELECT requestid, merchantloginid, userloginid, amount, status
 	FROM tbl_merchantrequests
-	WHERE status = 1; -- 1 is for pending
+	WHERE status = 1  -- 1 is for pending
+	AND userloginid = iloginid;
 END$$
 DELIMITER ;

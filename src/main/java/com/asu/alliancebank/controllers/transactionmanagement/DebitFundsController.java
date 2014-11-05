@@ -124,7 +124,7 @@ public class DebitFundsController {
 				return "auth/trans/fail";
 			}
 		}
-		return "auth/trans/success";
+		return "redirect:/auth/trans/success";
 	}
 	
 

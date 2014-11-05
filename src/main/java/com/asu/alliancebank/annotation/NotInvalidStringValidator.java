@@ -32,7 +32,7 @@ public class NotInvalidStringValidator implements ConstraintValidator<NotInvalid
 			return false;
 		if(arg0.length() > 50)	// don't allow to enter more than 50 characters
 			return false;
-		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","+","-","select",
+		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","-","select",
 									 "where", "from", "delete", "update"};
 		String temp = arg0.toLowerCase();
 		for(String specialChar : invalidStrings){
