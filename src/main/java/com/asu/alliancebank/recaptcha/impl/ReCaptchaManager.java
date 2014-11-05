@@ -32,6 +32,14 @@ public class ReCaptchaManager implements IReCaptchaManager{
 			return false;
 		}
 		
+		if(response.length() > 20){
+			return false;
+		}
+		
+		if(challenge.length() > 500){
+			return false;
+		}
+		
 		ReCaptcha reCaptcha = ReCaptchaFactory.newReCaptcha(publickey, 
 				privatekey, false);
 		

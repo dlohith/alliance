@@ -3,6 +3,7 @@ package com.asu.alliancebank.controllers.transactionmanagement;
 import java.security.Principal;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import com.asu.alliancebank.controllers.transactionmanagement.backingbean.Transf
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.factory.ITransferFundsFactory;
+import com.asu.alliancebank.recaptcha.IReCaptchaManager;
 import com.asu.alliancebank.security.otp.impl.OTPManager;
 import com.asu.alliancebank.service.transaction.ITransferFundsManager;
 
@@ -33,6 +35,9 @@ public class TransferFundsController {
 	
 	@Autowired
 	private ITransferFundsManager transferFundsManager;
+	
+	@Autowired
+	private IReCaptchaManager reCaptchaManager;
 	
 	@Autowired
 	private OTPManager otpManager;
@@ -61,7 +66,7 @@ public class TransferFundsController {
 	}
 	
 	@RequestMapping(value = "auth/trans/tranfunds", method = RequestMethod.POST)
-	public String transferfunds( @Valid @ModelAttribute TransferFundsBackingBean transferfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
+	public String transferfunds(HttpServletRequest req, @Valid @ModelAttribute TransferFundsBackingBean transferfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
 	
 		if (result.hasErrors()) {
 			map.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
@@ -75,6 +80,35 @@ public class TransferFundsController {
 			map.addAttribute("AmountError","You dont have sufficient amount");
 			return "auth/trans/tranfunds";
 		}
+		
+		String response = req.getParameter("recaptcha_response_field");
+		String challenge = req.getParameter("recaptcha_challenge_field");
+		
+		if(response == null || response.isEmpty()){
+			map.addAttribute("captchaError","Captcha empty");
+			map.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			transferfundsForm.setFromAccountId(principal.getName());
+			return "auth/trans/tranfunds";
+		}
+		if(challenge == null || challenge.isEmpty()){
+			map.addAttribute("captchaError","Some one removed this challenge field");
+			map.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			transferfundsForm.setFromAccountId(principal.getName());
+			return "auth/trans/tranfunds";
+		}
+		
+		String remoteIpAddr = req.getHeader("X-FORWARDED-FOR");  
+		if (remoteIpAddr == null) {  
+			remoteIpAddr = req.getRemoteAddr();  
+		}
+		
+		if(!reCaptchaManager.isValid(remoteIpAddr, challenge, response)){
+			map.addAttribute("captchaError","Wrong captcha input");
+			map.addAttribute("userNamesList", transferFundsManager.listAllUserNames(principal.getName()));
+			transferfundsForm.setFromAccountId(principal.getName());
+			return "auth/trans/tranfunds";
+		}
+		
 		
 		// Create the user object with the form data
 		if(transferfundsForm.isValid()){

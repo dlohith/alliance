@@ -1,12 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
-<font color="red"><h2> <c:out value="${error}"></c:out></h2></font>
+<h2><font color="red"> <c:out value="${error}"></c:out></font></h2>
 
 <form method="POST" id="userform">
 
 	<table>
+	<sec:authorize access="hasAnyRole( 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
 	<tr>
 		<td>
 			<input class="submit" type=button class="submit"
@@ -14,6 +17,7 @@
 				value='Transfer Fund'>
 		</td> 
 	</tr>
+	
 	<tr>
 		<td>		
 				<input class="submit" type=button
@@ -28,6 +32,8 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/debitfunds'" >
 		</td> 
 	</tr>			
+	</sec:authorize>
+	<sec:authorize access="hasAnyRole( 'ROLE_MERCHANT')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
@@ -35,6 +41,7 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/merchantpayments'" />
 		</td> 
 	</tr>			
+	</sec:authorize>
 	<tr>
 		<td>
 				<input class="submit" type="button"
@@ -42,6 +49,7 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/authorizepayments'" />
 		</td> 
 	</tr>
+	<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
@@ -49,5 +57,6 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/transactionlogs'" />	
 		</td> 
 	</tr>		
+	</sec:authorize>
 	</table>				
 </form>
