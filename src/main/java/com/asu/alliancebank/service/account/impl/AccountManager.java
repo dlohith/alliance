@@ -20,7 +20,9 @@ import com.asu.alliancebank.domain.impl.Account;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IAccountFactory;
 import com.asu.alliancebank.service.account.IAccountManager;
+import com.asu.alliancebank.service.role.IRoleManager;
 import com.asu.alliancebank.service.user.IUserManager;
+import com.asu.alliancebank.service.userservice.AllianceBankGrantedAuthority;
 
 /**
  * @author Kedar
@@ -76,12 +78,14 @@ public class AccountManager implements IAccountManager {
 		Map<String, String> userIDs = new LinkedHashMap<String, String>();
 		List<User> userList = null;
 		try {
-			userList = userManager.listAllUser(loggedInUser);
+			userList = userManager.listAllUser(loggedInUser);			
 			List<Account> accountList = dbConnect.getAllAccounts();
 			Map<String, String> accountUserMap = getAccountUserMap(accountList);
 			for(User user : userList) {
-				if(!accountUserMap.containsKey(user.getLoginID())) {
-					userIDs.put(user.getLoginID(), user.getLoginID());
+				for(AllianceBankGrantedAuthority authority : user.getAuthorities()){
+					if(!accountUserMap.containsKey(user.getLoginID()) && (authority.getAuthority().equals(IRoleManager.ROLE_INDIVIDUAL_CUSTOMER)|| authority.getAuthority().equals(IRoleManager.ROLE_MERCHANT))){				
+						userIDs.put(user.getLoginID(), user.getLoginID());
+					}
 				}	
 			}
 		} catch (SQLException e) {
