@@ -55,7 +55,7 @@
 			</tr>
 			<tr>
 				<td><label>Phone Number:</label></td>
-				<td><form:input type='text' class="text" path='phoneNo' name='phoneNo' value='' /></td>
+				<td><form:input type='text' class="text" path='phoneNo' name='phoneNo' value='' maxlength="10"/></td>
 				<td><font color="red"><form:errors path="phoneNo" cssClass="errors" /></font></td>
 			</tr>
 			<tr>

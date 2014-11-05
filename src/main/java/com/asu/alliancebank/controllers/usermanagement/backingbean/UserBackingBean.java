@@ -5,6 +5,8 @@ import java.util.List;
 import com.asu.alliancebank.annotation.NotEmpty;
 import com.asu.alliancebank.annotation.NotEmptyRoleList;
 import com.asu.alliancebank.annotation.NotInvalidString;
+import com.asu.alliancebank.annotation.NotValidDigit;
+import com.asu.alliancebank.annotation.NotValidInteger;
 import com.asu.alliancebank.annotation.UniqueLogin;
 import com.asu.alliancebank.domain.impl.Role;
 
@@ -38,6 +40,7 @@ public class UserBackingBean {
 	
 	@NotEmpty(message = "Please provide a Phone Number.")
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
+	@NotValidInteger(message = "Please enter numbers only")
 	private String phoneNo;
 	
 	@NotEmptyRoleList(message = "Please select atleast one role.")

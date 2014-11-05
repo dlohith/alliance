@@ -57,20 +57,15 @@ public class TransferFundsManager implements ITransferFundsManager{
 	
 	@Override
 	public List<String> listAllUserNames(String loggedInUser) throws SQLException{
-		List<User> users = userManager.listAllUser(loggedInUser);
-		List<String> userNames = new ArrayList<String>();
-		
-		for(User user : users){
-			for(AllianceBankGrantedAuthority authority : user.getAuthorities()){
-				if(authority.getAuthority().equals(IRoleManager.ROLE_INDIVIDUAL_CUSTOMER)){
-					if(user.getLoginID() != loggedInUser){
-						userNames.add(user.getLoginID());
-					}
-				}
+		List<String> users = new ArrayList<String>();
+		users = accountManager.listAllUserLoginIdsFromAccounts(loggedInUser);
+		List<String> userList = new ArrayList<String>();
+		for(String user : users){
+			if(!user.equals(loggedInUser)){
+				userList.add(user);
 			}
-		}
-
-		return userNames;
+		}		
+		return userList;
 	}
 	
 	@Override
