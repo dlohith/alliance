@@ -27,6 +27,14 @@ public class EmailManagement implements IEmailManagement {
 	}
 	
 	@Override
+	public void sendTransactionHash(String transactionId, String emailAddress, String hashvalue){
+		String subject = "Hash value for your transaction ID : "+ transactionId;
+		 String msgText = "Hash value to be encrypted for your transaction : "+hashvalue;
+		 
+		 emailSender.sendNotificationEmail(emailAddress, subject, msgText);
+	}
+	
+	@Override
 	public void sendOTP(String emailAddress, String otp, String transactionId){
 		String subject = "OTP for your transaction ID : "+ transactionId;
 		 String msgText = "OTP for your transaction : "+otp;

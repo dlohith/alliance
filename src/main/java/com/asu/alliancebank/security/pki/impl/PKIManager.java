@@ -17,16 +17,19 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.security.pki.IPKIManager;
+import com.asu.alliancebank.service.transaction.ICreditFundsManager;
 
 @Service
 public class PKIManager implements IPKIManager{
@@ -36,6 +39,8 @@ public class PKIManager implements IPKIManager{
 	private static final Logger logger = LoggerFactory
 			.getLogger(PKIManager.class);
 
+	@Autowired
+	private ICreditFundsManager creditFundsManager;
 	
 	@PostConstruct
 	public void init(){
@@ -116,7 +121,7 @@ public class PKIManager implements IPKIManager{
 		return false;
 	}
 	
-	public boolean isResponseValidWithHashedString(String encrypted, String loginId){
+	public boolean isResponseValidWithHashedString(String transactionId, String encrypted, String loginId) throws SQLException{
 		try{
 		String keyFolder = getKeyFolder(loginId);
 		
@@ -129,6 +134,10 @@ public class PKIManager implements IPKIManager{
 		
 		if(publicKey != null && (encrypted !=null && !encrypted.isEmpty())){
 			String decrypt = decrypt(encryptedBytes, publicKey);
+			
+			if(!creditFundsManager.isTransactionHashCorrect(transactionId, decrypt)){
+				return false;
+			}
 			
 			if(BCrypt.checkpw(IPKIConstants.PKI_CONTENT, decrypt)){
 				return true;

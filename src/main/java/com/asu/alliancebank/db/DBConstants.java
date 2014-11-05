@@ -44,6 +44,14 @@ public class DBConstants {
 	public final static String GET_TRANSFERFUNDS = "sp_getTransferFunds";
 	public final static String GET_TRANSFERFUNDS_DETAILS = "sp_getrransferdunddetails";
 	public final static String GET_TRANSFERFUNDS_DETAILS_CUST = "sp_getrransferdunddetailscust";
+	public final static String TRANS_CREDIT_HASH = "sp_transactioncredithash";
+	public final static String IS_TRANS_HASH_CORRECT = "sp_transactioncredithashcheck";
+	public final static String GET_TRANS_CREDIT_FINAL_DETAIL = "sp_getCreditFundFinalDetails";
+	public final static String FINALIZE_TRANS_CREDIT = "sp_finalizeCreditFunds";
+	
+	
+	
+	
 
 	
 	// OTP operations
