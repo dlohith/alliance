@@ -8,4 +8,7 @@ public interface IDebitFunds {
 	
 	public abstract void setAmount(String amount);
 	
+	public void setAccountId(String accountId);
+	public String getAccountId();
+	
 }

@@ -19,7 +19,7 @@
 
 <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/resources/arcanalayout/css/form.css" />
 
-<form:form name="hashForm" autocomplete="off" class="form" method="POST" modelAttribute="finalizeCreditFundsBackingBean" action="${pageContext.servletContext.contextPath}/auth/trans/hash/${transactionId}">
+<form:form name="hashForm" autocomplete="off" class="form" method="POST" modelAttribute="finalizeCreditFundsBackingBean" action="${pageContext.servletContext.contextPath}/auth/trans/debithash/${transactionId}">
 	<div id="form">
 		<table>
 			<tr> <td colspan="3" align="left"><h1>Validate by entering encrypted string</h1></td></tr>

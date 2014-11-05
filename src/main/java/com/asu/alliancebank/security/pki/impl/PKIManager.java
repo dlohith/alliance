@@ -30,6 +30,8 @@ import org.springframework.stereotype.Service;
 
 import com.asu.alliancebank.security.pki.IPKIManager;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
+import com.asu.alliancebank.service.transaction.IDebitFundsManager;
+import com.asu.alliancebank.service.transaction.ITransactionManager;
 
 @Service
 public class PKIManager implements IPKIManager{
@@ -41,6 +43,10 @@ public class PKIManager implements IPKIManager{
 
 	@Autowired
 	private ICreditFundsManager creditFundsManager;
+	
+	
+	@Autowired
+	private IDebitFundsManager debitFundsManager;
 	
 	@PostConstruct
 	public void init(){
@@ -121,7 +127,7 @@ public class PKIManager implements IPKIManager{
 		return false;
 	}
 	
-	public boolean isResponseValidWithHashedString(String transactionId, String encrypted, String loginId) throws SQLException{
+	public boolean isResponseValidWithHashedString(String transactionId, String encrypted, String loginId, String type) throws SQLException{
 		try{
 		String keyFolder = getKeyFolder(loginId);
 		
@@ -135,8 +141,14 @@ public class PKIManager implements IPKIManager{
 		if(publicKey != null && (encrypted !=null && !encrypted.isEmpty())){
 			String decrypt = decrypt(encryptedBytes, publicKey);
 			
-			if(!creditFundsManager.isTransactionHashCorrect(transactionId, decrypt)){
-				return false;
+			if(type.equals(ITransactionManager.CREDIT)){
+				if(!creditFundsManager.isTransactionHashCorrect(transactionId, decrypt)){
+					return false;
+				}
+			}else if(type.equals(ITransactionManager.DEBIT)){
+				if(!debitFundsManager.isTransactionHashCorrect(transactionId, decrypt)){
+					return false;
+				}
 			}
 			
 			if(BCrypt.checkpw(IPKIConstants.PKI_CONTENT, decrypt)){

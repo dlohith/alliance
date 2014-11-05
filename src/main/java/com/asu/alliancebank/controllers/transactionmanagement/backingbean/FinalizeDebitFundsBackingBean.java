@@ -3,14 +3,14 @@ package com.asu.alliancebank.controllers.transactionmanagement.backingbean;
 
 
 import com.asu.alliancebank.annotation.NotEmpty;
-import com.asu.alliancebank.annotation.NotValidDigit;
+import com.asu.alliancebank.annotation.NotInvalidEncryptString;
 
-public class DebitFundsBackingBean {	
-	
-	@NotEmpty(message = "Please provide amount")	
-	@NotValidDigit(message = "Please provide positive amount between 0 and 100000")
+public class FinalizeDebitFundsBackingBean {	
+
 	private String amount;
 	
+	@NotEmpty(message = "Please provide encrypted string from client pki helper using use private key")
+	@NotInvalidEncryptString
 	private String encrypt;
 	
 	public String getEncrypt() {

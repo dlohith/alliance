@@ -142,14 +142,14 @@ public class CreditFundsController {
 	
 	@RequestMapping(value = "auth/trans/hash/{transactionId}", method = RequestMethod.POST)
 	public String postToTransferFundOtpPage(@PathVariable("transactionId") String transactionId, @Valid @ModelAttribute FinalizeCreditFundsBackingBean hashForm, BindingResult result, ModelMap map, Principal principal) {
-
+		System.out.println("POST hash : came her");
 		if(result.hasErrors()){
 			map.addAttribute("transactionId", transactionId);
 			return "auth/trans/hash";
 		}
 		
 		try {
-			if(!pkiManager.isResponseValidWithHashedString(transactionId, hashForm.getEncrypt(), principal.getName())){
+			if(!pkiManager.isResponseValidWithHashedString(transactionId, hashForm.getEncrypt(), principal.getName(),ITransactionManager.CREDIT)){
 				map.addAttribute("EncryptionError", "Encrypted string and transaction doesn't match");
 				map.addAttribute("transactionId", transactionId);
 				return "auth/trans/hash";

@@ -72,9 +72,6 @@ BEGIN
 			 VALUES (itransactionid , iaccountid, iTransactiontype,priority,  
 			 iamount, istatus, iloggedinuser,NOW(),iloggedinuser,NOW());
          	 
-          -- Updating accountid by crediting the amount to the balance
-         UPDATE 
-             tbl_account SET balance = (balance - iamount) WHERE accountid = iaccountid ;
 			  
          -- inserting transaction into credit table with the same transactionid as in transferfunds and transaction
          INSERT 

@@ -155,7 +155,7 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 		CallableStatement sqlStatement;
 		
 		//command to call the SP
-		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.IS_TRANS_HASH_CORRECT  + "(?,?,?)";
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.IS_TRANS_HASH_CORRECT_CREDIT  + "(?,?,?)";
 		//get the connection
 		getConnection();
 		//establish the connection with the database

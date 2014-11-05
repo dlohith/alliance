@@ -13,14 +13,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.DebitFundsBackingBean;
+import com.asu.alliancebank.controllers.transactionmanagement.backingbean.FinalizeCreditFundsBackingBean;
+import com.asu.alliancebank.domain.IDebitFunds;
 import com.asu.alliancebank.domain.impl.DebitFunds;
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.IDebitFundsFactory;
 import com.asu.alliancebank.recaptcha.IReCaptchaManager;
+import com.asu.alliancebank.security.pki.impl.PKIManager;
 import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.transaction.IDebitFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
@@ -39,6 +43,9 @@ public class DebitFundsController {
 	
 	@Autowired
 	private ITransactionManager transactionManager;
+	
+	@Autowired
+	private PKIManager pkiManager;
 	
 	@Autowired
 	private IReCaptchaManager reCaptchaManager;
@@ -86,11 +93,6 @@ public class DebitFundsController {
 			return "auth/trans/debitfunds";
 		}
 		
-		if(!transactionManager.isValidEncryptedString(debitfundsForm.getEncrypt(), principal.getName())){
-			model.addAttribute("EncryptionError","Invalid encrypt string");
-			return "auth/trans/debitfunds";
-		}
-		
 		String response = req.getParameter("recaptcha_response_field");
 		String challenge = req.getParameter("recaptcha_challenge_field");
 		
@@ -118,7 +120,8 @@ public class DebitFundsController {
 		if(debitfundsForm.isValid()){
 			DebitFunds debitFunds = debitFundsFactory.createDebitFundsInstance(debitfundsForm);
 			try {
-				debitFundsManager.addDebitFunds(debitFunds, principal.getName());
+				String transactionId = debitFundsManager.addDebitFunds(debitFunds, principal.getName());
+				return "redirect:/auth/trans/debithash/"+transactionId;
 			} catch (SQLException e) {
 				logger.error("Error while adding Debit Transaction",e);
 				return "auth/trans/fail";
@@ -127,5 +130,60 @@ public class DebitFundsController {
 		return "redirect:/auth/trans/success";
 	}
 	
+	
+	
+	@RequestMapping(value = "auth/trans/debithash/{transactionId}", method = RequestMethod.GET)
+	public String getToCreditHashPage(  @PathVariable("transactionId") String transactionId,ModelMap model, Principal principal) {
+		// If user is authorized
+		System.out.println("GET : came here");
+		model.addAttribute("finalizeCreditFundsBackingBean", new FinalizeCreditFundsBackingBean());
+		model.addAttribute("transactionId", transactionId);
+		return "auth/trans/debithash";
+
+	}
+	
+	
+	@RequestMapping(value = "auth/trans/debithash/{transactionId}", method = RequestMethod.POST)
+	public String postToTransferFundOtpPage(@PathVariable("transactionId") String transactionId, @Valid @ModelAttribute FinalizeCreditFundsBackingBean hashForm, BindingResult result, ModelMap map, Principal principal) {
+		System.out.println("POST : came here");
+		if(result.hasErrors()){
+			System.out.println("errors ");
+			map.addAttribute("transactionId", transactionId);
+			return "auth/trans/debithash";
+		}
+		
+		try {
+			if(!pkiManager.isResponseValidWithHashedString(transactionId, hashForm.getEncrypt(), principal.getName(),ITransactionManager.DEBIT)){
+				map.addAttribute("EncryptionError", "Encrypted string and transaction doesn't match");
+				map.addAttribute("transactionId", transactionId);
+				return "auth/trans/debithash";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "auth/trans/fail";
+		}
+		
+
+		
+		if(hashForm.isValid()){
+			
+			try {
+				IDebitFunds debitFunds =debitFundsManager.getDebitFunds(transactionId);
+				debitFundsManager.finalizeTransactionDebit(transactionId, debitFunds, principal.getName());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return "auth/trans/success";
+		}
+		
+		
+		
+		
+		return "auth/trans/success";	
+		
+		
+	}
 
 }

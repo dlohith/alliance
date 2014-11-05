@@ -130,5 +130,10 @@
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/encryptedcheck.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
+	<definition name="auth/trans/debithash" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Transfer Hash Encrypted Check" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/debitencryptedcheck.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
 	
 </tiles-definitions>

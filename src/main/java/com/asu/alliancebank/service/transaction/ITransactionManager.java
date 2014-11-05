@@ -11,6 +11,10 @@ public interface ITransactionManager {
 	public static final int SUCCESS = 2;
 	public static final int FAILURE = 3;
 	
+	
+	public static final String CREDIT ="CREDIT"; 
+	public static final String DEBIT ="DEBIT";
+	
 	public List<Transaction> listAllTransactionLogs(String loggedInUser) throws SQLException;
 	public boolean isValidEncryptedString(String encrypted, String loginId);
 }

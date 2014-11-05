@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.IDebitFundsDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
+import com.asu.alliancebank.domain.IDebitFunds;
 import com.asu.alliancebank.domain.ITransactionDebit;
 import com.asu.alliancebank.domain.impl.DebitFunds;
 import com.asu.alliancebank.factory.IDebitFundsFactory;
@@ -96,12 +97,187 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 	}
 	
 	@Override
-	public String addDebitFunds(DebitFunds debitFunds, String loggedInUser)
+	public IDebitFunds getDebitFundsToFinalize(String transactionId)throws SQLException{
+		if(transactionId.isEmpty())
+			return null;
+		
+		IDebitFunds debitFunds = debitFundsFactory.createEmptyDebitFundsObject();
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_TRANS_DEBIT_FINAL_DETAIL  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, transactionId);
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					
+					debitFunds.setAccountId(resultSet.getString(1));
+					debitFunds.setAmount(resultSet.getString(2));
+				} 
+			}
+			return debitFunds;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while debit : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while debit : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return debitFunds;
+	}
+	
+	@Override
+	public boolean isTransactionHashCorrect( String transactionId, String hashValue)throws SQLException{
+		
+		if(transactionId.isEmpty())
+			return false;
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.IS_TRANS_HASH_CORRECT_DEBIT  + "(?,?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, transactionId);
+			sqlStatement.setString(2, hashValue);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(3,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					
+					return true;
+				} 
+			}
+			return false;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while debit : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while debit: "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return false;
+	}
+	
+	@Override
+	public String finalizeTransactionDebit( String transactionId,IDebitFunds debitFunds, String loggedInUser)throws SQLException{
+		
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.FINALIZE_TRANS_DEBIT  + "(?,?,?,?,?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			Long amount = Long.parseLong(debitFunds.getAmount());
+			//adding the input variables to the SP
+			sqlStatement.setString(1, transactionId);
+			sqlStatement.setString(2, debitFunds.getAccountId());
+			sqlStatement.setLong(3, amount);
+			sqlStatement.setInt(4, ITransactionManager.SUCCESS);
+			sqlStatement.setString(5, loggedInUser);
+			
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(6,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(6);
+			return errmsg;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while debit : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while debit : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+	}
+	
+	
+	@Override
+	public String addTransactionDebitHash(String hashValue, String loggedInUser,String transactionId) throws SQLException{
+		if(hashValue == null)
+			return "hashValue object is null";
+
+		CallableStatement sqlStatement;
+		String errmsg;
+		//command to call the SP
+		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.TRANS_DEBIT_HASH  + "(?,?,?,?)";
+		getConnection();
+		
+		//establish the connection with the database
+				try{
+					sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+					//adding the input variables to the SP
+					sqlStatement.setString(1, transactionId);
+					sqlStatement.setString(2, hashValue);					  
+					sqlStatement.setString(3, loggedInUser);
+					//adding output variables to the SP
+					sqlStatement.registerOutParameter(4,Types.VARCHAR);
+					sqlStatement.execute();
+					errmsg = sqlStatement.getString(4);
+					return errmsg;
+				} catch(SQLException e){
+					errmsg="DB Issue";
+					logger.error("Issue while adding debit transaction : "+ errmsg,e);			
+				} catch(Exception e){
+					errmsg="DB Issue";
+					logger.error("Issue while adding debit transaction : "+ errmsg,e);
+				} finally{
+					closeConnection();
+				}
+				return errmsg;
+	}
+	
+	@Override
+	public String addDebitFunds(DebitFunds debitFunds, String loggedInUser,String transactionId)
 			throws SQLException {
 		if(debitFunds == null)
 			return "DebitFunds object is null";
 
-		String transactionId = generateUniqueID();
 		String transactionType = IDebitFundsManager.DEBIT;
 		int status = ITransactionManager.SUCCESS;
 								
@@ -119,7 +295,7 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 					sqlStatement.setString(1, transactionId);
 					sqlStatement.setString(2, transactionType);					  
 					sqlStatement.setLong(3, amount);
-					sqlStatement.setInt(4, status);
+					sqlStatement.setInt(4, ITransactionManager.PENDING);
 					sqlStatement.setString(5, loggedInUser);
 					
 					//adding output variables to the SP
