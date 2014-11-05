@@ -7,3 +7,5 @@ tbl_authorizerequest.sql
 tbl_credit.sql
 tbl_debit.sql
 tbl_transferfundotpcheck.sql
+tbl_transactioncredit.sql
+tbl_transactiondebit.sql
