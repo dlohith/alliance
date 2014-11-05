@@ -37,6 +37,6 @@ public class ApproveMerchantFundsController {
 		if(!authorizePaymentsManager.areContentsValid(merchantRequest.getMerchantID(), merchantRequest.getUserLoginID(), principal.getName()))
 				return "auth/trans/authorizepayments";
 		authorizePaymentsManager.approvePayment(merchantRequest, principal.getName());
-		return "auth/trans/authorizepayments";
+		return "redirect:/auth/trans";
 	}
 }

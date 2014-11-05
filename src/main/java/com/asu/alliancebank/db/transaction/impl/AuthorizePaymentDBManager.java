@@ -233,14 +233,15 @@ public class AuthorizePaymentDBManager implements IAuthorizePaymentsDBManager {
 		String errmsg;
 		// command to call the SP
 		String dbCommand = DBConstants.SP_CALL + " "
-				+ DBConstants.GET_PENDING_MERCHANT_REQUESTS + "(?)";
+				+ DBConstants.GET_PENDING_MERCHANT_REQUESTS + "(?,?)";
 		getConnection();
 
 		// establish the connection with the database
 		try {
-			sqlStatement = connection.prepareCall("{" + dbCommand + "}");			
+			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
+			sqlStatement.setString(1, loggedInUser);
 			// adding output variables to the SP
-			sqlStatement.registerOutParameter(1, Types.VARCHAR);
+			sqlStatement.registerOutParameter(2, Types.VARCHAR);
 			sqlStatement.execute();
 			ResultSet resultSet = sqlStatement.getResultSet();
 			if(resultSet !=null){ 
