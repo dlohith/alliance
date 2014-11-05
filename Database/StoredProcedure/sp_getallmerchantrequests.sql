@@ -13,4 +13,4 @@ BEGIN
 	SELECT requestid, merchantloginid, userloginid, amount, status
 	FROM tbl_merchantrequests;
 END$$
-DELIMITER 
+DELIMITER ;

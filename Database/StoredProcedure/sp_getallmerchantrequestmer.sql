@@ -15,4 +15,4 @@ BEGIN
 	FROM tbl_merchantrequests
 	WHERE merchantloginid = imerchantloginid;
 END$$
-DELIMITER 
+DELIMITER ;
