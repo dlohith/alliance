@@ -29,7 +29,7 @@ import com.asu.alliancebank.security.otp.impl.OTPManager;
 
 public class TransferFundsDBManager implements ITransferFundsDBManager{
 	private static final Logger logger = LoggerFactory
-			.getLogger(UserDBManager.class);
+			.getLogger(TransferFundsDBManager.class);
 	
 	private Connection connection;
 	

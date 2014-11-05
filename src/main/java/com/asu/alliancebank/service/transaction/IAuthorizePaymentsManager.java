@@ -18,4 +18,9 @@ public interface IAuthorizePaymentsManager {
 	public String approvePayment(MerchantRequest merchantRequest, String loggedInUser) throws SQLException;
 	public String rejectPayment(MerchantRequest merchantRequest, String loggedInUser) throws SQLException;
 	public boolean areContentsValid(String merchantID, String userLoginID, String loggedInUser) throws SQLException;
+	public void addCustAuthRequest(String loggedInUser) throws SQLException;
+	public List<String> getUsersForCustAuth(String loggedInUser) throws SQLException;
+	public List<String> getBankEmployeeList(String loggedInUser) throws SQLException;
+	public void authorizeCustAuthRequest(String userLoginID, String employeeLoginID,String loggedInUser) throws SQLException;
+	public List<MerchantRequest> getPendingMerchantRequestsEmployee(String loggedInUser) throws SQLException;
 }
