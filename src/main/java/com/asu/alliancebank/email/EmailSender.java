@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
@@ -56,16 +57,21 @@ public class EmailSender {
 			helper.setTo(new InternetAddress(emailaddress));
 			helper.setSubject(subject);			
 			helper.setText(msgText);
-			
+
 
 			Multipart multipart = new MimeMultipart();
 
-			MimeBodyPart messageBodyPart = new MimeBodyPart();
+			BodyPart messageBodyPart = new MimeBodyPart();
+			messageBodyPart.setText(msgText);
+			multipart.addBodyPart(messageBodyPart);
+			
+			
+			messageBodyPart = new MimeBodyPart();
 			File file = new File(attachments[0]);
 			DataSource source = new FileDataSource(file);
 			messageBodyPart.setDataHandler(new DataHandler(source));
 			messageBodyPart.setFileName(file.getName());
-			multipart.addBodyPart(messageBodyPart,0);
+			multipart.addBodyPart(messageBodyPart);
 			
 			
 			messageBodyPart = new MimeBodyPart();

@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS tbl_user
   invalidloginattempts int DEFAULT 0,
   locked int DEFAULT 0,
   lockouttime TIMESTAMP DEFAULT 0,
+  initpass     int DEFAULT 1,
   updatedby     VARCHAR(50)   NOT NULL,
   updateddate   TIMESTAMP     NOT NULL,
   createdby     VARCHAR(50)   NOT NULL,

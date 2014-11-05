@@ -17,9 +17,10 @@ public class EmailManagement implements IEmailManagement {
 	private PKIManager pkiManager;
 	
 	@Override
-	public void sendPKIKeys(String loginId, String emailAddress){
+	public void sendPKIKeys(String loginId, String emailAddress, String tempPass){
 		 String subject = "Private and public for user : "+ loginId;
-		 String msgText = "Checkout keys in the attachment";
+		 String msgText = "User is created, the following are the details of user:\n User id : "+loginId+" \nTemporary password = "+tempPass+" \n\n"
+				 +"Checkout keys in the attachment";
 		 String attachments[] = pkiManager.getKeyLocs(loginId);
 		 
 		 emailSender.sendNotificationEmail(emailAddress, subject, msgText, attachments);

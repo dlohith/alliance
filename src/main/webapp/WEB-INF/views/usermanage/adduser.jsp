@@ -39,16 +39,6 @@
 				<td><font color="red"><form:errors path="loginID" cssClass="errors" /></font></td>
 			</tr>
 			<tr>
-				<td><label>Password:</label></td>
-				<td><form:input type='password' class="text" name='password' path='password' /></td>
-				<td><font color="red"><form:errors path="password" cssClass="errors" /></font></td>
-			</tr>
-			<tr>
-				<td><label>Repeat Password:</label></td>
-				<td><form:input type='password' class="text" name='repeatPassword' path='repeatPassword' /></td>
-				<td><font color="red"><form:errors path="repeatPassword" cssClass="errors" /></font></td>
-			</tr>
-			<tr>
 				<td><label>Email ID:</label></td>
 				<td><form:input type='email' class="text" path='emailId' name='emailId' value='' /></td>
 				<td><font color="red"><form:errors path="emailId" cssClass="errors" /></font></td>

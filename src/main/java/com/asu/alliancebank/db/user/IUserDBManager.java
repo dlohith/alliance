@@ -17,4 +17,6 @@ public interface IUserDBManager {
 	public String updateFailedLoginAttempts(String userId)throws SQLException;
 	public String reseteFailedLoginAttempts(String userId)throws SQLException;
 	public String unlockUser(String userId)throws SQLException;
+	public boolean isFirstTimeLogin( String loginId)throws SQLException;
+	public String changePass(String login, String pass)throws SQLException;
 }

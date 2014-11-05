@@ -12,14 +12,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 
 import com.asu.alliancebank.controllers.usermanagement.backingbean.ModifyUserBackingBean;
+import com.asu.alliancebank.controllers.usermanagement.backingbean.UserBackingBean;
 import com.asu.alliancebank.db.user.IUserDBManager;
 import com.asu.alliancebank.domain.impl.Role;
 import com.asu.alliancebank.domain.impl.User;
 import com.asu.alliancebank.factory.IUserFactory;
+import com.asu.alliancebank.security.password.RandomPasswordGenerator;
 import com.asu.alliancebank.security.pki.impl.PKIManager;
 import com.asu.alliancebank.service.email.IEmailManagement;
 import com.asu.alliancebank.service.role.IRoleManager;
@@ -32,19 +35,23 @@ public class UserManager implements IUserManager {
 	@Autowired
 	@Qualifier("UserDBManagerBean")
 	private IUserDBManager dbConnect;
-	
+
 	@Autowired
 	private IUserFactory userFactory;
-	
+
+	@Autowired
+	private RandomPasswordGenerator randomPasswordGenerator;
+
+
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserManager.class);
-	
+
 	@Autowired
 	private IEmailManagement emailManagement;
-	
+
 	@Autowired
 	private PKIManager pkiManager;
-	
+
 	@PostConstruct
 	public void addDefaultUser(){
 		List<User> users = null;
@@ -58,18 +65,18 @@ public class UserManager implements IUserManager {
 			List<AllianceBankGrantedAuthority> authorities = new ArrayList<AllianceBankGrantedAuthority>();
 			AllianceBankGrantedAuthority adminAuthority = new AllianceBankGrantedAuthority(IRoleManager.ROLE_SYSTEM_ADMIN);
 			authorities.add(adminAuthority);
-			
+
 			User user = userFactory.createUserInstance("Jack", "Wilshere", "jackwill", "testing", "jackwill@gmail.com", "44444444444", authorities);
 			pkiManager.createKeyPairs("jackwill");
-			
+
 			try {
 				addUser(user, "GOD");
 			} catch (SQLException e) {
 				logger.error("Issue while creating default user ",e);
 			}
 		}
-		
-		
+
+
 	}
 
 
@@ -77,12 +84,29 @@ public class UserManager implements IUserManager {
 	public void addUser(User user, String loggedInUser) throws SQLException{
 		if(user != null){
 			dbConnect.addUser(user, loggedInUser);
-			pkiManager.createKeyPairs(user.getLoginID());
-			emailManagement.sendPKIKeys(user.getLoginID(), user.getEmailId());
+
+
 		}
-		
+
 	}
-	
+
+	@Override
+	public void addUser(UserBackingBean userBackingBean, String loggedInUser)
+			throws SQLException{
+		String tempPass = randomPasswordGenerator.generateRandomPassword();
+		if(tempPass != null){
+			userBackingBean.setPassword(tempPass);
+
+			User user = userFactory.createUserInstance(userBackingBean);
+
+			if(user != null){
+				dbConnect.addUser(user, loggedInUser);
+				pkiManager.createKeyPairs(user.getLoginID());
+				emailManagement.sendPKIKeys(user.getLoginID(), user.getEmailId(),tempPass);
+			}
+		}
+	}
+
 	@Override
 	public void deleteUser(String loginId) throws SQLException{
 		if(loginId != null ){
@@ -90,7 +114,7 @@ public class UserManager implements IUserManager {
 			dbConnect.deleteUser(loginId);
 		}
 	}
-	
+
 	@Override
 	public List<User> listAllUser(String loggedInUser) throws SQLException{
 		List<User> users = null;
@@ -99,7 +123,7 @@ public class UserManager implements IUserManager {
 		}
 		return users;
 	}
-	
+
 	/**
 	 * Checks and return appropriate user ids to delete.
 	 * To avoid unwanted user delete
@@ -114,10 +138,10 @@ public class UserManager implements IUserManager {
 				userIdsMarkedForDelete.add(userIds[i]);
 			}
 		}
-		
+
 		return userIdsMarkedForDelete;
 	}
-	
+
 	@Override
 	public boolean doModifyUserDetails(String loggedInUser, String modifyUserId) throws SQLException{
 		List<User> users = dbConnect.listAllUsers(loggedInUser);
@@ -127,18 +151,18 @@ public class UserManager implements IUserManager {
 		}
 		return false;
 	}
-	
-	
+
+
 	private Map<String, User> convertListOfUserToMap(List<User> users){
 		Map<String, User> userMap = new HashMap<String, User>();
-		
+
 		for(User user : users){
 			userMap.put(user.getLoginID(),user);
 		}
-		
+
 		return userMap;
 	}
-	
+
 	@Override
 	public void deleteUsers(List<String> userIds)throws SQLException{
 		for(String userId : userIds){
@@ -146,12 +170,12 @@ public class UserManager implements IUserManager {
 			deleteUser(userId);
 		}
 	}
-	
+
 	@Override
 	public boolean isLoginIdUnique(String loginId) throws SQLException{
 		return dbConnect.isLoginIdUnique(loginId);
 	}
-	
+
 	@Override
 	public User getUserDetails(String loggedInUser) throws SQLException{
 		User user = null;
@@ -160,7 +184,7 @@ public class UserManager implements IUserManager {
 		}
 		return user;
 	}
-	
+
 	@Override
 	public void modifyUser(ModifyUserBackingBean modifyUserBackingBean, String loggedInUser, String modifyUserid)throws SQLException{
 		String firstName = modifyUserBackingBean.getFirstName();
@@ -169,25 +193,37 @@ public class UserManager implements IUserManager {
 		String emailId = modifyUserBackingBean.getEmailId();
 		String phoneNo = modifyUserBackingBean.getPhoneNo();
 		List<Role> roles =  modifyUserBackingBean.getRoleList();
-		
+
 		dbConnect.modifyUser(firstName, lastName, loginId, emailId, phoneNo, roles, loggedInUser);
-		
+
 	}
-	
+
 	@Override
 	public void updateFailedLoginAttempts(String userId)throws SQLException{
 		dbConnect.updateFailedLoginAttempts(userId);
-		
-		
+
+
 	}
-	
+
 	@Override
 	public void resetFailAttempts(String userId) throws SQLException{
 		dbConnect.reseteFailedLoginAttempts(userId);
 	}
-	
+
 	@Override
 	public void unlockUser(String userId)throws SQLException{
 		dbConnect.unlockUser(userId);
+	}
+	
+	@Override
+	public boolean isFirstTimeLogin(String loginId)throws SQLException{
+		return dbConnect.isFirstTimeLogin(loginId);
+	}
+	
+	public void changePass(String loginid, String changePass)throws SQLException{
+		String hashedChangePass = BCrypt.hashpw(changePass, BCrypt.gensalt());
+		
+		dbConnect.changePass(loginid, hashedChangePass);
+		
 	}
 }

@@ -24,13 +24,7 @@ public class UserBackingBean {
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
 	private String loginID;
 	
-	@NotEmpty(message = "Please provide a Password.")
-	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
 	private String password;
-	
-	@NotEmpty(message = "Please provide a repeat Password.")
-	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
-	private String repeatPassword;
 	
 	@NotEmpty(message = "Please provide a Email ID.")
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
@@ -75,15 +69,7 @@ public class UserBackingBean {
 	public String getPassword() {
 		return password;
 	}
-
-	public String getRepeatPassword() {
-		return repeatPassword;
-	}
-
-	public void setRepeatPassword(String repeatPassword) {
-		this.repeatPassword = repeatPassword;
-	}
-
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}

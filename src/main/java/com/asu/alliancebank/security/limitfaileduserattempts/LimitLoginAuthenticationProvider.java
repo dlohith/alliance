@@ -27,12 +27,16 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
 
-		try {
-
+		
+		try {	
 			Authentication auth = super.authenticate(authentication);
+			
 			try {
-				logger.info("Correct password for "+authentication.getName());
 				userManager.resetFailAttempts(authentication.getName());
+				
+//				if(userManager.isFirstTimeLogin(authentication.getName())){
+//					throw new DisabledException("It is first login. Password change is required!");
+//				}
 			} catch (SQLException e) {
 
 			}
@@ -43,7 +47,6 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 
 			// invalid login, update to user_attempts
 			try {
-				logger.info("Wrong password for "+authentication.getName());
 				userManager.updateFailedLoginAttempts(authentication.getName());
 			} catch (SQLException e1) {
 
@@ -54,6 +57,10 @@ public class LimitLoginAuthenticationProvider extends DaoAuthenticationProvider 
 
 			String error = "User is locked";
 			throw new LockedException(error);
+		} catch(RuntimeException e){
+			String error = "Invalid login credentials";
+			logger.info(error);
+			throw new BadCredentialsException(error);
 		}
 
 	}

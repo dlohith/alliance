@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.asu.alliancebank.controllers.usermanagement.backingbean.ModifyUserBackingBean;
+import com.asu.alliancebank.controllers.usermanagement.backingbean.UserBackingBean;
 import com.asu.alliancebank.domain.impl.User;
 
 public interface IUserManager {
@@ -11,6 +12,9 @@ public interface IUserManager {
 	public abstract void addUser(User user, String loggedInUser)
 			throws SQLException;
 
+	public abstract void addUser(UserBackingBean userBackingBean, String loggedInUser)
+			throws SQLException;
+	
 	public List<User> listAllUser(String loggedInUser) throws SQLException;
 	public User getUserDetails(String loggedInUser) throws SQLException;
 	public boolean isLoginIdUnique(String loginId) throws SQLException;
@@ -22,4 +26,6 @@ public interface IUserManager {
 	public void updateFailedLoginAttempts(String userId)throws SQLException;
 	public void resetFailAttempts(String userId) throws SQLException;
 	public void unlockUser(String userId)throws SQLException;
+	public boolean isFirstTimeLogin(String loginId)throws SQLException;
+	public void changePass(String login, String pass)throws SQLException;
 }

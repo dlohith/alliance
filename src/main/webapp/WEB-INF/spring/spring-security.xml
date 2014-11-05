@@ -11,6 +11,7 @@
 	<headers />
 		<intercept-url pattern="/login*" access="permitAll" />
 		<intercept-url pattern="/logout*" access="permitAll" />
+		<intercept-url pattern="/changepassword*" access="permitAll" />
 		<intercept-url pattern="/" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/css/**" access="permitAll" />
@@ -33,7 +34,7 @@
 		
 		<intercept-url pattern="/**" access="denyAll" />
 		<form-login login-page="/login" default-target-url="/auth/welcome"
-			authentication-failure-url="/loginfailed" />
+			authentication-failure-url="/loginfailed" authentication-success-handler-ref="authenticationSuccessHandler" />
 		<logout logout-success-url="/logout" invalidate-session="true" />
 	</http>
 
@@ -57,5 +58,10 @@
 		<authentication-provider ref="authProvider"></authentication-provider>
 	</authentication-manager>
 
+	<beans:bean id="authenticationFailureHandler" class="com.asu.alliancebank.security.password.change.ChangePasswordFailure"/>
+	<beans:bean id="authenticationSuccessHandler" class="com.asu.alliancebank.security.password.change.FirstLoginSuccessHandler"/>
+	
+	
+	
 	
 </beans:beans>

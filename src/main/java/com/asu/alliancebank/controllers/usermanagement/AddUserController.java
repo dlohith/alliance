@@ -107,9 +107,8 @@ public class AddUserController {
 		// Create the user object with the form data
 		if(userForm.isValid()){
 
-			User user = userFactory.createUserInstance(userForm);
 			try {
-				userManager.addUser(user,principal.getName() );
+				userManager.addUser(userForm,principal.getName() );
 			} catch (SQLException e) {
 				logger.error("Error while adding user",e);
 			}

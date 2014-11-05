@@ -43,11 +43,6 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td><label>Password:</label></td>
-				<td><input type='password' disabled="disabled" class="text"  value="*********************" /></td>
-				<td align="left"><a class="response" href="${pageContext.servletContext.contextPath}/auth/user/changepasswd/${username}">Change Password</a></td>
-			</tr>
-			<tr>
 				<td><label>Email ID:</label></td>
 				<td><form:input type='email' class="text" path='emailId' name='emailId' value='' /></td>
 				<td><font color="red"><form:errors path="emailId" cssClass="errors" /></font></td>

@@ -14,6 +14,8 @@ public class DBConstants {
 	public final static String UPDATE_FAILED_LOGIN_ATTEMPTS = "sp_updateFailedAttempts";
 	public final static String RESET_FAILED_LOGIN_ATTEMPTS = "sp_resetFailedAttempts";
 	public final static String UNLOCK_USER = "sp_unlockUser";
+	public final static String FIRST_TIME_LOGIN = "sp_isFirstLogin";
+	public final static String CHANGE_PASS = "sp_changePass";
 	
 	//Account operations
 	public final static String ADD_ACCOUNT = "sp_addAccount";
