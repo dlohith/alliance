@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.ICreditFundsDBManager;
 import com.asu.alliancebank.db.user.impl.UserDBManager;
+import com.asu.alliancebank.domain.ICreditFunds;
 import com.asu.alliancebank.domain.ITransactionCredit;
 import com.asu.alliancebank.domain.impl.CreditFunds;
 import com.asu.alliancebank.factory.ICreditFundsFactory;
@@ -96,12 +97,153 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 	}
 	
 	@Override
-	public String addCreditFunds(CreditFunds creditFunds, String loggedInUser)
+	public ICreditFunds getCreditFundsToFinalize(String transactionId)throws SQLException{
+		if(transactionId.isEmpty())
+			return null;
+		
+		ICreditFunds creditFunds = creditFundsFactory.createEmptyCreditFundsObject();
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.GET_TRANS_CREDIT_FINAL_DETAIL  + "(?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, transactionId);
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(2,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					
+					creditFunds.setAccountId(resultSet.getString(1));
+					creditFunds.setAmount(resultSet.getString(2));
+				} 
+			}
+			return creditFunds;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return creditFunds;
+	}
+	
+	@Override
+	public boolean isTransactionHashCorrect( String transactionId, String hashValue)throws SQLException{
+		
+		if(transactionId.isEmpty())
+			return false;
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.IS_TRANS_HASH_CORRECT  + "(?,?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			//adding the input variables to the SP
+			sqlStatement.setString(1, transactionId);
+			sqlStatement.setString(2, hashValue);
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(3,Types.VARCHAR);
+			sqlStatement.execute();
+
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					
+					return true;
+				} 
+			}
+			return false;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return false;
+	}
+	
+	
+	@Override
+	public String finalizeTransactionCredit( String transactionId,ICreditFunds creditFunds, String loggedInUser)throws SQLException{
+		
+		
+		String dbCommand;
+		String errmsg;
+		CallableStatement sqlStatement;
+		
+		//command to call the SP
+		dbCommand = DBConstants.SP_CALL+ " " + DBConstants.FINALIZE_TRANS_CREDIT  + "(?,?,?,?,?,?)";
+		//get the connection
+		getConnection();
+		//establish the connection with the database
+		try{
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			Long amount = Long.parseLong(creditFunds.getAmount());
+			//adding the input variables to the SP
+			sqlStatement.setString(1, transactionId);
+			sqlStatement.setString(2, creditFunds.getAccountId());
+			sqlStatement.setLong(3, amount);
+			sqlStatement.setInt(4, ITransactionManager.SUCCESS);
+			sqlStatement.setString(5, loggedInUser);
+			
+			
+			
+			//adding output variables to the SP
+			sqlStatement.registerOutParameter(6,Types.VARCHAR);
+			sqlStatement.execute();
+
+			errmsg = sqlStatement.getString(6);
+			return errmsg;
+
+		}catch(SQLException e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);			
+		}catch(Exception e){
+			errmsg="DB Issue";
+			logger.error("Issue while adding user : "+ errmsg,e);
+		}
+		finally{
+			closeConnection();
+		}
+		return errmsg;
+	}
+	
+	
+	@Override
+	public String addCreditFunds(CreditFunds creditFunds, String loggedInUser,String transactionId)
 			throws SQLException {
 		if(creditFunds == null)
 			return "CreditFunds object is null";
 
-		String transactionId = generateUniqueID();
 		CallableStatement sqlStatement;
 		String errmsg;
 		//command to call the SP
@@ -116,12 +258,47 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 					sqlStatement.setString(1, transactionId);
 					sqlStatement.setString(2, ICreditFundsManager.CREDIT);					  
 					sqlStatement.setLong(3, amount);
-					sqlStatement.setInt(4, ITransactionManager.SUCCESS);
+					sqlStatement.setInt(4, ITransactionManager.PENDING);
 					sqlStatement.setString(5, loggedInUser);
 					//adding output variables to the SP
 					sqlStatement.registerOutParameter(6,Types.VARCHAR);
 					sqlStatement.execute();
 					errmsg = sqlStatement.getString(6);
+					return errmsg;
+				} catch(SQLException e){
+					errmsg="DB Issue";
+					logger.error("Issue while adding credit transaction : "+ errmsg,e);			
+				} catch(Exception e){
+					errmsg="DB Issue";
+					logger.error("Issue while adding credit transaction : "+ errmsg,e);
+				} finally{
+					closeConnection();
+				}
+				return errmsg;
+	}
+	
+	@Override
+	public String addTransactionCreditHash(String hashValue, String loggedInUser,String transactionId) throws SQLException{
+		if(hashValue == null)
+			return "hashValue object is null";
+
+		CallableStatement sqlStatement;
+		String errmsg;
+		//command to call the SP
+		String dbCommand = DBConstants.SP_CALL+ " " + DBConstants.TRANS_CREDIT_HASH  + "(?,?,?,?)";
+		getConnection();
+		
+		//establish the connection with the database
+				try{
+					sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+					//adding the input variables to the SP
+					sqlStatement.setString(1, transactionId);
+					sqlStatement.setString(2, hashValue);					  
+					sqlStatement.setString(3, loggedInUser);
+					//adding output variables to the SP
+					sqlStatement.registerOutParameter(4,Types.VARCHAR);
+					sqlStatement.execute();
+					errmsg = sqlStatement.getString(4);
 					return errmsg;
 				} catch(SQLException e){
 					errmsg="DB Issue";

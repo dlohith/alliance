@@ -13,15 +13,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.asu.alliancebank.controllers.transactionmanagement.backingbean.CreditFundsBackingBean;
+import com.asu.alliancebank.controllers.transactionmanagement.backingbean.FinalizeCreditFundsBackingBean;
 import com.asu.alliancebank.controllers.usermanagement.AddUserController;
+import com.asu.alliancebank.domain.ICreditFunds;
 import com.asu.alliancebank.domain.impl.CreditFunds;
 import com.asu.alliancebank.domain.impl.Transaction;
 import com.asu.alliancebank.factory.ICreditFundsFactory;
 import com.asu.alliancebank.recaptcha.IReCaptchaManager;
+import com.asu.alliancebank.security.pki.impl.PKIManager;
 import com.asu.alliancebank.service.account.IAccountManager;
 import com.asu.alliancebank.service.transaction.ICreditFundsManager;
 import com.asu.alliancebank.service.transaction.ITransactionManager;
@@ -42,6 +46,9 @@ public class CreditFundsController {
 	
 	@Autowired
 	private IReCaptchaManager reCaptchaManager;
+	
+	@Autowired
+	private PKIManager pkiManager;
 	
 	private static final Logger logger = LoggerFactory
 			.getLogger(AddUserController.class);
@@ -83,11 +90,7 @@ public class CreditFundsController {
 			model.addAttribute("AmountError","Total balance exceeding max limit of 100000");
 			return "auth/trans/creditfunds";
 		}
-		
-		if(!transactionManager.isValidEncryptedString(creditfundsForm.getEncrypt(), principal.getName())){
-			model.addAttribute("EncryptionError","Invalid encrypt string");
-			return "auth/trans/creditfunds";
-		}
+
 		
 		String response = req.getParameter("recaptcha_response_field");
 		String challenge = req.getParameter("recaptcha_challenge_field");
@@ -116,14 +119,73 @@ public class CreditFundsController {
 		if(creditfundsForm.isValid()){
 			CreditFunds creditFunds = creditFundsFactory.createCreditFundsInstance(creditfundsForm);
 			try {
-				creditFundsManager.addCreditFunds(creditFunds, principal.getName());
+				String transactionId = creditFundsManager.addCreditFunds(creditFunds, principal.getName());
+				return "redirect:/auth/trans/hash/"+transactionId;
 			} catch (SQLException e) {
 				logger.error("Error while adding Credit Transaction",e);
 				return "auth/trans/fail";
 			}
 		}
-		return "redirect:/auth/trans/success";
+		return "auth/trans/hash";
 	}
 	
+	
+	@RequestMapping(value = "auth/trans/hash/{transactionId}", method = RequestMethod.GET)
+	public String getToCreditHashPage(  @PathVariable("transactionId") String transactionId,ModelMap model, Principal principal) {
+		// If user is authorized
+		model.addAttribute("finalizeCreditFundsBackingBean", new FinalizeCreditFundsBackingBean());
+		model.addAttribute("transactionId", transactionId);
+		return "auth/trans/hash";
+
+	}
+	
+	
+	@RequestMapping(value = "auth/trans/hash/{transactionId}", method = RequestMethod.POST)
+	public String postToTransferFundOtpPage(@PathVariable("transactionId") String transactionId, @Valid @ModelAttribute FinalizeCreditFundsBackingBean hashForm, BindingResult result, ModelMap map, Principal principal) {
+
+		if(result.hasErrors()){
+			map.addAttribute("transactionId", transactionId);
+			return "auth/trans/hash";
+		}
+		
+		try {
+			if(!pkiManager.isResponseValidWithHashedString(transactionId, hashForm.getEncrypt(), principal.getName())){
+				map.addAttribute("EncryptionError", "Encrypted string and transaction doesn't match");
+				map.addAttribute("transactionId", transactionId);
+				return "auth/trans/hash";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "auth/trans/fail";
+		}
+		
+
+		
+		if(hashForm.isValid()){
+			
+			try {
+				ICreditFunds creditFunds =creditFundsManager.getCreditFunds(transactionId);
+				creditFundsManager.finalizeTransactionCredit(transactionId, creditFunds, principal.getName());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			try {
+//				TransferFunds transferFunds = otpManager.getTransferFunds(transactionId, principal.getName());				
+//				otpManager.updateTransaction(transactionId,transferFunds, principal.getName(), otpForm.getOtp());
+//			} catch (SQLException e) {
+//				logger.info(e.getMessage());
+//				return "auth/trans/fail";
+//			}
+			return "auth/trans/success";
+		}
+		
+		
+		
+		
+		return "auth/trans/success";	
+		
+		
+	}
 
 }

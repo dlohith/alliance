@@ -26,12 +26,6 @@
 				<td width="20%"><label>Amount:</label></td>
 				<td><form:input type='text' class="text" path='amount' name ='amount' value=''/></td>
 				<td><font color="red"><form:errors path="amount" cssClass="errors" /><c:out value="${AmountError}"></c:out></font></td>
-			</tr>
-			<tr>
-				<td width="20%"><label>Encrypted:</label></td>
-				<td><form:textarea path="encrypt" rows="3" cols="40"></form:textarea></td>
-				<td><font color="red"><form:errors path="encrypt" cssClass="errors" /><c:out value="${EncryptionError}"></c:out></font></td>
-				
 			</tr>	
 			<tr height="300" >
 				<td></td>

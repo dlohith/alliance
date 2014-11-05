@@ -24,7 +24,7 @@ public class NotInvalidStringEncryptValidator implements ConstraintValidator<Not
 
 	/**
 	 * {@inheritDoc}
-	 * Checks if the content includes < > " ' % ; ) ( & + -
+	 * Checks if the content includes < > " ' % ; ) (
 	 */
 	@Override
 	public boolean isValid(String arg0, ConstraintValidatorContext arg1) {
@@ -32,7 +32,7 @@ public class NotInvalidStringEncryptValidator implements ConstraintValidator<Not
 			return false;
 		if(arg0.length() > 500)	// don't allow to enter more than 50 characters
 			return false;
-		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","&","+","-","select",
+		String invalidStrings [] = {"<",">","\"","'","%",";",")","(","select",
 									 "where", "from", "delete", "update"};
 		String temp = arg0.toLowerCase();
 		for(String specialChar : invalidStrings){
