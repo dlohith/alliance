@@ -45,8 +45,22 @@
 	<tr>
 		<td>
 				<input class="submit" type="button"
+					name="TransactionLogs" value="Request Bank Employee Authorization"
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/addauthrequest'" />	
+		</td> 
+	</tr>	
+	<tr>
+		<td>
+				<input class="submit" type="button"
 					name="TransactionLogs" value="Transaction Logs"
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/transactionlogs'" />	
+		</td> 
+	</tr>
+	<tr>
+		<td>
+				<input class="submit" type="button"
+					name="TransactionLogs" value="Review Bank Employee Authorization"
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/authorizecustreq'" />	
 		</td> 
 	</tr>		
 	</table>				

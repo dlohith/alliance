@@ -270,4 +270,174 @@ public class AuthorizePaymentDBManager implements IAuthorizePaymentsDBManager {
 		return null;
 	}
 
+	@Override
+	public String addCustomerAuthRequest(String loggedInUser)
+			throws SQLException {
+
+		String requestID = generateUniqueID();
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.ADD_CUST_AUTH_REQUEST + "(?,?,?,?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
+			// adding the input variables to the SP
+			sqlStatement.setString(1, requestID);
+			sqlStatement.setString(2, loggedInUser);
+			sqlStatement.setString(3,loggedInUser);
+			sqlStatement.registerOutParameter(4, Types.VARCHAR);
+			sqlStatement.execute();
+			errmsg = sqlStatement.getString(4);
+			return errmsg;
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while adding customer request  : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while adding customer request  : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return errmsg;
+	}
+
+	@Override
+	public List<String> getCustomerListForDisplay(String loggedInUser)
+			throws SQLException {
+		List<String> userList = new ArrayList<String>();
+		
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.GET_CUST_AUTH_REQUEST + "(?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
+			// adding output variables to the SP
+			sqlStatement.registerOutParameter(1, Types.VARCHAR);
+			sqlStatement.execute();
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					String userLoginID = resultSet.getString(2);
+					userList.add(userLoginID);
+				} 
+			}
+			return userList;
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting user list  : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting user list  : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return null;
+	}
+	
+	private String getStatusString(int number) {
+		switch(number) {
+		case 1: return "PENDING";		
+		case 2: return "SUCCESS";
+		case 3: return "FAILURE";
+		}
+		return null;
+	}
+
+	@Override
+	public String authorizeCustAuthRequest(String userLoginID,
+			String employeeLoginID, String loggedInUser) throws SQLException {
+		String requestID = generateUniqueID();
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.AUTHORIZE_CUST_REQUEST + "(?,?,?,?,?,?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
+			// adding the input variables to the SP
+			sqlStatement.setString(1, requestID);
+			sqlStatement.setString(2, userLoginID);
+			sqlStatement.setString(3, getStatusString(ITransactionManager.SUCCESS));
+			sqlStatement.setString(4, employeeLoginID);
+			sqlStatement.setString(5, loggedInUser);
+			sqlStatement.registerOutParameter(6, Types.VARCHAR);
+			sqlStatement.execute();
+			errmsg = sqlStatement.getString(6);
+			return errmsg;
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while authorizing customer request  : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while authorizing customer request  : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return null;
+	}
+
+	@Override
+	public List<MerchantRequest> getPendingMerchantRequestsEmployee(
+			String loggedInUser) throws SQLException {
+List<MerchantRequest> pendingRequests = new ArrayList<MerchantRequest>();
+		
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.GET_PENDING_MERCHANT_REQUESTS_EMPL + "(?,?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
+			sqlStatement.setString(1, loggedInUser);
+			// adding output variables to the SP
+			sqlStatement.registerOutParameter(2, Types.VARCHAR);
+			sqlStatement.execute();
+			ResultSet resultSet = sqlStatement.getResultSet();
+			if(resultSet !=null){ 
+				while (resultSet.next()) {
+					MerchantRequest merchantRequest = new MerchantRequest();
+					merchantRequest.setRequestID(resultSet.getString(1));
+					merchantRequest.setMerchantID(resultSet.getString(2));
+					merchantRequest.setUserLoginID(resultSet.getString(3));
+					merchantRequest.setAmount(resultSet.getString(4));
+					merchantRequest.setStatus(resultSet.getInt(5));
+					pendingRequests.add(merchantRequest);
+				} 
+			}
+			return pendingRequests;
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request  : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request  : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return null;
+	}
+
 }

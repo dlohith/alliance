@@ -44,7 +44,10 @@ public class DBConstants {
 	public final static String GET_TRANSFERFUNDS = "sp_getTransferFunds";
 	public final static String GET_TRANSFERFUNDS_DETAILS = "sp_getrransferdunddetails";
 	public final static String GET_TRANSFERFUNDS_DETAILS_CUST = "sp_getrransferdunddetailscust";
-
+	public final static String ADD_CUST_AUTH_REQUEST = "sp_addcustauthrequest";
+	public final static String GET_CUST_AUTH_REQUEST = "sp_getcustauthrequests";
+	public final static String AUTHORIZE_CUST_REQUEST = "sp_addauthorizerequest";
+	public final static String GET_PENDING_MERCHANT_REQUESTS_EMPL = "sp_getauthorizerrequestsforemployee";
 	
 	// OTP operations
 	public final static String ADD_TRANSACTION_OTP = "sp_addtransactionotp";
