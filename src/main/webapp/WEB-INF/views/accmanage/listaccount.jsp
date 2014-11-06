@@ -129,7 +129,7 @@
 					onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/addaccount'"
 					value='Add Account'> 
 				<input class="submit" type="submit" name="deleteaccount" value="Delete Account"
-					onclick="location.href='${pageContext.servletContext.contextPath}/auth/acc/deleteaccount'" />
+					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/acc/deleteaccount'" />
 				<!-- check deleteaccount url -->
 				
 				<hr />
