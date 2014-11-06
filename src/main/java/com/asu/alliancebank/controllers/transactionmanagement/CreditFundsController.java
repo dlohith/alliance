@@ -81,8 +81,7 @@ public class CreditFundsController {
 	@RequestMapping(value = "auth/trans/creditfunds", method = RequestMethod.POST)
 	public String creditfunds(HttpServletRequest req, ModelMap model, @Valid @ModelAttribute CreditFundsBackingBean creditfundsForm, BindingResult result, ModelMap map, Principal principal) throws SQLException {
 	
-		if (result.hasErrors()) {
-			model.addAttribute("creditFundsBackingBean", new CreditFundsBackingBean());
+		if (result.hasErrors()) {			
 			return "auth/trans/creditfunds";
 		}	
 		
