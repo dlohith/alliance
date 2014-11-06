@@ -52,6 +52,11 @@
 		<put-attribute name="content" value="/WEB-INF/views/usermanage/changepassword.jsp"/>
 		<put-attribute name="currentPage" value="usermanagement" />
 	</definition>
+	<definition name="auth/user/piiinfo" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - Change Password" />
+		<put-attribute name="content" value="/WEB-INF/views/usermanage/piiinfo.jsp"/>
+		<put-attribute name="currentPage" value="usermanagement" />
+	</definition>
 	
 	<!--  Account Management Page -->
 	<definition name="auth/acc/addaccount" extends="base.definition.nonav">

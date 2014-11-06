@@ -12,4 +12,4 @@ FROM tbl_merchantrequests M INNER JOIN tbl_authorizerequest A on M.userloginid =
 WHERE A.bankemplid = ibankemplid;
 
 END$$
-DELIMITER 
+DELIMITER ;

@@ -44,6 +44,8 @@ public class EmailSender {
 			javaMailSender.send(message);
 		} catch (MessagingException ex) {
 			logger.error("Notification email could not be sent.", ex);
+		}catch(RuntimeException ex){
+			logger.error("Notification email could not be sent.", ex);
 		}
 	}
 
@@ -85,15 +87,19 @@ public class EmailSender {
 			javaMailSender.send(message);
 		} catch (MessagingException ex) {
 			logger.error("Notification email could not be sent.", ex);
+		}catch(RuntimeException ex){
+			logger.error("Notification email could not be sent.", ex);
 		}
 	}
 	
 	private JavaMailSender getJavaMailSender(){
-		return mailSenderList.get(getRandom(mailSenderList.size()));
+		int index =getRandom(mailSenderList.size());
+		return mailSenderList.get(index);
 	}
 	
 	private int getRandom(int limit){
 		Random r = new Random();
+		
 		return r.nextInt(limit);
 	}
 }

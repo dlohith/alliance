@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,43 @@ public class ListUserController {
 		}
 		
 		return "auth/welcome";	
+		
+	}
+	
+	@RequestMapping(value = "auth/user/piiinfo", method = RequestMethod.GET)
+	public String piiInfoPage( ModelMap model, Principal principal) {
+
+		return "auth/user/piiinfo";
+		
+		
+	}
+	
+	@RequestMapping(value = "auth/user/piiinfo", method = RequestMethod.POST)
+	public String postPIIInfoPage(HttpServletRequest req, ModelMap model, Principal principal) {
+		
+		String userId = req.getParameter("loginid");
+		
+		if(userId == null || userId.isEmpty()){
+			model.addAttribute("piierror", "please provide login id");
+			return "auth/user/piiinfo";
+		}
+		
+		try {
+			User user = userManager.getUserDetails(userId);
+			
+			if(user == null){
+				model.addAttribute("piierror", "User not found");
+				return "auth/user/piiinfo";
+			}
+			model.addAttribute("user", user);
+			return "auth/user/piiinfo";
+		} catch (SQLException e) {
+			
+		}
+		
+		
+		return "auth/user/piiinfo";
+		
 		
 	}
 	

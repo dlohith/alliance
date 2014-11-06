@@ -130,7 +130,10 @@
 					onClick="location.href='${pageContext.servletContext.contextPath}/auth/user/adduser'"
 					value='Add User'> <input class="submit" type="submit"
 					name="deleteuser" value="Delete User"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/user/deleteuser'" />
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/user/deleteuser'" />
+					<input class="submit" type="button"
+					name="piiinfo" value="PII Info"
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/user/piiinfo'" />
 				<hr />
 				<table style="width: 100%" cellpadding="0" cellspacing="0"
 					border="0" class="display dataTable" id="listuser">
