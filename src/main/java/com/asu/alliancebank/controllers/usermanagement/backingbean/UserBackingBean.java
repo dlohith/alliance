@@ -6,7 +6,6 @@ import com.asu.alliancebank.annotation.IsEmail;
 import com.asu.alliancebank.annotation.NotEmpty;
 import com.asu.alliancebank.annotation.NotEmptyRoleList;
 import com.asu.alliancebank.annotation.NotInvalidString;
-import com.asu.alliancebank.annotation.NotValidDigit;
 import com.asu.alliancebank.annotation.NotValidInteger;
 import com.asu.alliancebank.annotation.UniqueLogin;
 import com.asu.alliancebank.domain.impl.Role;

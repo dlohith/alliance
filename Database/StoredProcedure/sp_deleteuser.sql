@@ -19,6 +19,10 @@ BEGIN
       DELETE
         FROM tbl_user
 	    WHERE loginid = inloginid;
+	    
+	  DELETE
+        FROM tbl_account
+	    WHERE userid = inloginid;
      END IF;
 END$$
 DELIMITER ;
