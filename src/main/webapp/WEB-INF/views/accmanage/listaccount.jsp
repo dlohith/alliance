@@ -15,21 +15,7 @@
 
 <br/>
 
-<!-- div class="container">
-<input type=button class="Modify Account"
-				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/modifyaccount'"
-				value='Modify'>
-<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
-<input type=button class="Add Account"
-				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/addaccount'"
-				value='add'>
-<input type=button class="Add Account"
-				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/deleteaccount'"
-				value='delete'>
-</sec:authorize>
-</div -->
 
-<!-- check checkbox when click delete account -->
 <script>
 	$(document).ready(function() {
 		$("#dlgConfirm").hide();
@@ -141,9 +127,9 @@
 
 				<input class="submit" type=button class="submit"
 					onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/addaccount'"
-					value='Add Account'> <!-- check addaccount url -->
+					value='Add Account'> 
 				<input class="submit" type="submit" name="deleteaccount" value="Delete Account"
-					onclick="this.form.action='${pageContext.servletContext.contextPath}/auth/acc/deleteaccount'" />
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/acc/deleteaccount'" />
 				<!-- check deleteaccount url -->
 				
 				<hr />
@@ -175,8 +161,8 @@
 		</c:when>
 		<c:otherwise>
 			<input type=button class="submit"
-				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/addaccount"
-				value='Add Account'><!-- check addaccount url -->W
+				onClick="location.href='${pageContext.servletContext.contextPath}/auth/acc/addaccount'"
+				value='Add Account'>
 			<hr />
 			<br />
 			No Accounts
