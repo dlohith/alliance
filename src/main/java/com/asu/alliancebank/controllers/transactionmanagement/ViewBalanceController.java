@@ -27,7 +27,11 @@ public class ViewBalanceController {
 		
 		String loginId = principal.getName();
 		Long balance = null;
-		try {
+		try {			
+				if(!accountManager.hasAccount(principal.getName())){
+					model.addAttribute("error", "Account not created, ask your admin to create account for you");
+					return "redirect:/auth/trans";
+				}			
 			balance = accountManager.getAccountBalance(loginId);
 		} catch (SQLException e) {
 			logger.error("Issue while getting balance details",e);
