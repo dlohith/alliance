@@ -98,7 +98,7 @@ public class AuthorizePaymentsManager implements IAuthorizePaymentsManager  {
 			for(User user : users){
 				for(AllianceBankGrantedAuthority authority : user.getAuthorities()){
 					if(authority.getAuthority().equals(IRoleManager.ROLE_BANK_EMPLOYEE)){
-						if(user.getLoginID() != loggedInUser){
+						if(!user.getLoginID().equals(loggedInUser)){ 
 							employeeList.add(user.getLoginID());
 						}
 					}
