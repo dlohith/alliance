@@ -114,8 +114,8 @@
 								<td width="15%" align="center"><c:out value="${transactionMerchant.amount}"></c:out></td>
 								<td width="15%" align="center">
 								<c:choose>
-      								<c:when test="${transactionMerchant.status == 1}">SUCCESS</c:when>
-      								<c:when test="${transactionMerchant.status == 2}">PENDING</c:when>
+      								<c:when test="${transactionMerchant.status == 1}">PENDING</c:when>
+      								<c:when test="${transactionMerchant.status == 2}">SUCCESS</c:when>
       								<c:when test="${transactionMerchant.status == 3}">FAILURE</c:when>
       								<c:otherwise>UNKNOWN</c:otherwise>
 								</c:choose>

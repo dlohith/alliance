@@ -36,6 +36,6 @@ public class RejectMerchantFundsController {
 		if(!authorizePaymentsManager.areContentsValid(merchantRequest.getMerchantID(), merchantRequest.getUserLoginID(), principal.getName()))
 			return "auth/trans/authorizepayments";
 		authorizePaymentsManager.rejectPayment(merchantRequest, principal.getName());
-		return "redirect:auth/trans";
+		return "redirect:/auth/trans";
 	}
 }
