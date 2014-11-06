@@ -84,7 +84,7 @@ BEGIN
              tbl_account SET balance = (balance - iamount) WHERE accountid = iaccountid ;
              
          UPDATE 
-         	 tbl_merchantrequests SET status = 2 where requestid = irequestid;
+         	 tbl_merchantrequests SET status = istatus where requestid = irequestid;
         
          IF (errmsg IS NULL)
            THEN COMMIT;
