@@ -55,8 +55,13 @@ public class LoginController {
 	 * @return		Redirected to login page
 	 */
 	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
-	public String loginerror(ModelMap model) {
-
+	public String loginerror(ModelMap model,Principal principal) {
+		if(principal != null){
+			String sUserId = principal.getName();		
+			if(sUserId != null){
+				return "redirect:/auth/welcome";
+			}
+		}
 		model.addAttribute("error", "true");
 		return "login";
 

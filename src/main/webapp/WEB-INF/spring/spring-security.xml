@@ -9,31 +9,31 @@
 
 	<http auto-config="true" use-expressions="true" access-denied-page="/forbidden" disable-url-rewriting="true">
 	<headers />
-		<intercept-url pattern="/login*" access="permitAll" />
-		<intercept-url pattern="/logout*" access="permitAll" />
-		<intercept-url pattern="/changepassword*" access="permitAll" />
-		<intercept-url pattern="/" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/resources/**" access="permitAll" />
-		<intercept-url pattern="/css/**" access="permitAll" />
-		<intercept-url pattern="/js/**" access="permitAll" />
-		<intercept-url pattern="/fonts/**" access="permitAll" />
-		<intercept-url pattern="/auth/user/**" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
-		<intercept-url pattern="/auth/trans/tranfunds" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/acc/deleteaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
-		<intercept-url pattern="/auth/acc/listaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
-		<intercept-url pattern="/auth/acc/addaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
-		<intercept-url pattern="/auth/trans/creditfunds" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/trans/debitfunds" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/trans/viewbalance" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/trans/merchantpayments" access="hasAnyRole('ROLE_MERCHANT')"/>
-		<intercept-url pattern="/auth/trans/authorizepayments" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
-		<intercept-url pattern="/auth/trans/approve" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
-		<intercept-url pattern="/auth/trans/reject" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
-		<intercept-url pattern="/auth/trans/addauthrequest" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/trans/authreqsuccess" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/trans/authorizecustreq" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
-		<intercept-url pattern="/auth/trans/transactionlogs" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
-		<intercept-url pattern="/auth/**" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/login*" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/logout*" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/changepassword*" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/" requires-channel="https" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/resources/**" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/css/**" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/js/**" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/fonts/**" requires-channel="https" access="permitAll" />
+		<intercept-url pattern="/auth/user/**" requires-channel="https" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/trans/tranfunds" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/acc/deleteaccount" requires-channel="https" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/acc/listaccount" requires-channel="https" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/acc/addaccount" requires-channel="https" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/trans/creditfunds" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/debitfunds" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/viewbalance" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/merchantpayments" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT')"/>
+		<intercept-url pattern="/auth/trans/authorizepayments" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
+		<intercept-url pattern="/auth/trans/approve" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
+		<intercept-url pattern="/auth/trans/reject" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
+		<intercept-url pattern="/auth/trans/addauthrequest" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/authreqsuccess" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/authorizecustreq" requires-channel="https" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
+		<intercept-url pattern="/auth/trans/transactionlogs" requires-channel="https" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/**" requires-channel="https" access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		
 		<intercept-url pattern="/**" access="denyAll" />
 		<form-login login-page="/login" default-target-url="/auth/welcome"
@@ -54,7 +54,7 @@
 		erase-credentials="false">
 		<authentication-provider>
 			<user-service>
-				<user name="admin" password="admin"
+				<user name="admin" password="!ss@dm!n@11in1"
 					authorities="ROLE_SYSTEM_ADMIN" />
 			</user-service>
 		</authentication-provider>
