@@ -24,6 +24,7 @@
 		<intercept-url pattern="/auth/acc/addaccount" access="hasAnyRole('ROLE_SYSTEM_ADMIN')"/>
 		<intercept-url pattern="/auth/trans/creditfunds" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/auth/trans/debitfunds" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
+		<intercept-url pattern="/auth/trans/viewbalance" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/auth/trans/merchantpayments" access="hasAnyRole('ROLE_MERCHANT')"/>
 		<intercept-url pattern="/auth/trans/authorizepayments" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
 		<intercept-url pattern="/auth/trans/approve" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>

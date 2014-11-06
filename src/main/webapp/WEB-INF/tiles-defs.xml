@@ -150,4 +150,9 @@
 		<put-attribute name="content" value="/WEB-INF/views/tranmanage/authorizecustreq.jsp"/>
 		<put-attribute name="currentPage" value="transactionmanagement" />
 	</definition>
+	<definition name="auth/trans/viewbalance" extends="base.definition.nonav">
+	    <put-attribute name="title" value="Alliance Bank - View Balance" />
+		<put-attribute name="content" value="/WEB-INF/views/tranmanage/viewbalance.jsp"/>
+		<put-attribute name="currentPage" value="transactionmanagement" />
+	</definition>
 </tiles-definitions>
