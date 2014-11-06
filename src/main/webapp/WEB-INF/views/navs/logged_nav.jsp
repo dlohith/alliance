@@ -32,6 +32,7 @@
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/authorizepayments">Authorize My Payments</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/addauthrequest">Request Bank Employee Authorization</a></li>
 					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/transactionlogs">View Transaction Logs</a></li>
+					<li><a href="${pageContext.servletContext.contextPath}/auth/trans/viewbalance">View Balance</a></li>
 				</ul>
 			</sec:authorize>	
 			</li>

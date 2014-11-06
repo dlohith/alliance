@@ -51,12 +51,21 @@
 		</td> 
 	</tr>
 	</sec:authorize>
-	<sec:authorize access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
+	<sec:authorize access="hasAnyRole('ROLE_MERCHANT')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
 					name="TransactionLogs" value="Request Bank Employee Authorization"
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/addauthrequest'" />	
+		</td> 
+	</tr>	
+	</sec:authorize>
+	<sec:authorize access="hasAnyRole('ROLE_MERCHANT','ROLE_INDIVIDUAL_CUSTOMER')">
+	<tr>
+		<td>
+				<input class="submit" type="button"
+					name="TransactionLogs" value="View Balance"
+					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/viewbalance'" />	
 		</td> 
 	</tr>	
 	</sec:authorize>
