@@ -33,15 +33,16 @@
 		</td> 
 	</tr>			
 	</sec:authorize>
-	<sec:authorize access="hasAnyRole( 'ROLE_MERCHANT')">
+	<sec:authorize access="hasAnyRole('ROLE_MERCHANT')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
 					name="Merchantfund" value="Merchant Fund"
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/merchantpayments'" />
 		</td> 
-	</tr>			
-	</sec:authorize>
+	</tr>	
+	</sec:authorize>		
+	<sec:authorize access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER','ROLE_BANK_EMPLOYEE')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
@@ -49,7 +50,8 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/authorizepayments'" />
 		</td> 
 	</tr>
-	<sec:authorize access="hasAnyRole('ROLE_BANK_EMPLOYEE', 'ROLE_SYSTEM_ADMIN', 'ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
+	</sec:authorize>
+	<sec:authorize access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
@@ -57,6 +59,8 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/addauthrequest'" />	
 		</td> 
 	</tr>	
+	</sec:authorize>
+	<sec:authorize access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER','ROLE_BANK_EMPLOYEE','ROLE_SYSTEM_ADMIN')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
@@ -64,6 +68,8 @@
 					onclick="location.href='${pageContext.servletContext.contextPath}/auth/trans/transactionlogs'" />	
 		</td> 
 	</tr>
+	</sec:authorize>
+	<sec:authorize access="hasAnyRole('ROLE_SYSTEM_ADMIN')">
 	<tr>
 		<td>
 				<input class="submit" type="button"
