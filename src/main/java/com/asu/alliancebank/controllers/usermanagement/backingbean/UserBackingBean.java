@@ -2,6 +2,7 @@ package com.asu.alliancebank.controllers.usermanagement.backingbean;
 
 import java.util.List;
 
+import com.asu.alliancebank.annotation.IsEmail;
 import com.asu.alliancebank.annotation.NotEmpty;
 import com.asu.alliancebank.annotation.NotEmptyRoleList;
 import com.asu.alliancebank.annotation.NotInvalidString;
@@ -28,6 +29,7 @@ public class UserBackingBean {
 	
 	@NotEmpty(message = "Please provide a Email ID.")
 	@NotInvalidString(message = "Please enter valid characters. Characters like < > \" ' % ; ) ( & + - not allowed. ")
+	@IsEmail(message = "Please provide a Email ID.")
 	private String emailId;
 	
 	@NotEmpty(message = "Please provide a Phone Number.")
