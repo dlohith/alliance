@@ -68,10 +68,17 @@ public class UserManager implements IUserManager {
 			authorities.add(adminAuthority);
 
 			User user = userFactory.createUserInstance("Jack", "Wilshere", "jackwill", "testing", "jackwill@gmail.com", "44444444444", authorities);
-			pkiManager.createKeyPairs("jackwill");
+			User user1 = userFactory.createUserInstance("Oxlade", "Chamberlain", "oxlade", "testing", "oxlade@gmail.com", "44444444444", authorities);
+			User user2 = userFactory.createUserInstance("Lukas", "podolski", "lukas", "testing", "lukas@gmail.com", "44444444444", authorities);
+			User user3 = userFactory.createUserInstance("alexis", "sanchez", "alexis", "testing", "alexis@gmail.com", "44444444444", authorities);
+			User user4 = userFactory.createUserInstance("Calum", "Chambers", "calum", "testing", "calum@gmail.com", "44444444444", authorities);
 
 			try {
 				addUser(user, "GOD");
+				addUser(user1, "GOD");
+				addUser(user2, "GOD");
+				addUser(user3, "GOD");
+				addUser(user4, "GOD");
 			} catch (SQLException e) {
 				logger.error("Issue while creating default user ",e);
 			}

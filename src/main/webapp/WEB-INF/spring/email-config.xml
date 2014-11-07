@@ -20,8 +20,8 @@
     <bean id="mailSender1" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="z"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="group1alliancebank@gmail.com"/>
+        <property name="password" value="@cse#545"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
@@ -34,8 +34,8 @@
     <bean id="mailSender2" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="alliancebankgroup1@gmail.com"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="cse545alliancebank@gmail.com"/>
+        <property name="password" value="@byac110#ss"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
@@ -48,8 +48,8 @@
     <bean id="mailSender3" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="alliancebankgroup1@gmail.com"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="alliancebankinfogroup1@gmail.com"/>
+        <property name="password" value="ss_@info"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
@@ -62,8 +62,8 @@
     <bean id="mailSender4" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="alliancebankgroup1@gmail.com"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="group1alliance@gmail.com"/>
+        <property name="password" value="*Moti_vate@"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
@@ -76,8 +76,8 @@
     <bean id="mailSender5" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="alliancebankgroup1@gmail.com"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="alliance545group1@gmail.com"/>
+        <property name="password" value="%125@South"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
@@ -90,8 +90,8 @@
     <bean id="mailSender6" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="alliancebankgroup1@gmail.com"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="grouponecontact@gmail.com"/>
+        <property name="password" value="*6Nov@2014"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
@@ -104,8 +104,8 @@
     <bean id="mailSender7" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="smtp.gmail.com"/>
         <property name="port" value="587"/>
-        <property name="username" value="alliancebankgroup1@gmail.com"/>
-        <property name="password" value="SSgroup1"/>
+        <property name="username" value="ssgroupone@gmail.com"/>
+        <property name="password" value="#sha@Re$"/>
         <property name="javaMailProperties">
             <props>
             	<prop key="mail.transport.protocol">smtp</prop>
