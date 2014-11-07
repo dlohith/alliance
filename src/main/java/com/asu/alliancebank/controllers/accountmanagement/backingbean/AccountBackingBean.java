@@ -16,7 +16,7 @@ public class AccountBackingBean {
 	@NotInvalidString(message = "Please check the user ID you have given - either its too big or it has invalid content")
 	private String userID;
 	
-	private Long balance;
+	private double balance;
 	
 	public boolean isValid() {
 		return true;
@@ -30,11 +30,11 @@ public class AccountBackingBean {
 		this.userID = userID;
 	}
 	
-	public Long getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
-	public void setBalance(Long balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 	

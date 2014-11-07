@@ -162,7 +162,7 @@ public class TransactionOTPDBManager implements ITransactionOTPDBManager{
 							while (resultSet.next()) {
 								transferfunds.setFromAccountId(resultSet.getString(1));
 								transferfunds.setToAccountId(resultSet.getString(2));
-								transferfunds.setAmount(resultSet.getLong(3));								
+								transferfunds.setAmount(resultSet.getDouble(3));								
 								break;
 							} 
 						}

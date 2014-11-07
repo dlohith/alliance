@@ -97,7 +97,7 @@ public class AccountDBManager implements IAccountDBManager {
 			return "Account object is null";
 
 		String userid = account.getUserID();
-		Long balance = account.getBalance();
+		double balance = account.getBalance();
 		String accountid = generateUniqueID();
 		
 		CallableStatement sqlStatement;
@@ -112,7 +112,7 @@ public class AccountDBManager implements IAccountDBManager {
 					//adding the input variables to the SP
 					sqlStatement.setString(1, accountid);
 					sqlStatement.setString(2, userid);        	
-					sqlStatement.setLong(3, balance);
+					sqlStatement.setDouble(3, balance);
 					sqlStatement.setString(4, loggedInUser);
 					
 					//adding output variables to the SP
@@ -164,7 +164,7 @@ public class AccountDBManager implements IAccountDBManager {
 					account = accountFactory.createEmptyAccountObject();
 					account.setAccountID(resultSet.getString(1));
 					account.setUserID(resultSet.getString(2));
-					account.setBalance(resultSet.getLong(3));
+					account.setBalance(resultSet.getDouble(3));
 					break;
 				} 
 			}
@@ -243,7 +243,7 @@ public class AccountDBManager implements IAccountDBManager {
 					Account account = accountFactory.createEmptyAccountObject();
 					account.setAccountID(resultSet.getString(1));
 					account.setUserID(resultSet.getString(2));
-					account.setBalance(resultSet.getLong(3));
+					account.setBalance(resultSet.getDouble(3));
 					accounts.add(account);
 				} 
 			}

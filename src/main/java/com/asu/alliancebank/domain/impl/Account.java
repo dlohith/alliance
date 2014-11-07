@@ -13,15 +13,15 @@ public class Account implements IAccount {
 
 	private String accountID;
 	private String userID;
-	private Long   balance;
+	private double   balance;
 	
 	public Account() {	
 	}
 	
-	public Account(String userID, Long balance) {
+	public Account(String userID, double balance) {
 		this.userID = userID;
 		this.balance = balance;
-		this.balance = new Long(0);
+		this.balance = new Double(0);
 	}
 	
 	@Override
@@ -45,12 +45,12 @@ public class Account implements IAccount {
 	}
 
 	@Override
-	public long getBalance() {
+	public double getBalance() {
 		return balance;
 	}
 
 	@Override
-	public void setBalance(long balance) {
+	public void setBalance(double balance) {
 		this.balance = balance;
 	}
 }

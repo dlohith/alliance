@@ -32,7 +32,7 @@ public class TransferFundsFactory implements ITransferFundsFactory{
 	}
 
 	@Override
-	public TransferFunds createTransferFundsInstance(String fromAccountId,String toAccountId,Long amount) {
+	public TransferFunds createTransferFundsInstance(String fromAccountId,String toAccountId,double amount) {
 		return new TransferFunds(fromAccountId,toAccountId ,amount);
 	}
 }

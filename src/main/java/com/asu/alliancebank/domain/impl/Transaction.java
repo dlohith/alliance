@@ -12,7 +12,7 @@ public class Transaction implements ITransaction {
 	
 	private String status;
 	
-	private Long amount;
+	private double amount;
 	
 	private int priority;
 	
@@ -20,7 +20,7 @@ public class Transaction implements ITransaction {
 		
 	}
 	
-	public Transaction(String transactionId ,String accountId,String transactionType,String status,Long amount,int priority){
+	public Transaction(String transactionId ,String accountId,String transactionType,String status,double amount,int priority){
 		this.transactionId = transactionId;
 		this.accountId = accountId;
 		this.transactionType = transactionType;
@@ -61,11 +61,11 @@ public class Transaction implements ITransaction {
 		this.status = status;
 	}
 
-	public Long getAmount() {
+	public double getAmount() {
 		return this.amount;
 	}
 
-	public void setAmount(Long amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

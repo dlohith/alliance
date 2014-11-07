@@ -14,6 +14,6 @@ public interface IAccountFactory {
 	
 	public Account createEmptyAccountObject();
 	public Account createAccountInstance(AccountBackingBean accountBackingBean);
-	public Account createAccountInstance(String userID, Long balance);
+	public Account createAccountInstance(String userID, double balance);
 
 }

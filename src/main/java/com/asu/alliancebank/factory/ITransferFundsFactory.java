@@ -11,5 +11,5 @@ import com.asu.alliancebank.domain.impl.TransferFunds;
 public interface ITransferFundsFactory {
 	public TransferFunds createEmptyTransferFundsObject();
 	public TransferFunds createTransferFundsInstance(TransferFundsBackingBean transferFundsBackingBean);
-	public TransferFunds createTransferFundsInstance(String fromAccountId, String toAccountId ,Long amount);
+	public TransferFunds createTransferFundsInstance(String fromAccountId, String toAccountId ,double amount);
 }

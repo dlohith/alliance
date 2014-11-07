@@ -22,7 +22,7 @@ public class AccountFactory implements IAccountFactory {
 	}
 
 	@Override
-	public Account createAccountInstance(String userID, Long balance) {
+	public Account createAccountInstance(String userID, double balance) {
 		return new Account(userID, balance);
 	}
 

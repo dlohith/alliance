@@ -10,8 +10,8 @@ public interface ITransaction {
 	public abstract void setTransactionType(String transactionType);
 	public abstract String getStatus();
 	public abstract void setStatus(String status);
-	public abstract Long getAmount();
-	public abstract void setAmount(Long amount);
+	public abstract double getAmount();
+	public abstract void setAmount(double amount);
 	public abstract int getPriority();
 	public abstract void setPriority(int priority);
 }

@@ -12,6 +12,6 @@ public interface IAccount {
 	public abstract void setAccountID(String accountID);
 	public abstract String getUserID();
 	public abstract void setUserID(String userID);
-	public abstract long getBalance();
-	public abstract void setBalance(long balance);
+	public abstract double getBalance();
+	public abstract void setBalance(double balance);
 }
