@@ -51,7 +51,7 @@
 		</td> 
 	</tr>
 	</sec:authorize>
-	<sec:authorize access="hasAnyRole('ROLE_MERCHANT')">
+	<sec:authorize access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER')">
 	<tr>
 		<td>
 				<input class="submit" type="button"

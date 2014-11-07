@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
@@ -89,6 +90,11 @@ public class UserManager implements IUserManager {
 		}
 
 	}
+	
+	public String generateUniqueID()
+	{
+		return UUID.randomUUID().toString();
+	}
 
 	@Override
 	public void addUser(UserBackingBean userBackingBean, String loggedInUser)
@@ -102,7 +108,7 @@ public class UserManager implements IUserManager {
 			if(user != null){
 				dbConnect.addUser(user, loggedInUser);
 				pkiManager.createKeyPairs(user.getLoginID());
-				emailManagement.sendPKIKeys(user.getLoginID(), user.getEmailId(),tempPass);
+				emailManagement.sendPKIKeys(user.getLoginID(),generateUniqueID(), user.getEmailId(),tempPass);
 			}
 		}
 	}
