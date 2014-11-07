@@ -73,41 +73,5 @@ public class TransactionDBManager implements ITransactionDBManager{
 		return 1;
 	}	
 		
-	@Override
-	public List<Transaction> listAllTransactionLogs(String loggedInUser)
-			throws SQLException {
-		
-		List<Transaction> transactionLogs = new ArrayList<Transaction>();
-		Transaction transaction = null;
-		String dbCommand;
-		String errmsg;
-		java.sql.Statement statement;
-		dbCommand = "SELECT transactionid , accountid , amount FROM tbl_transaction WHERE accountid = (SELECT accountid FROM tbl_account WHERE loginid = " + loggedInUser + ")";
-		//get the connection
-		getConnection();
-		
-		try{
-			statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(dbCommand);
-			if(resultSet !=null){ 
-				while (resultSet.next()) {
-					transaction.setTransactionId(resultSet.getString(0));
-					transaction.setAccountId(resultSet.getString(1));
-					transaction.setAmount(resultSet.getLong(2));
-
-					transactionLogs.add(transaction);
-				} 
-			}
-		}catch(SQLException e){
-			errmsg="DB Issue";
-			logger.error("Issue while retrieving transaction list : "+ errmsg,e);			
-		}catch(Exception e){
-			errmsg="DB Issue";
-			logger.error("Issue while retrieving transaction list : "+ errmsg,e);
-		}
-		finally{
-			closeConnection();
-		}
-		return transactionLogs;
-	}
+	
 }

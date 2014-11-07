@@ -28,7 +28,7 @@ public class TransferFundsFactory implements ITransferFundsFactory{
 				
 		return new TransferFunds(transferFundsBackingBean.getFromAccountId(),			
 				transferFundsBackingBean.getToAccountId(),
-				Long.parseLong(transferFundsBackingBean.getAmount()));				
+				 Double.parseDouble(transferFundsBackingBean.getAmount()));				
 	}
 
 	@Override

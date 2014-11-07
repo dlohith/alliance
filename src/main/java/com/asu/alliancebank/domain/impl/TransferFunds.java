@@ -13,13 +13,13 @@ public class TransferFunds implements ITransferFunds{
 
 	private String toAccountId;	
 
-	private Long amount;
+	private double amount;
 	
 	public TransferFunds(){
 		
 	}
 	
-	public TransferFunds(String fromAccountId , String toAccountId , Long amount){
+	public TransferFunds(String fromAccountId , String toAccountId , double amount){
 		this.fromAccountId = fromAccountId ;
 		this.toAccountId = toAccountId ;
 		this.amount = amount ;				
@@ -51,11 +51,11 @@ public class TransferFunds implements ITransferFunds{
 		this.toAccountId = toAccountId;
 	}
 	
-	public Long getAmount() {
+	public double getAmount() {
 		return this.amount;
 	}
 
-	public void setAmount(Long amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}		
 	

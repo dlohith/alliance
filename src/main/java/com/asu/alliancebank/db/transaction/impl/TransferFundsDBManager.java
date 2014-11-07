@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.asu.alliancebank.db.DBConstants;
 import com.asu.alliancebank.db.transaction.ITransferFundsDBManager;
-import com.asu.alliancebank.db.user.impl.UserDBManager;
 import com.asu.alliancebank.domain.ITransactionTransferFund;
 import com.asu.alliancebank.domain.impl.TransferFunds;
 import com.asu.alliancebank.factory.ITransactionTransferFundsFactory;
@@ -108,7 +107,7 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 
 		String fromAccountId = transferFunds.getFromAccountId();
 		String toAccountId = transferFunds.getToAccountId();	
-		Long amount = transferFunds.getAmount();	
+		Double amount = transferFunds.getAmount();	
 
 		
 		//check if the user id has his account id in the fromaccountid section.					
@@ -126,7 +125,7 @@ public class TransferFundsDBManager implements ITransferFundsDBManager{
 					sqlStatement.setString(1, transactionId);
 					sqlStatement.setString(2, fromAccountId);					  
 					sqlStatement.setString(3, toAccountId);
-					sqlStatement.setLong(4, amount);
+					sqlStatement.setDouble(4, amount);
 					sqlStatement.setString(5, otp);
 					sqlStatement.setString(6, loggedInUser);
 					

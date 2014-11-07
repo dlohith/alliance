@@ -59,7 +59,7 @@ public class CreditFundsManager implements ICreditFundsManager{
 	@Override
 	public boolean isValid(String loggedInUser, String amount)
 			throws SQLException {
-		Long balance = null;
+		Double balance = null;
 		try {
 			balance = accountManager.getAccountBalance(loggedInUser);
 		} catch (SQLException e1) {
@@ -67,7 +67,7 @@ public class CreditFundsManager implements ICreditFundsManager{
 		}
 
 		try {
-			Long amountLong = Long.parseLong(amount);
+			double amountLong =  Double.parseDouble(amount);
 			if (balance + amountLong < 100000) {
 				return true;
 			}

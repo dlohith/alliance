@@ -26,7 +26,7 @@ public class ViewBalanceController {
 	public String getToViewBalancePage(ModelMap model, Principal principal) {
 		
 		String loginId = principal.getName();
-		Long balance = null;
+		Double balance = null;
 		try {			
 				if(!accountManager.hasAccount(principal.getName())){
 					model.addAttribute("error", "Account not created, ask your admin to create account for you");

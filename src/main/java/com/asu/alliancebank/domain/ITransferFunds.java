@@ -15,8 +15,8 @@ public interface ITransferFunds {
 	
 	public abstract String getToAccountId();
 	
-	public abstract Long getAmount();
+	public abstract double getAmount();
 	
-	public abstract void setAmount(Long amount);
+	public abstract void setAmount(double amount);
 	
 }

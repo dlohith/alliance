@@ -109,13 +109,13 @@ public class MerchantFundsDBManager implements IMerchantFundsDBManager {
 
 		// establish the connection with the database
 		try {
-			Long amount = Long.parseLong(merchantBackingBean.getAmount());
+			double amount = Double.parseDouble(merchantBackingBean.getAmount());
 			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
 			// adding the input variables to the SP
 			sqlStatement.setString(1, requestID);
 			sqlStatement.setString(2, loggedInUser);
 			sqlStatement.setString(3, merchantBackingBean.getUserLoginID());
-			sqlStatement.setLong(4, amount);
+			sqlStatement.setDouble(4, amount);
 			sqlStatement.setInt(5, ITransactionManager.PENDING);
 			// adding output variables to the SP
 			sqlStatement.registerOutParameter(6, Types.VARCHAR);

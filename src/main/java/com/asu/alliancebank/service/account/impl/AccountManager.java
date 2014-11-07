@@ -160,11 +160,11 @@ public class AccountManager implements IAccountManager {
 	}
 
 	@Override
-	public Long getAccountBalance(String loggedInUser) throws SQLException {
-		Long balance = null;
+	public Double getAccountBalance(String loggedInUser) throws SQLException {
+		Double balance = null;
 		if(loggedInUser != null) {
 			String balanceString = dbConnect.getAccountBalance(loggedInUser);
-			balance = Long.parseLong(balanceString);
+			balance =  Double.parseDouble(balanceString);
 		}
 		return balance;
 	}

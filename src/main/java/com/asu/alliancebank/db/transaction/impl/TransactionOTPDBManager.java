@@ -189,7 +189,7 @@ public class TransactionOTPDBManager implements ITransactionOTPDBManager{
 	
 		String fromAccountId = transferFunds.getFromAccountId();
 		String toAccountId = transferFunds.getToAccountId();
-		Long amount = transferFunds.getAmount();
+		Double amount = transferFunds.getAmount();
 		
 		CallableStatement sqlStatement;
 		String errmsg;
@@ -204,7 +204,7 @@ public class TransactionOTPDBManager implements ITransactionOTPDBManager{
 					sqlStatement.setString(1, transactionId);
 					sqlStatement.setString(2, fromAccountId);
 					sqlStatement.setString(3, toAccountId);
-					sqlStatement.setLong(4, amount);
+					sqlStatement.setDouble(4, amount);
 					sqlStatement.setString(5, otp);
 					sqlStatement.setInt(6, ITransactionManager.SUCCESS);
 					sqlStatement.setString(7, loggedInUser);

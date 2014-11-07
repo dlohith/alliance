@@ -207,11 +207,11 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 		//establish the connection with the database
 		try{
 			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
-			Long amount = Long.parseLong(creditFunds.getAmount());
+			double amount = Double.parseDouble(creditFunds.getAmount());
 			//adding the input variables to the SP
 			sqlStatement.setString(1, transactionId);
 			sqlStatement.setString(2, creditFunds.getAccountId());
-			sqlStatement.setLong(3, amount);
+			sqlStatement.setDouble(3, amount);
 			sqlStatement.setInt(4, ITransactionManager.SUCCESS);
 			sqlStatement.setString(5, loggedInUser);
 			
@@ -252,12 +252,12 @@ public class CreditFundsDBManager implements ICreditFundsDBManager{
 		
 		//establish the connection with the database
 				try{
-					Long amount = Long.parseLong(creditFunds.getAmount());
+					double amount = Double.parseDouble(creditFunds.getAmount());
 					sqlStatement = connection.prepareCall("{"+dbCommand+"}");
 					//adding the input variables to the SP
 					sqlStatement.setString(1, transactionId);
 					sqlStatement.setString(2, ICreditFundsManager.CREDIT);					  
-					sqlStatement.setLong(3, amount);
+					sqlStatement.setDouble(3, amount);
 					sqlStatement.setInt(4, ITransactionManager.PENDING);
 					sqlStatement.setString(5, loggedInUser);
 					//adding output variables to the SP

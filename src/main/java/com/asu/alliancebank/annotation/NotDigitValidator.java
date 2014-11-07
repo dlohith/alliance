@@ -34,7 +34,7 @@ public class NotDigitValidator implements
 			}
 		}
 		try {
-			Long amount = Long.parseLong(arg0);
+			double amount =  Double.parseDouble(arg0);
 			if (amount > 0 && amount <= 100000) {
 				return true;
 			}

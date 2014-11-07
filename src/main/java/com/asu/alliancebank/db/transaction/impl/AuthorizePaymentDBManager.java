@@ -109,14 +109,14 @@ public class AuthorizePaymentDBManager implements IAuthorizePaymentsDBManager {
 
 		// establish the connection with the database
 		try {
-			Long amount = Long.parseLong(merchantRequest.getAmount());
+			double amount =  Double.parseDouble(merchantRequest.getAmount());
 			sqlStatement = connection.prepareCall("{" + dbCommand + "}");
 			// adding the input variables to the SP
 			sqlStatement.setString(1, transactionID);
 			sqlStatement.setString(2, loggedInUser);
 			sqlStatement.setString(3, merchantRequest.getUserLoginID());
 			sqlStatement.setString(4, IDebitFundsManager.DEBIT);
-			sqlStatement.setLong(5, amount);
+			sqlStatement.setDouble(5, amount);
 			sqlStatement.setInt(6, ITransactionManager.SUCCESS);
 			logger.info("Request id is - " + merchantRequest.getRequestID());
 			sqlStatement.setString(7, merchantRequest.getRequestID());

@@ -206,11 +206,11 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 		//establish the connection with the database
 		try{
 			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
-			Long amount = Long.parseLong(debitFunds.getAmount());
+			double amount =  Double.parseDouble(debitFunds.getAmount());
 			//adding the input variables to the SP
 			sqlStatement.setString(1, transactionId);
 			sqlStatement.setString(2, debitFunds.getAccountId());
-			sqlStatement.setLong(3, amount);
+			sqlStatement.setDouble(3, amount);
 			sqlStatement.setInt(4, ITransactionManager.SUCCESS);
 			sqlStatement.setString(5, loggedInUser);
 			
@@ -289,12 +289,12 @@ public class DebitFundsDBManager implements IDebitFundsDBManager{
 		
 		//establish the connection with the database
 				try{
-					Long amount = Long.parseLong(debitFunds.getAmount());
+					double amount = Double.parseDouble(debitFunds.getAmount());
 					sqlStatement = connection.prepareCall("{"+dbCommand+"}");
 					//adding the input variables to the SP
 					sqlStatement.setString(1, transactionId);
 					sqlStatement.setString(2, transactionType);					  
-					sqlStatement.setLong(3, amount);
+					sqlStatement.setDouble(3, amount);
 					sqlStatement.setInt(4, ITransactionManager.PENDING);
 					sqlStatement.setString(5, loggedInUser);
 					
