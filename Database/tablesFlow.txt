@@ -9,3 +9,4 @@ tbl_debit.sql
 tbl_transferfundotpcheck.sql
 tbl_transactioncredit.sql
 tbl_transactiondebit.sql
+tbl_custauthrequests.sql
