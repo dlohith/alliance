@@ -136,6 +136,87 @@ public class MerchantFundsDBManager implements IMerchantFundsDBManager {
 		return errmsg;
 	}
 
+	
+	@Override
+	public String getUserIdForMerchantRequests(String requestID)
+			throws SQLException {
+		
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.GET_USERID_MERCHATREQ + "(?,?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			sqlStatement.setString(1, requestID);
+			
+			sqlStatement.registerOutParameter(2, Types.VARCHAR);
+			sqlStatement.execute();
+			ResultSet resultSet = sqlStatement.getResultSet();
+			
+			while(resultSet.next()) {
+				
+				String userID = resultSet.getString(1);
+				return userID;
+			}
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return null;
+	}
+	
+	
+	@Override
+	public Double getAmountForMerchantRequests(String requestID)
+			throws SQLException {
+		
+		CallableStatement sqlStatement;
+		String errmsg;
+		// command to call the SP
+		String dbCommand = DBConstants.SP_CALL + " "
+				+ DBConstants.GET_AMOUNT_MERCHATREQ + "(?,?)";
+		getConnection();
+
+		// establish the connection with the database
+		try {
+			sqlStatement = connection.prepareCall("{"+dbCommand+"}");
+			sqlStatement.setString(1, requestID);
+			
+			sqlStatement.registerOutParameter(2, Types.VARCHAR);
+			sqlStatement.execute();
+			ResultSet resultSet = sqlStatement.getResultSet();
+			
+			while(resultSet.next()) {
+				
+				Double d = resultSet.getDouble(1);
+				
+				return d;
+			}
+		} catch (SQLException e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} catch (Exception e) {
+			errmsg = "DB Issue";
+			logger.error("Issue while getting merchant request : "
+					+ errmsg, e);
+		} finally {
+			closeConnection();
+		}
+		return null;
+	}
+	
 	@Override
 	public List<MerchantRequest> getAllMerchantRequests(String loggedInUser)
 			throws SQLException {

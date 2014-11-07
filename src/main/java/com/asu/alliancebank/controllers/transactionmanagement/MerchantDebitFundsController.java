@@ -76,6 +76,14 @@ public class MerchantDebitFundsController {
 	public String addNewMerchantRequest(@Valid @ModelAttribute MerchantDebitFundsBackingBean merchantBackingBean, BindingResult result, ModelMap map, Principal principal) {
 	
 		if (result.hasErrors()) {
+			List<String> userList;
+			try {
+				userList = transferFundsManager.listAllUserNames(principal.getName());
+			} catch (SQLException e) {
+				logger.error("Error while getting user list - ");
+				return "auth/trans/merchantpayments";
+			}
+			map.addAttribute("userList", userList);
 			return "auth/trans/merchantpayments";
 		}	
 		// Create the user object with the form data

@@ -56,4 +56,17 @@ public class MerchantFundsManager implements IMerchantFundsManager {
 		return merchantDetails;
 	}
 
+	@Override
+	public String getUserIdForMerchantRequests(String requestID)
+			throws SQLException{
+		
+		return dbConnect.getUserIdForMerchantRequests(requestID);
+	}
+	
+	@Override
+	public Double getAmountForMerchantRequests(String requestID)
+			throws SQLException{
+		
+		return dbConnect.getAmountForMerchantRequests(requestID);
+	}
 }

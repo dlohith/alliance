@@ -26,7 +26,7 @@
 		<intercept-url pattern="/auth/trans/debitfunds" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/auth/trans/viewbalance" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT', 'ROLE_INDIVIDUAL_CUSTOMER')"/>
 		<intercept-url pattern="/auth/trans/merchantpayments" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT')"/>
-		<intercept-url pattern="/auth/trans/authorizepayments" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
+		<intercept-url pattern="/auth/trans/authorizepayments" requires-channel="https" access="hasAnyRole('ROLE_MERCHANT','ROLE_INDIVIDUAL_CUSTOMER','ROLE_BANK_EMPLOYEE')"/>
 		<intercept-url pattern="/auth/trans/approve" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
 		<intercept-url pattern="/auth/trans/reject" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER', 'ROLE_BANK_EMPLOYEE')"/>
 		<intercept-url pattern="/auth/trans/addauthrequest" requires-channel="https" access="hasAnyRole('ROLE_INDIVIDUAL_CUSTOMER')"/>

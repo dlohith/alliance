@@ -44,6 +44,10 @@ public class DBConstants {
 	public final static String GET_TRANSFERFUNDS = "sp_getTransferFunds";
 	public final static String GET_TRANSFERFUNDS_DETAILS = "sp_getrransferdunddetails";
 	public final static String GET_TRANSFERFUNDS_DETAILS_CUST = "sp_getrransferdunddetailscust";
+	public final static String GET_USERID_MERCHATREQ = "sp_getuseridformerchantrequest";
+	public final static String GET_AMOUNT_MERCHATREQ = "sp_getamountformerchantrequest";
+	
+	
 
 	public final static String TRANS_CREDIT_HASH = "sp_transactioncredithash";
 	public final static String IS_TRANS_HASH_CORRECT_CREDIT = "sp_transactioncredithashcheck";

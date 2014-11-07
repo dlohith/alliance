@@ -17,4 +17,8 @@ public interface IMerchantFundsDBManager {
 	public String addMerchantRequest(MerchantDebitFundsBackingBean merchantBackingBean, String loggedInUser) throws SQLException;
 	public List<MerchantRequest> getAllMerchantRequests(String loggedInUser) throws SQLException;
 	public List<MerchantRequest> getAllMerchantRequestsMerchant(String loggedInUser) throws SQLException;
+	public String getUserIdForMerchantRequests(String requestID)
+			throws SQLException;
+	public Double getAmountForMerchantRequests(String requestID)
+			throws SQLException;
 }

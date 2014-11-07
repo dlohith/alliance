@@ -25,7 +25,7 @@
 	<c:choose>
 		<c:when test="${not empty authorizeList}">
 
-
+			<font color="red"><c:out value="${error}"></c:out></font>
 				
 				<table style="width: 100%" cellpadding="0" cellspacing="0"
 					border="0" class="display dataTable" id="listaccount">
